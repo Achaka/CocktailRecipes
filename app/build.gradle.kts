@@ -39,9 +39,13 @@ dependencies {
 
     implementation(Dependencies.Room.room)
     implementation(Dependencies.Room.testImplementation)
+    implementation(Dependencies.Room.roomRxJava3)
     kapt(Dependencies.Room.kaptRoom)
 
     implementation(Dependencies.Coroutines.coroutines)
+
+    implementation(Dependencies.RxJava3.rxandroid)
+    implementation(Dependencies.RxJava3.rxjava)
 
     implementation(platform(Dependencies.Okhttp.okhttpBom))
     implementation(Dependencies.Okhttp.okhttp)
@@ -57,7 +61,9 @@ dependencies {
     implementation(Dependencies.Android.material)
     implementation(Dependencies.Android.constraintLayout)
 
+    implementation(Dependencies.Glide.glide)
 //    implementation("androidx.core:core-splashscreen:1.0.0-alpha02")
+
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
