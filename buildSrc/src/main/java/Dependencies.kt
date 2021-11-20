@@ -61,4 +61,10 @@ object Dependencies {
 
         const val glide = "com.github.bumptech.glide:glide:$version"
     }
+
+    object ViewBindingDelegate {
+        private const val version = "1.5.2"
+
+        const val viewBindingDelegate = "com.github.kirich1409:viewbindingpropertydelegate:$version"
+    }
 }

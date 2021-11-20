@@ -25,6 +25,11 @@ android {
             )
         }
     }
+
+    buildFeatures{
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -63,6 +68,7 @@ dependencies {
 
     implementation(Dependencies.Glide.glide)
 //    implementation("androidx.core:core-splashscreen:1.0.0-alpha02")
+    implementation(Dependencies.ViewBindingDelegate.viewBindingDelegate)
 
 
     testImplementation("junit:junit:4.13.2")
