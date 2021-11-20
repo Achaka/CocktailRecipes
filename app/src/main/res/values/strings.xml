@@ -1,3 +1,10 @@
 <resources>
+
     <string name="app_name">Cocktail Recipes</string>
+
+    <string name="bottom_navigation_search">Search</string>
+    <string name="bottom_navigation_favourites">Favourites</string>
+    <string name="bottom_navigation_shopping_list">Shopping List</string>
+    <string name="bottom_navigation_add_recipe">Add Recipe</string>
+
 </resources>
