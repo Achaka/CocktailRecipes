@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CocktailRecipes">
         <activity
-            android:theme="@style/Theme.CocktailRecipes.Starting"
+            android:theme="@style/Theme.CocktailRecipes.Splash"
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

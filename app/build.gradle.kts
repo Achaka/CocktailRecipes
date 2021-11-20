@@ -1,4 +1,3 @@
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -20,7 +19,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -50,14 +52,14 @@ dependencies {
     implementation(Dependencies.Dagger2.daggerKapt)
     implementation(Dependencies.Dagger2.dagger)
 
-    implementation (Dependencies.Android.coreKtx)
-    implementation (Dependencies.Android.appCompat)
-    implementation (Dependencies.Android.material)
-    implementation (Dependencies.Android.constraintLayout)
+    implementation(Dependencies.Android.coreKtx)
+    implementation(Dependencies.Android.appCompat)
+    implementation(Dependencies.Android.material)
+    implementation(Dependencies.Android.constraintLayout)
 
-    implementation("androidx.core:core-splashscreen:1.0.0-alpha02")
+//    implementation("androidx.core:core-splashscreen:1.0.0-alpha02")
 
-    testImplementation ("junit:junit:4.13.2")
-    androidTestImplementation ("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
