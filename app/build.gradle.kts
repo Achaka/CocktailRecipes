@@ -45,6 +45,7 @@ dependencies {
     implementation(Dependencies.Room.room)
     implementation(Dependencies.Room.testImplementation)
     implementation(Dependencies.Room.roomRxJava3)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt(Dependencies.Room.kaptRoom)
 
     implementation(Dependencies.Coroutines.coroutines)
@@ -70,6 +71,8 @@ dependencies {
 //    implementation("androidx.core:core-splashscreen:1.0.0-alpha02")
     implementation(Dependencies.ViewBindingDelegate.viewBindingDelegate)
 
+    implementation(Dependencies.NavigationComponent.navigation)
+    implementation(Dependencies.NavigationComponent.navigationUi)
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
