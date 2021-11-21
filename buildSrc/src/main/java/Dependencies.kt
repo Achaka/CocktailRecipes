@@ -68,4 +68,8 @@ object Dependencies {
         const val viewBindingDelegate = "com.github.kirich1409:viewbindingpropertydelegate:$version"
     }
 
+    object Moshi {
+        private const val version = ""
+
+    }
 }
