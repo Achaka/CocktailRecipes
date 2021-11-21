@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.fragment.app.FragmentActivity
 import com.achaka.cocktailrecipes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
