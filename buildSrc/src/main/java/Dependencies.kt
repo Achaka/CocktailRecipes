@@ -68,16 +68,4 @@ object Dependencies {
         const val viewBindingDelegate = "com.github.kirich1409:viewbindingpropertydelegate:$version"
     }
 
-    object NavigationComponent {
-        private const val version = "2.3.5"
-
-        const val navigation= "androidx.navigation:navigation-fragment-ktx:$version"
-        const val navigationUi = "androidx.navigation:navigation-ui-ktx:$version"
-
-//        // Feature module Support
-//        implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
-//
-//        // Testing Navigation
-//        androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
-    }
 }

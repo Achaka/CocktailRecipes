@@ -4,12 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.fragment.app.FragmentActivity
 import com.achaka.cocktailrecipes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -21,10 +17,27 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         //SplashScreen
         setTheme(R.style.Theme_CocktailRecipes)
         val view = binding.root
         setContentView(view)
+
+        //Toolbar
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        //Drawer
+        val drawerLayout = binding.drawerLayout
+        val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.openDrawerContentDescRes,
+            R.string.closeDrawerContentDescRes
+        )
+        toggle.syncState()
 
         //BottomNavigationView
         binding.bottomNavigationView.setOnItemSelectedListener {

@@ -11,6 +11,13 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:background="@color/primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"/>
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_view"
             android:layout_width="match_parent"
@@ -26,9 +33,12 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/drawer_nav_view"
+        app:headerLayout="@layout/drawer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true" />
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_menu"
+        />
 
 </androidx.drawerlayout.widget.DrawerLayout>
