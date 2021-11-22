@@ -1,7 +1,10 @@
 package com.achaka.cocktailrecipes.model.network
 
+import com.achaka.cocktailrecipes.model.network.dtos.FullDrinkResponse
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,8 +23,7 @@ private const val filterRequest = "filter.php"
 private const val lookupRequest = "lookup.php"
 private const val listRequest = "list.php"
 
-val moshi = Moshi.Builder()
-    .add(RxJava3CallAdapterFactory.create())
+val moshi: Moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
@@ -63,7 +65,7 @@ interface NetworkServiceApi {
     @GET(filterRequest)
     suspend fun getCocktailsByIngredientName(
         @Query(value = "i") name: String
-    )
+    ): Single<String>
     //List<simple drink response>
 
     @Headers(HOST, API_KEY)
@@ -83,7 +85,7 @@ interface NetworkServiceApi {
     //random
     @Headers(HOST, API_KEY)
     @GET("random.php")
-    suspend fun getRandomCocktail()
+    fun getRandomCocktail(): Single<FullDrinkResponse>
     //List<full drink response>
 
     @Headers(HOST, API_KEY)
