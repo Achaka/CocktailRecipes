@@ -58,6 +58,12 @@ dependencies {
     implementation(Dependencies.Okhttp.okhttpLoggingInterceptor)
 
     implementation(Dependencies.Retrofit.retrofit)
+    implementation(Dependencies.Retrofit.rxjava3Adapter)
+    implementation(Dependencies.Retrofit.moshiConverter)
+//coroutines adapter -built in
+
+    implementation(Dependencies.Moshi.moshi)
+    implementation(Dependencies.Moshi.moshiKotlin)
 
     implementation(Dependencies.Dagger2.daggerKapt)
     implementation(Dependencies.Dagger2.dagger)
@@ -70,6 +76,8 @@ dependencies {
     implementation(Dependencies.Glide.glide)
 //    implementation("androidx.core:core-splashscreen:1.0.0-alpha02")
     implementation(Dependencies.ViewBindingDelegate.viewBindingDelegate)
+
+
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

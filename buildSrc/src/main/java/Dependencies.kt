@@ -19,6 +19,8 @@ object Dependencies {
         private const val version = "2.9.0"
 
         const val retrofit = "com.squareup.retrofit2:retrofit:$version"
+        const val rxjava3Adapter = "com.squareup.retrofit2:adapter-rxjava3:$version"
+        const val moshiConverter = "com.squareup.retrofit2:converter-moshi:$version"
     }
 
     object Okhttp {
@@ -69,7 +71,9 @@ object Dependencies {
     }
 
     object Moshi {
-        private const val version = ""
+        private const val version = "1.12.0"
 
+        const val moshi = "com.squareup.moshi:moshi:$version"
+        const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:$version"
     }
 }
