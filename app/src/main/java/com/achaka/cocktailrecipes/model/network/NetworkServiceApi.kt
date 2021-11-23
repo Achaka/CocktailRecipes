@@ -1,10 +1,10 @@
 package com.achaka.cocktailrecipes.model.network
 
-import com.achaka.cocktailrecipes.model.network.dtos.FullDrinkResponse
+import com.achaka.cocktailrecipes.model.network.dtos.*
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -45,121 +45,111 @@ val retrofit = Retrofit.Builder()
     .build()
 
 interface NetworkServiceApi {
-
+    /*
+    * In this part network calls made using Kotlin Coroutines return deferred type
+    * */
     @Headers(HOST, API_KEY)
     @GET(searchRequest)
     suspend fun getCocktailsByName(
         @Query(value = "s") name: String
-    )
-    //list<full drink response>
+    ): Deferred<FullDrinkResponse>
 
     @Headers(HOST, API_KEY)
     @GET(searchRequest)
     suspend fun getIngredientByName(
         @Query(value = "i") name: String
-    )
-    //list<full ingredient response>
+    ): Deferred<IngredientResponse>
 
     //response here - picture, name, id
     @Headers(HOST, API_KEY)
     @GET(filterRequest)
     suspend fun getCocktailsByIngredientName(
         @Query(value = "i") name: String
-    ): Single<String>
-    //List<simple drink response>
+    ): Deferred<SimpleDrinkResponse>
 
     @Headers(HOST, API_KEY)
     @GET(lookupRequest)
     suspend fun getCocktailDetailsById(
         @Query(value = "i") id: Int
-    )
-    //List<full drink response>
+    ): Deferred<FullDrinkResponse>
 
     @Headers(HOST, API_KEY)
     @GET(lookupRequest)
     suspend fun getIngredientDetailsById(
         @Query(value = "iid") id: Int
-    )
-    //List<full Ingredients response>
-
-    //random
-    @Headers(HOST, API_KEY)
-    @GET("random.php")
-    fun getRandomCocktail(): Single<FullDrinkResponse>
-    //List<full drink response>
-
-    @Headers(HOST, API_KEY)
-    @GET("randomselection.php")
-    suspend fun getTenRandomCocktails()
-    //List<full drink response>
-
-    //popular
-    @Headers(HOST, API_KEY)
-    @GET("popular.php")
-    suspend fun getPopularCocktails()
-    //List<full drink response>
-
-    //latest
-    @Headers(HOST, API_KEY)
-    @GET("latest.php")
-    suspend fun getLatestCocktails()
-    //List<full drink response>
+    ): Deferred<IngredientResponse>
 
     //filters
     @Headers(HOST, API_KEY)
     @GET(searchRequest)
     suspend fun filterAllCocktailsByFirstLetter(
         @Query(value = "f") letter: Char
-    )
-    //List<full drink response>
+    ): Deferred<FullDrinkResponse>
 
+    /*
+    * In this part network calls made using Kotlin Coroutines return Simple Type
+    * */
     @Headers(HOST, API_KEY)
     @GET(filterRequest)
     suspend fun filterBySeveralIngredients(
         @Query(value = "i") vararg: String
-    )
+    ): SimpleDrinkResponse
 
     @Headers(HOST, API_KEY)
     @GET(filterRequest)
     suspend fun filterByAlcoholic(
         @Query(value = "a") type: String
-    )
-    //List<simple drink response>
+    ): SimpleDrinkResponse
 
     @Headers(HOST, API_KEY)
     @GET(filterRequest)
     suspend fun filterByCategory(
         @Query(value = "a") category: String
-    )
-    //List<simple drink response>
+    ): SimpleDrinkResponse
 
     @Headers(HOST, API_KEY)
     @GET(filterRequest)
     suspend fun filterByGlass(
         @Query(value = "g") glassType: String
-    )
-    //List<simple drink response>
+    ): Result<SimpleDrinkResponse>
+
+/*
+* Here network data retrieved via RxJava3
+* */
+
+    //custom requests
+    @Headers(HOST, API_KEY)
+    @GET("random.php")
+    fun getRandomCocktail(): Single<FullDrinkResponse>
+
+    @Headers(HOST, API_KEY)
+    @GET("randomselection.php")
+    fun getTenRandomCocktails(): Single<FullDrinkResponse>
+
+    @Headers(HOST, API_KEY)
+    @GET("popular.php")
+    fun getPopularCocktails(): Single<FullDrinkResponse>
+
+    @Headers(HOST, API_KEY)
+    @GET("latest.php")
+    fun getLatestCocktails(): Single<FullDrinkResponse>
 
     //lists
     @Headers(HOST, API_KEY)
     @GET("$listRequest?c=list")
-    suspend fun getListOfCategories()
-    //list<categories response>
+    fun getListOfCategories(): Single<CategoryResponse>
 
     @Headers(HOST, API_KEY)
     @GET("$listRequest?g=list")
-    suspend fun getListOfGlasses()
-    //list<glasses response>
+    fun getListOfGlasses(): Single<GlassesResponse>
 
     @Headers(HOST, API_KEY)
     @GET("$listRequest?i=list")
-    suspend fun getListOfIngredients()
-    //list<ingredients response>
+    fun getListOfIngredients(): Single<IngredientResponse>
 
     @Headers(HOST, API_KEY)
     @GET("$listRequest?a=list")
-    suspend fun getListOfAlcoholicFilters()
-    //list<alcoholic response>
+    fun getListOfAlcoholicFilters(): Single<AlcoholicListResponse>
 }
 
 object NetworkApi {
