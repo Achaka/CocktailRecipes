@@ -58,6 +58,12 @@ dependencies {
     implementation(Dependencies.Okhttp.okhttpLoggingInterceptor)
 
     implementation(Dependencies.Retrofit.retrofit)
+    implementation(Dependencies.Retrofit.rxjava3Adapter)
+    implementation(Dependencies.Retrofit.moshiConverter)
+//coroutines adapter -built in
+
+    implementation(Dependencies.Moshi.moshi)
+    implementation(Dependencies.Moshi.moshiKotlin)
 
     implementation(Dependencies.Dagger2.daggerKapt)
     implementation(Dependencies.Dagger2.dagger)
