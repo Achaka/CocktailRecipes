@@ -1,5 +1,6 @@
 package com.achaka.cocktailrecipes.model.network.dtos
 
+import com.achaka.cocktailrecipes.model.database.entities.DatabaseIngredient
 import com.squareup.moshi.Json
 
 data class IngredientResponse(
@@ -21,3 +22,20 @@ data class FullIngredientDetails (
     @Json(name = "strABV")
     val ABV: String?
 )
+
+fun FullIngredientDetails.asDatabaseModel(): DatabaseIngredient {
+    return DatabaseIngredient(
+        id = id,
+        name = name,
+        description = description ?: "",
+        type = type ?: "",
+        alcoholic = alcoholic ?: "",
+        ABV = ABV ?: ""
+    )
+}
+
+fun IngredientResponse.asDatabaseModel(): List<DatabaseIngredient> {
+    return this.response.map {
+        it.asDatabaseModel()
+    }
+}
