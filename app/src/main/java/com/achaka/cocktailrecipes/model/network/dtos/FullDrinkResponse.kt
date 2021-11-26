@@ -1,5 +1,6 @@
 package com.achaka.cocktailrecipes.model.network.dtos
 
+import com.achaka.cocktailrecipes.model.database.DatabaseDrink
 import com.squareup.moshi.Json
 
 data class FullDrinkResponse(
@@ -7,7 +8,7 @@ data class FullDrinkResponse(
     val response: List<FullDrinkDetails>
 )
 
-data class FullDrinkDetails (
+data class FullDrinkDetails(
     @Json(name = "idDrink")
     val id: Int,
     @Json(name = "strDrink")
@@ -110,4 +111,77 @@ data class FullDrinkDetails (
     val isCreativeCommonsConfirmed: String?,
     @Json(name = "dateModified")
     val dateModified: String?
+)
+
+fun FullDrinkDetails.asDatabaseModel(): DatabaseDrink {
+    return DatabaseDrink(
+        id = id,
+        name = name,
+        alternate = alternate ?: "",
+        tags = tags ?: "",
+        videoUrl = videoUrl ?: "",
+        category = category ?: "",
+        IBA = IBA ?: "",
+        alcoholic = alcoholic ?: "",
+        glassType = glassType ?: "",
+        instructions = instructions ?: "",
+        instructionsES = instructionsES ?: "",
+        instructionsDE = instructionsDE ?: "",
+        instructionsFR = instructionsFR ?: "",
+        instructionsIT = instructionsIT ?: "",
+        instructionsZHHANS = instructionsZHHANS ?: "",
+        instructionsZHHANT = instructionsZHHANT ?: "",
+        thumbUrl = thumbUrl ?: "",
+        ingredientsList = elementsToList(
+            ingredient1,
+            ingredient2,
+            ingredient3,
+            ingredient4,
+            ingredient5,
+            ingredient6,
+            ingredient7,
+            ingredient8,
+            ingredient9,
+            ingredient10,
+            ingredient11,
+            ingredient12,
+            ingredient13,
+            ingredient14,
+            ingredient15
+        ),
+        measuresList = elementsToList(
+            measure1,
+            measure2,
+            measure3,
+            measure4,
+            measure5,
+            measure6,
+            measure7,
+            measure8,
+            measure9,
+            measure10,
+            measure11,
+            measure12,
+            measure13,
+            measure14,
+            measure15
+        ),
+        imageUrl = imageUrl ?: "",
+        imageAttribution = imageAttribution ?: "",
+        dateModified = dateModified ?: "",
+        isUserRecipe = false
     )
+}
+
+
+
+fun FullDrinkResponse.asDatabaseModel(): List<DatabaseDrink> {
+    return this.response.map {
+        it.asDatabaseModel()
+    }
+}
+
+private fun elementsToList(vararg elements: String?): ArrayList<String> {
+    val list = elements.filterNotNull()
+    return ArrayList(list)
+}
