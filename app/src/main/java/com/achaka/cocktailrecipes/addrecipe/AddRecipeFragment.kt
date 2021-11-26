@@ -78,10 +78,6 @@ class AddRecipeFragment : Fragment() {
 
     }
 
-    private fun setupSpinner() {
-        binding.include.spinnerMeasure
-    }
-
     companion object {
         /**
          * Use this factory method to create a new instance of
