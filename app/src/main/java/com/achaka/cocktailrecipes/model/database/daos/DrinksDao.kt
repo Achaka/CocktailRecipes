@@ -2,24 +2,27 @@ package com.achaka.cocktailrecipes.model.database.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.Query
+import com.achaka.cocktailrecipes.model.database.DatabaseDrink
 import com.achaka.cocktailrecipes.model.domain.Drink
+import kotlinx.coroutines.flow.Flow
+
 
 @Dao
 interface DrinksDao {
     @Insert
-    fun insertDrink(drink: Drink) {
+    fun insertDrink(drink: DatabaseDrink)
 
-    }
+    @Query("SELECT * FROM databasedrink WHERE id=:drinkId")
+    fun getDrinkById(drinkId: Int): DatabaseDrink
 
-    fun getDrink() {
+    @Query("SELECT * FROM databasedrink WHERE name LIKE '%'||:drinkName||'%'")
+    fun getDrinksByName(drinkName: String): Flow<List<Drink>>
 
-    }
+    @Query("SELECT * FROM databasedrink WHERE name LIKE '%'||:ingredientName||'%'")
+    fun getDrinkByIngredient(ingredientName: String): Flow<List<String>>
 
-    fun getDrinksList() {
+    @Query("SELECT * FROM databasedrink WHERE name=:drinkName")
+    fun getDrinksListByDrinkName(drinkName: String): Flow<List<Drink>>
 
-    }
-
-    fun updateDrink() {
-
-    }
 }
