@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 
 class AddRecipeViewModel: ViewModel() {
 
-    fun insertRecipe(drink: Drink) {
-
-    }
+//    fun insertRecipe(drink: Drink) {
+//
+//    }
 
 }

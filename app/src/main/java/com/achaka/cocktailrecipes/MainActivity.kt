@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.ActionBarDrawerToggle
+import com.achaka.cocktailrecipes.addrecipe.AddRecipeFragment
 import com.achaka.cocktailrecipes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -56,6 +57,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.add_recipe_item -> {
                     Log.d(TAG, "recipe_click")
                     supportFragmentManager.beginTransaction()
+                        .add(R.id.main_fragment_container, AddRecipeFragment.newInstance(), "ADD_RECIPE_FRAGMENT")
+                        .addToBackStack("first_invocation")
+                        .commit()
                 }
             }
             return@setOnItemSelectedListener true

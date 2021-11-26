@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_recipe_name">32sp</dimen>
+    <dimen name="add_recipe_photo_margin_top">64dp</dimen>
+    <dimen name="add_recipe_name_margin_top">64dp</dimen>
+    <dimen name="add_recipe_margin_horizontal">16dp</dimen>
+    <dimen name="instructions_text_size">18sp</dimen>
+</resources>

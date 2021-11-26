@@ -7,10 +7,13 @@
     <string name="bottom_navigation_shopping_list">Shopping List</string>
     <string name="bottom_navigation_add_recipe">Add Recipe</string>
     <string name="drawer_settings">Settings</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="openDrawerContentDescRes">Open drawer</string>
     <string name="closeDrawerContentDescRes">Close drawer</string>
     <string name="add_recipe_fragment_confirm">Confirm</string>
+    <string name="add_recipe_title">Add Recipe</string>
+    <string name="description_recipe_photo">recipe photo</string>
+    <string name="recipe_name_hint">Name</string>
+    <string name="recipe_instructions_hint">Instructions</string>
 
 </resources>

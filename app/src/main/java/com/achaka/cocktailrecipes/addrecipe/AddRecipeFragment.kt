@@ -2,7 +2,9 @@ package com.achaka.cocktailrecipes.addrecipe
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentAddRecipeBinding
 
@@ -30,16 +32,18 @@ class AddRecipeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        activity?.title = getString(R.string.add_recipe_title)
+        _binding = FragmentAddRecipeBinding.inflate(inflater, container, false)
+
+        binding.addRecipeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.addRecipeRecyclerView.adapter
+
         return binding.root
     }
 
@@ -67,8 +71,8 @@ class AddRecipeFragment : Fragment() {
         when (item.itemId) {
             R.id.add_recipe_confirm -> {
                 //write to db
-                binding.name.text
-                binding.description.text
+                Toast.makeText(requireContext(),binding.name.text.toString()+binding.instructions.text.toString(), Toast.LENGTH_SHORT ).show()
+
             }
         }
         return super.onOptionsItemSelected(item)
@@ -89,11 +93,10 @@ class AddRecipeFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             AddRecipeFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+//
                 }
             }
     }
