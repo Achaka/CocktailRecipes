@@ -56,6 +56,8 @@ object Dependencies {
         const val appCompat = "androidx.appcompat:appcompat:1.3.1"
         const val material = "com.google.android.material:material:1.4.0"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.2"
+        const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+        const val fragment = "androidx.fragment:fragment-ktx:1.4.0"
     }
 
     object Glide {

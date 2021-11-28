@@ -45,8 +45,11 @@ dependencies {
     implementation(Dependencies.Room.room)
     implementation(Dependencies.Room.testImplementation)
     implementation(Dependencies.Room.roomRxJava3)
+    implementation(Dependencies.Room.roomCoroutinesExtensions)
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt(Dependencies.Room.kaptRoom)
+
+
 
     implementation(Dependencies.Coroutines.coroutines)
 
@@ -72,6 +75,8 @@ dependencies {
     implementation(Dependencies.Android.appCompat)
     implementation(Dependencies.Android.material)
     implementation(Dependencies.Android.constraintLayout)
+    implementation(Dependencies.Android.viewModel)
+    implementation(Dependencies.Android.fragment)
 
     implementation(Dependencies.Glide.glide)
 //    implementation("androidx.core:core-splashscreen:1.0.0-alpha02")

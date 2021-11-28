@@ -1,12 +1,16 @@
 package com.achaka.cocktailrecipes.addrecipe
 
+import android.app.Application
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentAddRecipeBinding
+import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
+import com.achaka.cocktailrecipes.model.domain.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,17 +23,14 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class AddRecipeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     private var _binding: FragmentAddRecipeBinding? = null
-    // This property is only valid between onCreateView and
-// onDestroyView.
     private val binding get() = _binding!!
-
+    private val adapter = AddRecipeAdapter()
+    private val viewModel: AddRecipeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
     }
@@ -41,14 +42,27 @@ class AddRecipeFragment : Fragment() {
         activity?.title = getString(R.string.add_recipe_title)
         _binding = FragmentAddRecipeBinding.inflate(inflater, container, false)
 
-        binding.addRecipeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.addRecipeRecyclerView.adapter
+
+        val recyclerView = binding.addRecipeRecyclerView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        adapter.submitList(mutableListOf(IngredientMeasureItem("","", Units.NONE)))
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.addMeasureFab.setOnClickListener {
+            val currentList = adapter.currentList
+            val newList = mutableListOf<IngredientMeasureItem>()
+            newList.addAll(currentList)
+            newList.add(IngredientMeasureItem("","", Units.NONE))
+            adapter.submitList(newList)
+
+        }
 
         binding.photo.setOnClickListener {
             // take photo
@@ -70,16 +84,24 @@ class AddRecipeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.add_recipe_confirm -> {
-                //write to db
-                Toast.makeText(requireContext(),binding.name.text.toString()+binding.instructions.text.toString(), Toast.LENGTH_SHORT ).show()
-
+                viewModel.insertUserDrink(
+                    UserDrink(
+                        id = 0,
+                        name = binding.name.text.toString(),
+                        tags = null,
+                        videoUrl = "",
+                        category = Category.OTHER,
+                        IBA = "",
+                        alcoholic = Alcoholic.NON_ALCOHOLIC,
+                        glassType = GlassType.HIGHBALL,
+                        instructions = "pa ra ra -dadada da",
+                        ingredientMeasureList = adapter.currentList,
+                        imageUri = ""
+                    )
+                )
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun addIngredientLayout() {
-
     }
 
     companion object {

@@ -3,6 +3,7 @@ package com.achaka.cocktailrecipes.model.database.daos
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.achaka.cocktailrecipes.model.database.entities.DatabaseIngredient
 import com.achaka.cocktailrecipes.model.domain.Ingredient
 import kotlinx.coroutines.flow.Flow
 
@@ -11,11 +12,11 @@ import kotlinx.coroutines.flow.Flow
 interface IngredientsDao {
 
     @Insert
-    fun insertIngredient(ingredient: Ingredient)
+    fun insertIngredient(ingredient: DatabaseIngredient)
 
     @Query("SELECT * FROM databaseingredient WHERE id=:ingredientId")
-    fun getIngredientById(ingredientId: Int): Flow<Ingredient>
+    fun getIngredientById(ingredientId: Int): Flow<DatabaseIngredient>
 
     @Query("SELECT * FROM databaseingredient WHERE name=:ingredientName")
-    fun getIngredientByName(ingredientName: String): Flow<Ingredient>
+    fun getIngredientByName(ingredientName: String): Flow<DatabaseIngredient>
 }

@@ -7,14 +7,17 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.achaka.cocktailrecipes.model.database.daos.DrinksDao
 import com.achaka.cocktailrecipes.model.database.daos.IngredientsDao
+import com.achaka.cocktailrecipes.model.database.daos.UserDrinksDao
 import com.achaka.cocktailrecipes.model.database.entities.DatabaseIngredient
+import com.achaka.cocktailrecipes.model.database.entities.DatabaseUserDrink
 
 @Database(
-    entities = [DatabaseDrink::class, DatabaseIngredient::class],
-    version = 1
+    entities = [DatabaseDrink::class, DatabaseIngredient::class, DatabaseUserDrink::class],
+    version = 2
 ) @TypeConverters(StringToListConverter::class)
-public abstract class CocktailsAppDatabase : RoomDatabase() {
+abstract class CocktailsAppDatabase : RoomDatabase() {
 
+    abstract fun userDrinksDao(): UserDrinksDao
     abstract fun drinksDao(): DrinksDao
     abstract fun ingredientsDao(): IngredientsDao
 
@@ -29,6 +32,7 @@ public abstract class CocktailsAppDatabase : RoomDatabase() {
                     CocktailsAppDatabase::class.java,
                     "cocktail_recipes_database"
                 ).fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance
                 instance

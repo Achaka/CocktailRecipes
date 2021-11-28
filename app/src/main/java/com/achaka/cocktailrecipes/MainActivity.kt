@@ -7,6 +7,12 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.achaka.cocktailrecipes.addrecipe.AddRecipeFragment
 import com.achaka.cocktailrecipes.databinding.ActivityMainBinding
+import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
+import com.achaka.cocktailrecipes.model.network.NetworkApi
+import com.achaka.cocktailrecipes.model.network.dtos.asDatabaseModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
     private val TAG = MainActivity::class.simpleName
@@ -45,24 +51,28 @@ class MainActivity : AppCompatActivity() {
                 R.id.search_item -> {
                     Log.d(TAG, "search_click")
                     supportFragmentManager.beginTransaction()
+                    return@setOnItemSelectedListener true
                 }
                 R.id.favourites_item -> {
                     Log.d(TAG, "fav_click")
                     supportFragmentManager.beginTransaction()
+                    return@setOnItemSelectedListener true
                 }
                 R.id.shopping_list_item -> {
                     Log.d(TAG, "shl_click")
                     supportFragmentManager.beginTransaction()
+                    return@setOnItemSelectedListener true
                 }
                 R.id.add_recipe_item -> {
                     Log.d(TAG, "recipe_click")
                     supportFragmentManager.beginTransaction()
-                        .add(R.id.main_fragment_container, AddRecipeFragment.newInstance(), "ADD_RECIPE_FRAGMENT")
+                        .replace(R.id.main_fragment_container, AddRecipeFragment.newInstance(), "ADD_RECIPE_FRAGMENT")
                         .addToBackStack("first_invocation")
                         .commit()
+                    return@setOnItemSelectedListener true
                 }
             }
-            return@setOnItemSelectedListener true
+            return@setOnItemSelectedListener false
         }
     }
 }
