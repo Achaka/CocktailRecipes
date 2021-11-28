@@ -29,6 +29,7 @@ public abstract class CocktailsAppDatabase : RoomDatabase() {
                     CocktailsAppDatabase::class.java,
                     "cocktail_recipes_database"
                 ).fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance
                 instance

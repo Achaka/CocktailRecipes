@@ -3,6 +3,8 @@
     package="com.achaka.cocktailrecipes">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,9 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CocktailRecipes">
         <activity
-            android:theme="@style/Theme.CocktailRecipes.Splash"
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.CocktailRecipes.Splash"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
