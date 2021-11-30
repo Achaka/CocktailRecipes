@@ -7,9 +7,7 @@ import com.achaka.cocktailrecipes.model.domain.asDatabaseModel
 import com.achaka.cocktailrecipes.model.repository.AddRecipeRepository
 import kotlinx.coroutines.launch
 
-class AddRecipeViewModel (): ViewModel() {
-
-    private val repository = AddRecipeRepository()
+class AddRecipeViewModel(private val repository: AddRecipeRepository) : ViewModel() {
 
     fun insertUserDrink(drink: UserDrink) {
         viewModelScope.launch {

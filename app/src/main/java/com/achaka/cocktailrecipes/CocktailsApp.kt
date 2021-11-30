@@ -9,4 +9,8 @@ class CocktailsApp: Application() {
     val database: CocktailsAppDatabase by lazy {
         CocktailsAppDatabase.getDatabase(this)
     }
+
+    val addRecipeRepository: AddRecipeRepository by lazy {
+        AddRecipeRepository(database)
+    }
 }
