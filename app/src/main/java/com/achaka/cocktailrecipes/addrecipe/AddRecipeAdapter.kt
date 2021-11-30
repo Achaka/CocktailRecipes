@@ -20,8 +20,6 @@ class AddRecipeAdapter :
         return IngredientMeasureItemViewHolder(binding = binding)
     }
 
-    override fun getItemCount(): Int = this.currentList.size
-
     override fun onBindViewHolder(holder: IngredientMeasureItemViewHolder, position: Int) {
         holder.bind(getItem(position))
     }

@@ -10,6 +10,7 @@ import com.achaka.cocktailrecipes.databinding.ActivityMainBinding
 import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
 import com.achaka.cocktailrecipes.model.network.NetworkApi
 import com.achaka.cocktailrecipes.model.network.dtos.asDatabaseModel
+import com.achaka.cocktailrecipes.search.SearchFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -51,6 +52,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.search_item -> {
                     Log.d(TAG, "search_click")
                     supportFragmentManager.beginTransaction()
+                        .replace(
+                            R.id.main_fragment_container,
+                            SearchFragment.newInstance(),
+                            "SEARCH_FRAGMENT"
+                        ).addToBackStack("search_fragment")
+                        .commit()
                     return@setOnItemSelectedListener true
                 }
                 R.id.favourites_item -> {
@@ -66,8 +73,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.add_recipe_item -> {
                     Log.d(TAG, "recipe_click")
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_fragment_container, AddRecipeFragment.newInstance(), "ADD_RECIPE_FRAGMENT")
-                        .addToBackStack("first_invocation")
+                        .replace(
+                            R.id.main_fragment_container,
+                            AddRecipeFragment.newInstance(),
+                            "ADD_RECIPE_FRAGMENT"
+                        )
+                        .addToBackStack("add_recipe_fragment")
                         .commit()
                     return@setOnItemSelectedListener true
                 }

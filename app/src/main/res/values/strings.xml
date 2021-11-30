@@ -15,5 +15,6 @@
     <string name="description_recipe_photo">recipe photo</string>
     <string name="recipe_name_hint">Name</string>
     <string name="recipe_instructions_hint">Instructions</string>
+    <string name="search_title">Search</string>
 
 </resources>
