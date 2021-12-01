@@ -3,10 +3,6 @@ package com.achaka.cocktailrecipes.model.database.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.achaka.cocktailrecipes.model.database.StringToListConverter
-import com.achaka.cocktailrecipes.model.database.determineAlcoType
-import com.achaka.cocktailrecipes.model.database.determineCategory
-import com.achaka.cocktailrecipes.model.database.determineGlassType
 import com.achaka.cocktailrecipes.model.domain.*
 
 @Entity
@@ -50,7 +46,7 @@ fun joinLists(list1: ArrayList<String>, list2: ArrayList<String>): ArrayList<Ing
     val result = ArrayList<IngredientMeasureItem>()
     list1.forEachIndexed {
             index, s ->
-        result.add(IngredientMeasureItem(s, list2[index], determineUnit()))
+        result.add(IngredientMeasureItem(s, list2[index].toDouble(), determineUnit()))
     }
     return result
 }

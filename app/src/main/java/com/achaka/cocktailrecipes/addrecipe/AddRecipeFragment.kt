@@ -3,6 +3,7 @@ package com.achaka.cocktailrecipes.addrecipe
 import android.app.Application
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,7 +50,7 @@ class AddRecipeFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter.submitList(mutableListOf(IngredientMeasureItem("","", Units.NONE)))
+        adapter.submitList(mutableListOf(IngredientMeasureItem("",null, Units.NONE)))
 
         return binding.root
     }
@@ -61,9 +62,8 @@ class AddRecipeFragment : Fragment() {
             val currentList = adapter.currentList
             val newList = mutableListOf<IngredientMeasureItem>()
             newList.addAll(currentList)
-            newList.add(IngredientMeasureItem("","", Units.NONE))
+            newList.add(IngredientMeasureItem("",null, Units.NONE))
             adapter.submitList(newList)
-
         }
 
         binding.photo.setOnClickListener {
@@ -96,7 +96,7 @@ class AddRecipeFragment : Fragment() {
                         IBA = "",
                         alcoholic = Alcoholic.NON_ALCOHOLIC,
                         glassType = GlassType.HIGHBALL,
-                        instructions = "pa ra ra -dadada da",
+                        instructions = binding.instructions.text.toString(),
                         ingredientMeasureList = adapter.currentList,
                         imageUri = ""
                     )

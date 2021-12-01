@@ -1,11 +1,17 @@
 package com.achaka.cocktailrecipes.addrecipe
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.achaka.cocktailrecipes.databinding.AddIngredientRecyclerViewItemBinding
 import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
+import com.achaka.cocktailrecipes.model.domain.Units
 
 class AddRecipeAdapter :
     ListAdapter<IngredientMeasureItem, AddRecipeAdapter.IngredientMeasureItemViewHolder>(
@@ -28,8 +34,41 @@ class AddRecipeAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: IngredientMeasureItem) {
             binding.addIngredientEditText.text.append(item.ingredientName)
-            binding.addMeasureEditText.text.append(item.measure)
+            binding.addIngredientEditText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    item.ingredientName = p0.toString()
+                }
+            })
+            binding.addMeasureEditText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    item.measure = p0.toString().toDouble()
+                }
+            })
+            binding.spinner.onItemSelectedListener = object : OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    item.unit = Units.CL
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    item.unit = Units.NONE
+                }
+
+            }
+            if (item.measure != null) {
+                binding.addMeasureEditText.text.append(item.measure.toString())
+            } else binding.addMeasureEditText.text.append("")
         }
     }
-
 }

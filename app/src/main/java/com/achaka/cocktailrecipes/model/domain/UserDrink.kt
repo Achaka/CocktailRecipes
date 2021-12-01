@@ -51,7 +51,7 @@ fun List<IngredientMeasureItem>.splitIngredientMeasureList(): Pair<ArrayList<Str
     val measureList = ArrayList<String>()
     forEach {
         ingredientList.add(it.ingredientName)
-        measureList.add(it.measure+" "+it.unit.abbrev)
+        measureList.add(it.measure.toString()+" "+it.unit.abbrev)
     }
     return Pair(ingredientList, measureList)
 }

@@ -6,4 +6,5 @@
     <dimen name="add_recipe_margin_horizontal">16dp</dimen>
     <dimen name="instructions_text_size">18sp</dimen>
     <dimen name="search_view_margin">4dp</dimen>
+    <dimen name="fab_top_margin">8dp</dimen>
 </resources>
