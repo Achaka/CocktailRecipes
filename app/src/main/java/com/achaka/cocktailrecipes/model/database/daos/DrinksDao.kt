@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DrinksDao {
+    //Network Drinks
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDrink(drink: DatabaseDrink)
 

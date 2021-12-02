@@ -26,7 +26,7 @@ class AddRecipeFragment : Fragment() {
     private val binding get() = _binding!!
     private val adapter = AddRecipeAdapter()
     private val viewModel: AddRecipeViewModel by viewModels {
-        AddRecipeViewModelFactory((activity?.application as CocktailsApp).addRecipeRepository)
+        AddRecipeViewModelFactory((activity?.application as CocktailsApp).userDrinkRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -25,7 +25,7 @@ class DrinkDetailsFragment : Fragment() {
     private val adapter = IngredientMeasuresRecyclerViewAdapter()
 
     private val viewModel: DrinkDetailsViewModel by viewModels {
-        DetailsViewModelFactory((activity?.application as CocktailsApp).drinkDetailsRepository)
+        DetailsViewModelFactory((activity?.application as CocktailsApp).drinkRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

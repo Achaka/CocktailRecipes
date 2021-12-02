@@ -2,9 +2,8 @@ package com.achaka.cocktailrecipes
 
 import android.app.Application
 import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
-import com.achaka.cocktailrecipes.model.repository.AddRecipeRepository
-import com.achaka.cocktailrecipes.model.repository.DrinkDetailsRepository
-import com.achaka.cocktailrecipes.model.repository.SearchRepository
+import com.achaka.cocktailrecipes.model.repository.UserDrinkRepository
+import com.achaka.cocktailrecipes.model.repository.DrinkRepository
 
 class CocktailsApp: Application() {
 
@@ -12,15 +11,11 @@ class CocktailsApp: Application() {
         CocktailsAppDatabase.getDatabase(this)
     }
 
-    val addRecipeRepository: AddRecipeRepository by lazy {
-        AddRecipeRepository(database)
+    val userDrinkRepository: UserDrinkRepository by lazy {
+        UserDrinkRepository(database)
     }
 
-    val searchRepository: SearchRepository by lazy {
-        SearchRepository(database)
-    }
-
-    val drinkDetailsRepository: DrinkDetailsRepository by lazy {
-        DrinkDetailsRepository(database)
+    val drinkRepository: DrinkRepository by lazy {
+        DrinkRepository(database)
     }
 }
