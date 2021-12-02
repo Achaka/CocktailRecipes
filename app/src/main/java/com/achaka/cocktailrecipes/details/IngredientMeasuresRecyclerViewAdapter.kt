@@ -19,7 +19,7 @@ class IngredientMeasuresRecyclerViewAdapter :
             if (item.measure != null) {
                 binding.measure.text = item.measure.toString()
             } else binding.measure.text = item.measureString
-            binding.units.text = if (item.unit != null) item.unit.abbrev else Units.NONE.abbrev
+//            binding.units.text = if (item.unit != null) item.unit.abbrev else Units.NONE.abbrev
         }
     }
 

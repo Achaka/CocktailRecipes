@@ -16,5 +16,9 @@
     <string name="recipe_name_hint">Name</string>
     <string name="recipe_instructions_hint">Instructions</string>
     <string name="search_title">Search</string>
+    <string name="add_to_favourites">Add to favourites</string>
+    <string name="name_header">Name</string>
+    <string name="instructions_header">Instructions</string>
+    <string name="commentary_header">Commentary</string>
 
 </resources>

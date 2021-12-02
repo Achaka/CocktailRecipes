@@ -37,4 +37,5 @@ class SearchRepository(private val database: CocktailsAppDatabase) {
         return NetworkApi.retrofitService.getPopularCocktails()
             .map { it.asDatabaseModel().asDomainModel() }
     }
+
 }

@@ -23,7 +23,7 @@ data class DatabaseUserDrink(
     @TypeConverters(StringToListConverter::class)
     val measuresList: ArrayList<String>,
     //TODO later
-    val imageUri: String
+    val imageUri: String,
 )
 
 fun DatabaseUserDrink.asDomainModel(): UserDrink {
@@ -37,16 +37,19 @@ fun DatabaseUserDrink.asDomainModel(): UserDrink {
         alcoholic = determineAlcoType(alcoholic),
         glassType = determineGlassType(glassType),
         instructions = instructions,
-        ingredientMeasureList = joinLists(ingredientsList, measuresList),
-        imageUri = ""
-    )
+        ingredientMeasureItems = joinLists(ingredientsList, measuresList),
+        imageUri = "",
+        isUserDrink = true
+        )
 }
 
-fun joinLists(list1: ArrayList<String>, list2: ArrayList<String>): ArrayList<IngredientMeasureItem> {
+fun joinLists(
+    list1: ArrayList<String>,
+    list2: ArrayList<String>
+): ArrayList<IngredientMeasureItem> {
     val result = ArrayList<IngredientMeasureItem>()
-    list1.forEachIndexed {
-            index, s ->
-        result.add(IngredientMeasureItem(s, list2[index].toDouble(), null, null,determineUnit()))
+    list1.forEachIndexed { index, s ->
+        result.add(IngredientMeasureItem(s, list2[index].toDouble(), null, null, determineUnit()))
     }
     return result
 }

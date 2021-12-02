@@ -1,16 +1,13 @@
 package com.achaka.cocktailrecipes.addrecipe
 
-import android.app.Application
 import android.os.Bundle
 import android.view.*
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentAddRecipeBinding
-import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
 import com.achaka.cocktailrecipes.model.domain.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -89,7 +86,7 @@ class AddRecipeFragment : Fragment() {
                 viewModel.insertUserDrink(
                     UserDrink(
                         id = 0,
-                        name = binding.name.text.toString(),
+                        name = binding.nameHeader.text.toString(),
                         tags = null,
                         videoUrl = "",
                         category = Category.OTHER,
@@ -97,8 +94,9 @@ class AddRecipeFragment : Fragment() {
                         alcoholic = Alcoholic.NON_ALCOHOLIC,
                         glassType = GlassType.HIGHBALL,
                         instructions = binding.instructions.text.toString(),
-                        ingredientMeasureList = adapter.currentList,
-                        imageUri = ""
+                        ingredientMeasureItems = adapter.currentList,
+                        imageUri = "",
+                        isUserDrink = true
                     )
                 )
             }

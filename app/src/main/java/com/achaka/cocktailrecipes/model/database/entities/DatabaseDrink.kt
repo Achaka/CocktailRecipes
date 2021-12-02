@@ -36,8 +36,7 @@ data class DatabaseDrink(
     val measuresList: ArrayList<String>,
     val imageUrl: String,
     val imageAttribution: String,
-    val dateModified: String,
-    val isUserRecipe: Boolean
+    val dateModified: String
 )
 
 class StringToListConverter {
@@ -69,6 +68,7 @@ fun DatabaseDrink.asDomainModel(): Drink {
         instructions = instructions,
         thumbUrl = thumbUrl,
         ingredientMeasureItems = getIngredientMeasureItems(ingredientsList, measuresList),
+        isUserDrink = false
     )
 }
 
@@ -212,7 +212,7 @@ fun parseSimpleNumber(measure: String): Double? {
     //determine place of the number
     //format "1 xxx xx xx" "xx 1 xxx" "x xx 1  "
     val dividedString = measure.split(" ").toMutableList()
-    dividedString.forEachIndexed { index, item ->
+    dividedString.forEach { item ->
         if (item.contains(regex)) {
             result = try {
                 item.toDouble()

@@ -168,8 +168,7 @@ fun FullDrinkDetails.asDatabaseModel(): DatabaseDrink {
         ),
         imageUrl = imageUrl ?: "",
         imageAttribution = imageAttribution ?: "",
-        dateModified = dateModified ?: "",
-        isUserRecipe = false
+        dateModified = dateModified ?: ""
     )
 }
 

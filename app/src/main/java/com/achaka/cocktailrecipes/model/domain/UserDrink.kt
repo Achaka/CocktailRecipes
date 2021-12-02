@@ -18,9 +18,10 @@ class UserDrink(
     //not sure about this one
 //    val thumbUrl: String,
 //    val ingredientMeasureItem: IngredientMeasureItem,
-    val ingredientMeasureList: List<IngredientMeasureItem>,
+    val ingredientMeasureItems: List<IngredientMeasureItem>,
     val imageUri: String,
-)
+    val isUserDrink: Boolean
+): DrinkItem
 
 fun UserDrink.asDatabaseModel(): DatabaseUserDrink {
     return DatabaseUserDrink(
@@ -33,8 +34,8 @@ fun UserDrink.asDatabaseModel(): DatabaseUserDrink {
         alcoholic = alcoholic.type,
         glassType = glassType.type,
         instructions = instructions,
-        ingredientsList = ingredientMeasureList.splitIngredientMeasureList().first,
-        measuresList = ingredientMeasureList.splitIngredientMeasureList().second,
+        ingredientsList = ingredientMeasureItems.splitIngredientMeasureList().first,
+        measuresList = ingredientMeasureItems.splitIngredientMeasureList().second,
         imageUri = imageUri
     )
 }

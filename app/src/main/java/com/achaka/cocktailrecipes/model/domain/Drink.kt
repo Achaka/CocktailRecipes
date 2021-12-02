@@ -2,7 +2,7 @@ package com.achaka.cocktailrecipes.model.domain
 
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Log
+import com.achaka.cocktailrecipes.model.database.entities.DatabaseDrink
 
 data class Drink(
     val id: Int,
@@ -17,7 +17,8 @@ data class Drink(
     val thumbUrl: String,
 //    val ingredientMeasurePairs: List<Pair<String, String>>,
     val ingredientMeasureItems: List<IngredientMeasureItem>,
-) : Parcelable {
+    val isUserDrink: Boolean
+) : Parcelable, DrinkItem {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString() ?: "",
@@ -30,7 +31,8 @@ data class Drink(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
 //        stringToPairs(parcel.readString())
-        stringToIngredientMeasureItemList(parcel.readString() ?: ""),
+        listOf(),
+        parcel.readByte() == (1).toByte()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -45,7 +47,9 @@ data class Drink(
         parcel.writeString(instructions)
         parcel.writeString(thumbUrl)
 //        parcel.writeString(pairsToStrings(ingredientMeasurePairs))
-//        parcel.writeString(ingredientMeasureItemListToString(ingredientMeasureItems))
+        parcel.writeString("")
+        parcel.writeByte((1).toByte())
+
     }
 
     override fun describeContents(): Int {
@@ -68,30 +72,30 @@ data class Drink(
     }
 }
 
-fun ingredientMeasureItemListToString(list: List<IngredientMeasureItem>): String {
-    return ""
-}
-
-fun stringToIngredientMeasureItemList(string: String): List<IngredientMeasureItem> {
-    return listOf()
-}
-
-fun pairsToStrings(list: List<Pair<String, String>>): String {
-    val al = list.map { it.first + "|" + it.second }
-    list.forEach {
-        Log.d("pts", it.toString())
-    }
-    Log.d("pts result", al.joinToString(separator = "/:/"))
-    return al.joinToString(separator = "/:/")
-}
-
-fun stringToPairs(string: String?): List<Pair<String, String>> {
-    val list = string?.split("/:/")
-    val pairs = ArrayList<Pair<String, String>>()
-    list?.forEach {
-        val x = it.split("|")
-        val pair = Pair(x[0], x[2])
-        pairs.add(pair)
-    }
-    return pairs
-}
+//fun ingredientMeasureItemListToString(list: List<IngredientMeasureItem>): String {
+//    return ""
+//}
+//
+//fun stringToIngredientMeasureItemList(string: String): List<IngredientMeasureItem> {
+//    return listOf()
+//}
+//
+//fun pairsToStrings(list: List<Pair<String, String>>): String {
+//    val al = list.map { it.first + "|" + it.second }
+//    list.forEach {
+//        Log.d("pts", it.toString())
+//    }
+//    Log.d("pts result", al.joinToString(separator = "/:/"))
+//    return al.joinToString(separator = "/:/")
+//}
+//
+//fun stringToPairs(string: String?): List<Pair<String, String>> {
+//    val list = string?.split("/:/")
+//    val pairs = ArrayList<Pair<String, String>>()
+//    list?.forEach {
+//        val x = it.split("|")
+//        val pair = Pair(x[0], x[2])
+//        pairs.add(pair)
+//    }
+//    return pairs
+//}

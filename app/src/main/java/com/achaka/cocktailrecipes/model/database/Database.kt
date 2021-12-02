@@ -8,15 +8,15 @@ import androidx.room.TypeConverters
 import com.achaka.cocktailrecipes.model.database.daos.DrinksDao
 import com.achaka.cocktailrecipes.model.database.daos.IngredientsDao
 import com.achaka.cocktailrecipes.model.database.daos.UserDrinksDao
-import com.achaka.cocktailrecipes.model.database.entities.DatabaseDrink
-import com.achaka.cocktailrecipes.model.database.entities.DatabaseIngredient
-import com.achaka.cocktailrecipes.model.database.entities.DatabaseUserDrink
-import com.achaka.cocktailrecipes.model.database.entities.StringToListConverter
+import com.achaka.cocktailrecipes.model.database.entities.*
 
 @Database(
-    entities = [DatabaseDrink::class, DatabaseIngredient::class, DatabaseUserDrink::class],
-    version = 2
-) @TypeConverters(StringToListConverter::class)
+    entities = [DatabaseDrink::class, DatabaseIngredient::class,
+        DatabaseUserDrink::class, Favourite::class, Commentary::class],
+    version = 3,
+    exportSchema = false
+)
+@TypeConverters(StringToListConverter::class)
 abstract class CocktailsAppDatabase : RoomDatabase() {
 
     abstract fun userDrinksDao(): UserDrinksDao
@@ -27,7 +27,7 @@ abstract class CocktailsAppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: CocktailsAppDatabase? = null
 
-        fun getDatabase(context: Context) : CocktailsAppDatabase {
+        fun getDatabase(context: Context): CocktailsAppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context,

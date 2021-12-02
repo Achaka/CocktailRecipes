@@ -1,34 +1,39 @@
 package com.achaka.cocktailrecipes.details
 
 import android.os.Bundle
-import android.util.Log
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.achaka.cocktailrecipes.CocktailsApp
+import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentDrinkDetailsBinding
 import com.achaka.cocktailrecipes.model.domain.Drink
+import com.achaka.cocktailrecipes.model.domain.DrinkItem
+import com.achaka.cocktailrecipes.model.domain.UserDrink
 import com.bumptech.glide.Glide
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val DRINK_ARG = "drink"
 
 class DrinkDetailsFragment : Fragment() {
 
-    private var drink: Drink? = null
+    private var drinkItem: DrinkItem? = null
 
     private var _binding: FragmentDrinkDetailsBinding? = null
     private val binding get() = _binding!!
     private val adapter = IngredientMeasuresRecyclerViewAdapter()
 
+    private val viewModel: DrinkDetailsViewModel by viewModels {
+        DetailsViewModelFactory((activity?.application as CocktailsApp).drinkDetailsRepository)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            drink = it.getParcelable(DRINK_ARG)
+            drinkItem = it.getParcelable(DRINK_ARG)
         }
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -42,15 +47,39 @@ class DrinkDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.name.text = drink?.name
-        binding.instructions.text = drink?.instructions
-        Glide.with(this).load(drink?.thumbUrl).into(binding.image)
         val recyclerView = binding.ingredientsRecycler
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter.submitList(drink?.ingredientMeasureItems)
+        displayDrink(drinkItem)
         recyclerView.adapter = adapter
+    }
 
-        Log.d("drink INGREDIENTS", drink!!.ingredientMeasureItems.toString())
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.drink_details_options_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.add_to_favourites) {
+            if (drinkItem != null)
+                viewModel.addToFavourites(drinkItem)
+            Toast.makeText(requireContext(), "Fav Click!", Toast.LENGTH_SHORT).show()
+        }
+        return true
+    }
+
+    private fun displayDrink(drink: DrinkItem?) {
+        if (drink is Drink) {
+            binding.nameHeader.text = drink.name
+            binding.instructions.text = drink.instructions
+            Glide.with(this).load(drink.thumbUrl).into(binding.image)
+            adapter.submitList(drink.ingredientMeasureItems)
+        }
+        if (drink is UserDrink) {
+            binding.nameHeader.text = drink.name
+            binding.instructions.text = drink.instructions
+//            Glide.with(this).load(drink?.thumbUrl).into(binding.image)
+            adapter.submitList(drink.ingredientMeasureItems)
+        }
     }
 
     companion object {
