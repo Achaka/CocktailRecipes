@@ -1,6 +1,6 @@
 package com.achaka.cocktailrecipes.model.network.dtos
 
-import com.achaka.cocktailrecipes.model.database.DatabaseDrink
+import com.achaka.cocktailrecipes.model.database.entities.DatabaseDrink
 import com.squareup.moshi.Json
 
 data class FullDrinkResponse(
@@ -183,5 +183,5 @@ fun FullDrinkResponse.asDatabaseModel(): List<DatabaseDrink> {
 
 private fun elementsToList(vararg elements: String?): ArrayList<String> {
     val list = elements.filterNotNull()
-    return ArrayList(list)
+    return ArrayList(list.map { it.trim() })
 }

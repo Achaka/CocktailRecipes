@@ -9,7 +9,7 @@ import com.achaka.cocktailrecipes.model.domain.Drink
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 
-class SearchHorizontalAdapter(private val glide: RequestManager) :
+class SearchHorizontalAdapter(private val glide: RequestManager, private val onItemClick: OnItemClick) :
     ListAdapter<Drink, SearchHorizontalAdapter.DrinkViewHolder>(SearchDiffUtil()) {
 
     inner class DrinkViewHolder(val binding: SearchRecyclerViewItemBinding) :
@@ -19,6 +19,9 @@ class SearchHorizontalAdapter(private val glide: RequestManager) :
                 .centerCrop()
                 .into(binding.cardImage)
             binding.cardName.text = drink.name
+            binding.drinkCard.setOnClickListener{
+                onItemClick.openDetails(drink)
+            }
         }
     }
 

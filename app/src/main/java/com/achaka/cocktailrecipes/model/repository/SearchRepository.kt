@@ -1,15 +1,11 @@
 package com.achaka.cocktailrecipes.model.repository
 
-import android.util.Log
 import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
-import com.achaka.cocktailrecipes.model.database.asDomainModel
+import com.achaka.cocktailrecipes.model.database.entities.asDomainModel
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.network.NetworkApi
 import com.achaka.cocktailrecipes.model.network.dtos.asDatabaseModel
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
-import io.reactivex.rxjava3.subjects.PublishSubject
 
 class SearchRepository(private val database: CocktailsAppDatabase) {
 

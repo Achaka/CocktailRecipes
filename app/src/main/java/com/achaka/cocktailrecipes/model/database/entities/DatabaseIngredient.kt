@@ -2,7 +2,6 @@ package com.achaka.cocktailrecipes.model.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.achaka.cocktailrecipes.model.database.determineAlcoType
 import com.achaka.cocktailrecipes.model.domain.Ingredient
 
 @Entity

@@ -1,6 +1,11 @@
 package com.achaka.cocktailrecipes.model.domain
 
-enum class GlassType(val type: String) {
+import android.os.Parcel
+import android.os.Parcelable
+import com.achaka.cocktailrecipes.model.database.entities.determineGlassType
+
+enum class GlassType(val type: String): Parcelable {
+
     HIGHBALL("Highball glass"),
     COCKTAIL("Cocktail glass"),
     OLD_FASHIONED("Old-fashioned glass"),
@@ -32,5 +37,25 @@ enum class GlassType(val type: String) {
     MARGARITA("Margarita glass"),
     MARTINI("Martini Glass"),
     BALLOON("Balloon Glass"),
-    COUPE("Coupe Glass")
+    COUPE("Coupe Glass");
+
+    constructor(parcel: Parcel) : this(parcel.readString() ?: "HIGHBALL")
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(type)
     }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<GlassType> {
+        override fun createFromParcel(parcel: Parcel): GlassType {
+            return determineGlassType(parcel.readString() ?: "HIGHBALL")
+        }
+
+        override fun newArray(size: Int): Array<GlassType?> {
+            return arrayOfNulls(size)
+        }
+    }
+}

@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentSearchBinding
+import com.achaka.cocktailrecipes.details.DrinkDetailsFragment
+import com.achaka.cocktailrecipes.model.domain.Drink
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -19,7 +21,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), OnItemClick {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -34,11 +36,11 @@ class SearchFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val glide = Glide.with(this)
-        randomStripAdapter = SearchHorizontalAdapter(glide)
-        popularStripAdapter = SearchHorizontalAdapter(glide)
+        randomStripAdapter = SearchHorizontalAdapter(glide, this)
+        popularStripAdapter = SearchHorizontalAdapter(glide, this)
         loadRandomDrinks()
         loadPopularDrinks()
-     }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,8 +84,8 @@ class SearchFragment : Fragment() {
             .subscribe({
                 randomStripAdapter.submitList(it)
                 Log.d("LIST", it.size.toString())
-            },{
-                Log.d("LIST", "FAILURE")
+            }, {
+                Log.d("LIST", "FAILURE" + it.message)
             })
     }
 
@@ -93,8 +95,8 @@ class SearchFragment : Fragment() {
             .subscribe({
                 popularStripAdapter.submitList(it)
                 Log.d("LIST", it.size.toString())
-            },{
-                Log.d("LIST", "FAILURE")
+            }, {
+                Log.d("LIST", "FAILURE " + it.message + it.stackTraceToString())
             })
     }
 
@@ -103,11 +105,19 @@ class SearchFragment : Fragment() {
 
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance() =
             SearchFragment()
-
     }
+
+    override fun openDetails(drink: Drink) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment_container, DrinkDetailsFragment.newInstance(drink))
+            .addToBackStack("search_to_details").commit()
+    }
+}
+
+interface OnItemClick {
+    fun openDetails(drink: Drink)
 }

@@ -8,8 +8,10 @@ import androidx.room.TypeConverters
 import com.achaka.cocktailrecipes.model.database.daos.DrinksDao
 import com.achaka.cocktailrecipes.model.database.daos.IngredientsDao
 import com.achaka.cocktailrecipes.model.database.daos.UserDrinksDao
+import com.achaka.cocktailrecipes.model.database.entities.DatabaseDrink
 import com.achaka.cocktailrecipes.model.database.entities.DatabaseIngredient
 import com.achaka.cocktailrecipes.model.database.entities.DatabaseUserDrink
+import com.achaka.cocktailrecipes.model.database.entities.StringToListConverter
 
 @Database(
     entities = [DatabaseDrink::class, DatabaseIngredient::class, DatabaseUserDrink::class],

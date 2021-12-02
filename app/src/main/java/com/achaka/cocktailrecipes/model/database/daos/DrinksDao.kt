@@ -4,8 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.achaka.cocktailrecipes.model.database.DatabaseDrink
-import com.achaka.cocktailrecipes.model.domain.Drink
+import com.achaka.cocktailrecipes.model.database.entities.DatabaseDrink
 import kotlinx.coroutines.flow.Flow
 
 

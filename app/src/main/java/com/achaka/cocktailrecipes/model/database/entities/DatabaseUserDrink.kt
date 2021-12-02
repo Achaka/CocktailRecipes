@@ -46,7 +46,7 @@ fun joinLists(list1: ArrayList<String>, list2: ArrayList<String>): ArrayList<Ing
     val result = ArrayList<IngredientMeasureItem>()
     list1.forEachIndexed {
             index, s ->
-        result.add(IngredientMeasureItem(s, list2[index].toDouble(), determineUnit()))
+        result.add(IngredientMeasureItem(s, list2[index].toDouble(), null, null,determineUnit()))
     }
     return result
 }

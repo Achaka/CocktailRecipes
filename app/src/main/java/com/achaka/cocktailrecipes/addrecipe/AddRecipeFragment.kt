@@ -50,7 +50,7 @@ class AddRecipeFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter.submitList(mutableListOf(IngredientMeasureItem("",null, Units.NONE)))
+        adapter.submitList(mutableListOf(IngredientMeasureItem("",null, null, null, Units.NONE)))
 
         return binding.root
     }
@@ -62,7 +62,7 @@ class AddRecipeFragment : Fragment() {
             val currentList = adapter.currentList
             val newList = mutableListOf<IngredientMeasureItem>()
             newList.addAll(currentList)
-            newList.add(IngredientMeasureItem("",null, Units.NONE))
+            newList.add(IngredientMeasureItem("",null, null, null, Units.NONE))
             adapter.submitList(newList)
         }
 

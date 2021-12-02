@@ -9,7 +9,12 @@ enum class Units(val abbrev: String) {
     PART("pt"),
     CUP("cup"),
     TEASPOON("tsp"),
-    TABLESPOON("tbsp"),
-    CL("cl"),
+    TABLESPOON("tblsp"),
+    CL("cL"),
+    SHOT("shot"),
+    JUICE("Juice of"),
+    SPLASH("splash"),
+    PINCH("pinch"),
+    CUBE("cube"),
     NONE("")
 }
