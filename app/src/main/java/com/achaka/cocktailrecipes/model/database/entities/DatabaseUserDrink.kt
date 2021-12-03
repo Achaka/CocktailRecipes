@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.achaka.cocktailrecipes.model.domain.*
 
-@Entity
+@Entity(tableName = "user_drinks_table")
 data class DatabaseUserDrink(
     @PrimaryKey(autoGenerate = true)
     val id: Int,

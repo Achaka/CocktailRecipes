@@ -42,7 +42,6 @@ class AddRecipeFragment : Fragment() {
         activity?.title = getString(R.string.add_recipe_title)
         _binding = FragmentAddRecipeBinding.inflate(inflater, container, false)
 
-
         val recyclerView = binding.addRecipeRecyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

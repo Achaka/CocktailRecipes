@@ -21,7 +21,7 @@ class UserDrink(
     val ingredientMeasureItems: List<IngredientMeasureItem>,
     val imageUri: String,
     val isUserDrink: Boolean
-): DrinkItem
+): DrinkItem()
 
 fun UserDrink.asDatabaseModel(): DatabaseUserDrink {
     return DatabaseUserDrink(

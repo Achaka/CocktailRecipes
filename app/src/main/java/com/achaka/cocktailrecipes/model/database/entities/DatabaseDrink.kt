@@ -160,15 +160,15 @@ fun determineUnit(unit: String): Units {
     }
     return Units.NONE
 }
-
-fun getPair(
-    ingredientsList: ArrayList<String>,
-    measuresList: ArrayList<String>
-): List<Pair<String, String>> {
-    while (measuresList.size < ingredientsList.size)
-        measuresList.add("")
-    return ingredientsList.zip(measuresList)
-}
+//
+//fun getPair(
+//    ingredientsList: ArrayList<String>,
+//    measuresList: ArrayList<String>
+//): List<Pair<String, String>> {
+//    while (measuresList.size < ingredientsList.size)
+//        measuresList.add("")
+//    return ingredientsList.zip(measuresList)
+//}
 
 fun getIngredientMeasureItems(
     ingredientsList: ArrayList<String>,
@@ -198,12 +198,11 @@ fun getIngredientMeasureItems(
 fun parseMeasureNumber(measure: String): Double? {
     //if string contains number
     val regex = Regex("\\d")
-    if (measure.contains(regex)) {
+    return if (measure.contains(regex)) {
         if (measure.contains("/")) {
-            return parseFraction(measure.trim())
-        }
-        else return parseSimpleNumber(measure.trim())
-    } else return null
+            parseFraction(measure.trim())
+        } else parseSimpleNumber(measure.trim())
+    } else null
 }
 
 fun parseSimpleNumber(measure: String): Double? {
@@ -238,7 +237,7 @@ fun parseFraction(measure: String): Double? {
                 rational = try {
                     val numerator = fraction[0].toDouble()
                     val denominator = fraction[1].toDouble()
-                    numerator/denominator
+                    numerator / denominator
                 } catch (ex: java.lang.NumberFormatException) {
                     0.0
                 }
@@ -252,7 +251,7 @@ fun parseFraction(measure: String): Double? {
             }
         }
     }
-    val result = whole+rational
+    val result = whole + rational
     return if (result == 0.0) {
         null
     } else result

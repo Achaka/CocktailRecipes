@@ -84,10 +84,15 @@ class DrinkDetailsFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(drink: Drink) =
+        fun newInstance(drink: DrinkItem) =
             DrinkDetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(DRINK_ARG, drink)
+                    if (drink is Drink) {
+                        putParcelable(DRINK_ARG, drink)
+                    }
+//                    if (drink is UserDrink) {
+//                        putParcelable(DRINK_ARG, drink)
+//                    }
                 }
             }
     }

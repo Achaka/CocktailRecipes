@@ -6,14 +6,18 @@ import com.achaka.cocktailrecipes.model.database.entities.Commentary
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DrinkDetailsViewModel(private val repository: DrinkRepository): ViewModel() {
     //add to favourites
     fun addToFavourites(drinkItem: DrinkItem?) {
         viewModelScope.launch {
             if (drinkItem != null) {
-                repository.addToFavourites(drinkItem)
+                withContext(Dispatchers.IO) {
+                    repository.addToFavourites(drinkItem)
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.achaka.cocktailrecipes.search
+package com.achaka.cocktailrecipes
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,12 +8,15 @@ import com.achaka.cocktailrecipes.databinding.MainRecyclerViewItemBinding
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
+import com.achaka.cocktailrecipes.search.OnItemClick
 import com.bumptech.glide.RequestManager
 
-class SearchHorizontalAdapter(private val glide: RequestManager, private val onItemClick: OnItemClick) :
-    ListAdapter<Drink, SearchHorizontalAdapter.DrinkViewHolder>(SearchDiffUtil()) {
+class MainRecyclerViewAdapter (private val glide: RequestManager, private val onItemClick: OnItemClick) :
+    ListAdapter<DrinkItem, MainRecyclerViewAdapter.MainRecyclerViewHolder>(
+        (MainRecyclerViewDiffUtil())
+    ) {
 
-    inner class DrinkViewHolder(val binding: MainRecyclerViewItemBinding) :
+    inner class MainRecyclerViewHolder( private val binding: MainRecyclerViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(drink: DrinkItem) {
             when (drink) {
@@ -36,16 +39,13 @@ class SearchHorizontalAdapter(private val glide: RequestManager, private val onI
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DrinkViewHolder {
-        val binding = MainRecyclerViewItemBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return DrinkViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainRecyclerViewHolder {
+        val binding =
+            MainRecyclerViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MainRecyclerViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: DrinkViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MainRecyclerViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
 }

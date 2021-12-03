@@ -23,6 +23,7 @@ class AddRecipeAdapter :
         viewType: Int
     ): IngredientMeasureItemViewHolder {
         val binding = AddIngredientRecyclerViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
         return IngredientMeasureItemViewHolder(binding = binding)
     }
 
@@ -30,7 +31,7 @@ class AddRecipeAdapter :
         holder.bind(getItem(position))
     }
 
-    inner class IngredientMeasureItemViewHolder(val binding: AddIngredientRecyclerViewItemBinding) :
+    inner class IngredientMeasureItemViewHolder(private val binding: AddIngredientRecyclerViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: IngredientMeasureItem) {
             binding.addIngredientEditText.text.append(item.ingredientName)

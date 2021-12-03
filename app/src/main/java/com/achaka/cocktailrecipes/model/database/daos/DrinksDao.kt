@@ -8,6 +8,7 @@ import com.achaka.cocktailrecipes.model.database.entities.Commentary
 import com.achaka.cocktailrecipes.model.database.entities.DatabaseDrink
 import com.achaka.cocktailrecipes.model.database.entities.Favourite
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface DrinksDao {
@@ -18,10 +19,13 @@ interface DrinksDao {
     @Query("SELECT * FROM databasedrink WHERE id=:drinkId")
     fun getDrinkById(drinkId: Int): Flow<DatabaseDrink>
 
+    @Query("SELECT * FROM databasedrink WHERE id IN (:drinkIds)")
+    fun getDrinksById(drinkIds: List<Int>): Flow<List<DatabaseDrink>>
+
     @Query("SELECT * FROM databasedrink WHERE name LIKE :drinkName")
     fun getDrinksByName(drinkName: String): Flow<List<DatabaseDrink>>
 
-//    @Query("SELECT * FROM databasedrink WHERE name LIKE :ingredientName")
+//    @Query("SELECT * FROM databasedrink WHERE name LIKE '%' :ingredientName")
 //    fun getDrinkByIngredient(ingredientName: String): Flow<List<String>>
 
     @Query("SELECT * FROM databasedrink WHERE name=:drinkName")
@@ -32,7 +36,7 @@ interface DrinksDao {
     fun addToFavourites(favourite: Favourite)
 
     @Query("SELECT * FROM favourites_table")
-    fun getAllFavouritesIds(): Flow<List<Favourite>>
+    fun getAllFavourites(): Flow<List<Favourite>>
 
     @Query("DELETE FROM favourites_table WHERE drinkId=:drinkId")
     fun removeFromFavourites(drinkId: Int)

@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentSearchBinding
 import com.achaka.cocktailrecipes.details.DrinkDetailsFragment
 import com.achaka.cocktailrecipes.model.domain.Drink
+import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -47,8 +49,7 @@ class SearchFragment : Fragment(), OnItemClick {
 
         setupRandomRecyclerView()
         setupPopularRecyclerView()
-
-        val recentRecyclerView = binding.horizontalRandomCocktailsRecycler
+        setupRecentRecyclerView()
 
         return binding.root
     }
@@ -69,8 +70,16 @@ class SearchFragment : Fragment(), OnItemClick {
         popularRecyclerView.layoutManager = layoutManager
     }
 
-    private fun loadRecentRecyclerView() {
-
+    private fun setupRecentRecyclerView() {
+        val recentRecyclerView = binding.recentRecycler
+        recentRecyclerView.adapter = recentAdapter
+        recentRecyclerView.layoutManager =
+            GridLayoutManager(
+                requireContext(),
+                2,
+                GridLayoutManager.VERTICAL,
+                false
+            )
     }
 
     private fun loadRandomDrinks() {
@@ -104,7 +113,7 @@ class SearchFragment : Fragment(), OnItemClick {
             SearchFragment()
     }
 
-    override fun openDetails(drink: Drink) {
+    override fun openDetails(drink: DrinkItem) {
         parentFragmentManager.beginTransaction()
             .replace(R.id.main_fragment_container, DrinkDetailsFragment.newInstance(drink))
             .addToBackStack("search_to_details").commit()
@@ -112,5 +121,5 @@ class SearchFragment : Fragment(), OnItemClick {
 }
 
 interface OnItemClick {
-    fun openDetails(drink: Drink)
+    fun openDetails(drink: DrinkItem)
 }
