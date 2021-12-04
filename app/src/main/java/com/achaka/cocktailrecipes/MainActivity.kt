@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import com.achaka.cocktailrecipes.addrecipe.AddRecipeFragment
 import com.achaka.cocktailrecipes.databinding.ActivityMainBinding
 import com.achaka.cocktailrecipes.favourites.FavouritesFragment
+import com.achaka.cocktailrecipes.ingredientdetails.IngredientDetailsFragment
 import com.achaka.cocktailrecipes.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
@@ -64,8 +65,9 @@ class MainActivity : AppCompatActivity() {
                     return@setOnItemSelectedListener true
                 }
                 R.id.shopping_list_item -> {
-                    Log.d(TAG, "shl_click")
-                    supportFragmentManager.beginTransaction()
+//                    supportFragmentManager.beginTransaction().replace(
+//
+//                    ).commit()
                     return@setOnItemSelectedListener true
                 }
                 R.id.add_recipe_item -> {

@@ -58,7 +58,7 @@ interface NetworkServiceApi {
     @GET(searchRequest)
     suspend fun getIngredientByName(
         @Query(value = "i") name: String
-    ): Deferred<IngredientResponse>
+    ): IngredientResponse
 
     //response here - picture, name, id
     @Headers(HOST, API_KEY)
@@ -104,7 +104,7 @@ interface NetworkServiceApi {
     @Headers(HOST, API_KEY)
     @GET(filterRequest)
     suspend fun filterByCategory(
-        @Query(value = "a") category: String
+        @Query(value = "с") category: String
     ): SimpleDrinkResponse
 
     @Headers(HOST, API_KEY)

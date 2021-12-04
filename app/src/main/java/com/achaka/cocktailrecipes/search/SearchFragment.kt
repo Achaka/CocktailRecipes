@@ -35,6 +35,7 @@ class SearchFragment : Fragment(), OnItemClick {
         val glide = Glide.with(this)
         randomStripAdapter = SearchHorizontalAdapter(glide, this)
         popularStripAdapter = SearchHorizontalAdapter(glide, this)
+        recentAdapter = SearchHorizontalAdapter(glide, this)
         loadRandomDrinks()
         loadPopularDrinks()
     }

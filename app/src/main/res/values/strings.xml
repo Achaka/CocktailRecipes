@@ -20,5 +20,10 @@
     <string name="name_header">Name</string>
     <string name="instructions_header">Instructions</string>
     <string name="commentary_header">Commentary</string>
+    <string name="abv_header">ABV:</string>
+    <string name="alcoholic_header">Alcoholic:</string>
+    <string name="description_header">Description</string>
+    <string name="alcoholic">" "%s</string>
+    <string name="abv">" "%s%%</string>
 
 </resources>
