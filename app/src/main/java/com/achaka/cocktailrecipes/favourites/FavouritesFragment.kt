@@ -38,24 +38,10 @@ class FavouritesFragment : Fragment(), OnItemClick {
         super.onCreate(savedInstanceState)
         val glide = Glide.with(this)
         adapter = MainRecyclerViewAdapter(glide, this)
-        lifecycleScope.launchWhenStarted {
-            viewModel.favourites.onEach {
-                Log.d("FAVS", it.toString())
-            }.collect()
-        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.favouriteDrinks.onEach {
                 adapter.submitList(it)
-            }.collect()
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.favouriteUserDrinks.onEach {
-                val adapterList = mutableListOf<DrinkItem>()
-                adapterList.addAll(adapter.currentList)
-                adapterList.addAll(it)
-                adapter.submitList(adapterList)
             }.collect()
         }
 

@@ -14,6 +14,10 @@ import kotlinx.coroutines.flow.*
 
 class DrinkRepository(private val database: CocktailsAppDatabase) {
 
+    fun insertDrink(drink: DatabaseDrink) {
+        database.drinksDao().insertDrink(drink)
+    }
+
     fun getTenRandomCocktails(): Single<List<Drink>> {
         return NetworkApi.retrofitService.getTenRandomCocktails().map {
             it.asDatabaseModel().asDomainModel()
@@ -29,7 +33,7 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
 //        return database.drinksDao().getDrinkById(drinkId)
 //    }
 
-    fun getDrinksById(drinkId: List<Int>): Flow<List<DatabaseDrink>> {
+    fun getDrinksById(drinkId: List<Int>): Flow<List<DatabaseDrink>?> {
         return database.drinksDao().getDrinksById(drinkId)
     }
 
