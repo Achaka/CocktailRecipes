@@ -23,12 +23,12 @@ class FavouritesViewModel(
     private var _favouriteDrinks = MutableStateFlow<List<DrinkItem>>(emptyList())
     val favouriteDrinks: StateFlow<List<DrinkItem>> = _favouriteDrinks.asStateFlow()
 
-    private var _favouriteUserDrinks = MutableStateFlow<List<DrinkItem>>(emptyList())
-    val favouriteUserDrinks: StateFlow<List<DrinkItem>> = _favouriteUserDrinks.asStateFlow()
+//    private var _favouriteUserDrinks = MutableStateFlow<List<DrinkItem>>(emptyList())
+//    val favouriteUserDrinks: StateFlow<List<DrinkItem>> = _favouriteUserDrinks.asStateFlow()
 
     init {
         getFavourites()
-        getUserFavourites()
+//        getUserFavourites()
     }
 
     fun getFavourites() {
@@ -52,16 +52,16 @@ class FavouritesViewModel(
         }
     }
 
-    fun getUserFavourites() {
-        viewModelScope.launch {
-            drinkRepository.getAllFavourites().collect { favouriteList ->
-                userDrinkRepository.getUserDrinksById(
-                    favouriteList.filter { it.isUserDrink }
-                        .map { favourite -> favourite.drinkId }).collect {
-                    _favouriteUserDrinks.value = it.map { drink -> drink.asDomainModel() }
-
-                }
-            }
-        }
-    }
+//    fun getUserFavourites() {
+//        viewModelScope.launch {
+//            drinkRepository.getAllFavourites().collect { favouriteList ->
+//                userDrinkRepository.getUserDrinksById(
+//                    favouriteList.filter { it.isUserDrink }
+//                        .map { favourite -> favourite.drinkId }).collect {
+//                    _favouriteUserDrinks.value = it.map { drink -> drink.asDomainModel() }
+//
+//                }
+//            }
+//        }
+//    }
 }

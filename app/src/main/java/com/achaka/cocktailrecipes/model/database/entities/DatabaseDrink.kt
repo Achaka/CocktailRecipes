@@ -47,11 +47,7 @@ class StringToListConverter {
 
     @TypeConverter
     fun listToStringConverter(list: ArrayList<String>): String {
-        val sb = StringBuilder()
-        list.forEach {
-            sb.append(it)
-        }
-        return sb.toString()
+        return list.joinToString(",")
     }
 }
 
@@ -160,15 +156,6 @@ fun determineUnit(unit: String): Units {
     }
     return Units.NONE
 }
-//
-//fun getPair(
-//    ingredientsList: ArrayList<String>,
-//    measuresList: ArrayList<String>
-//): List<Pair<String, String>> {
-//    while (measuresList.size < ingredientsList.size)
-//        measuresList.add("")
-//    return ingredientsList.zip(measuresList)
-//}
 
 fun getIngredientMeasureItems(
     ingredientsList: ArrayList<String>,
