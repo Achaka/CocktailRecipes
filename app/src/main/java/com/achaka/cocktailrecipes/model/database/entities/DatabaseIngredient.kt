@@ -2,6 +2,7 @@ package com.achaka.cocktailrecipes.model.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.achaka.cocktailrecipes.model.domain.Alcoholic
 import com.achaka.cocktailrecipes.model.domain.Ingredient
 
 @Entity
@@ -21,7 +22,7 @@ fun DatabaseIngredient.asDomainModel(): Ingredient {
         name = name,
         description = description,
         type = type,
-        alcoholic = determineAlcoType(alcoholic),
+        alcoholic = determineIngredientAlcoType(alcoholic),
         ABV = ABV
     )
 }
@@ -30,4 +31,13 @@ fun List<DatabaseIngredient>.asDomainModel(): List<Ingredient> {
     return this.map {
         it.asDomainModel()
     }
+}
+
+fun determineIngredientAlcoType(type: String): Alcoholic {
+    if (type.trim().lowercase() == "yes") {
+        return Alcoholic.ALCOHOLIC
+    } else if (type.isEmpty()) {
+        return Alcoholic.NON_ALCOHOLIC
+    }
+    return Alcoholic.NON_ALCOHOLIC
 }
