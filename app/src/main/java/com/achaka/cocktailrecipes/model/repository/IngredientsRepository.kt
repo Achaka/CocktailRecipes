@@ -2,6 +2,7 @@ package com.achaka.cocktailrecipes.model.repository
 
 import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
+import com.achaka.cocktailrecipes.model.database.entities.DatabaseIngredient
 import com.achaka.cocktailrecipes.model.database.entities.asDomainModel
 import com.achaka.cocktailrecipes.model.domain.Ingredient
 import kotlinx.coroutines.GlobalScope
@@ -14,5 +15,9 @@ class IngredientsRepository(private val database: CocktailsAppDatabase) {
 
     fun getIngredientByName(name: String): Flow<Ingredient?> {
         return database.ingredientsDao().getIngredientByName(name).map{ if (it != null) it.asDomainModel() else null }
+    }
+
+    fun insertIngredient(ingredient: DatabaseIngredient) {
+        database.ingredientsDao().insertIngredient(ingredient)
     }
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentDrinkDetailsBinding
+import com.achaka.cocktailrecipes.ingredientdetails.IngredientDetailsFragment
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
@@ -16,13 +17,13 @@ import com.bumptech.glide.Glide
 
 private const val DRINK_ARG = "drink"
 
-class DrinkDetailsFragment : Fragment() {
+class DrinkDetailsFragment : Fragment(), OnIngredientClick {
 
     private var drinkItem: DrinkItem? = null
 
     private var _binding: FragmentDrinkDetailsBinding? = null
     private val binding get() = _binding!!
-    private val adapter = IngredientMeasuresRecyclerViewAdapter()
+    private val adapter = IngredientMeasuresRecyclerViewAdapter(this)
 
     private val viewModel: DrinkDetailsViewModel by viewModels {
         DetailsViewModelFactory((activity?.application as CocktailsApp).drinkRepository)
@@ -62,7 +63,6 @@ class DrinkDetailsFragment : Fragment() {
         if (item.itemId == R.id.add_to_favourites) {
             if (drinkItem != null)
                 viewModel.addToFavourites(drinkItem)
-            Toast.makeText(requireContext(), "Fav Click!", Toast.LENGTH_SHORT).show()
         }
         return true
     }
@@ -96,4 +96,14 @@ class DrinkDetailsFragment : Fragment() {
                 }
             }
     }
+
+    override fun onIngredientClick(ingredientName: String) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment_container, IngredientDetailsFragment.newInstance(ingredientName))
+            .addToBackStack("drink_details_to_Ingredient_details").commit()
+    }
+}
+
+interface OnIngredientClick {
+    fun onIngredientClick(ingredientName: String)
 }

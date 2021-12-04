@@ -14,7 +14,11 @@ import com.achaka.cocktailrecipes.databinding.FragmentIngredientDetailsBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
+private const val INGREDIENT_NAME_ARG = "ingredientName"
+
 class IngredientDetailsFragment : Fragment() {
+
+    private var ingredientName: String? = null
 
     private var _binding: FragmentIngredientDetailsBinding? = null
     private val binding get() = _binding!!
@@ -25,7 +29,11 @@ class IngredientDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getIngredientByName("vodka")
+        arguments?.let {
+            ingredientName = it.getString(INGREDIENT_NAME_ARG)
+            ingredientName?.let { it1 -> Log.d("aasdas", it1) }
+        }
+        ingredientName?.let { viewModel.getIngredientByName(it) }
     }
 
     override fun onCreateView(
@@ -54,9 +62,11 @@ class IngredientDetailsFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(ingredientName: String) =
             IngredientDetailsFragment().apply {
-
+                arguments = Bundle().apply {
+                    putString(INGREDIENT_NAME_ARG, ingredientName)
+                }
             }
     }
 }

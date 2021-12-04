@@ -8,13 +8,16 @@ import com.achaka.cocktailrecipes.databinding.DetailsRecyclerViewItemBinding
 import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
 import com.achaka.cocktailrecipes.model.domain.Units
 
-class IngredientMeasuresRecyclerViewAdapter :
+class IngredientMeasuresRecyclerViewAdapter(private val onIngredientClick: OnIngredientClick) :
     ListAdapter<IngredientMeasureItem, IngredientMeasuresRecyclerViewAdapter.IngredientMeasureItemViewHolder>(
         DetailsDiffUtil()
     ) {
     inner class IngredientMeasureItemViewHolder(val binding: DetailsRecyclerViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: IngredientMeasureItem) {
+            binding.ingredientName.setOnClickListener {
+                onIngredientClick.onIngredientClick(binding.ingredientName.text.toString())
+            }
             binding.ingredientName.text = item.ingredientName
             if (item.measure != null) {
                 binding.measure.text = item.measure.toString()
