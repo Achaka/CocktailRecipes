@@ -84,23 +84,30 @@ class SearchFragment : Fragment(), OnItemClick {
     }
 
     private fun loadRandomDrinks() {
-        viewModel.getRandomDrinks().subscribeOn(Schedulers.io())
+        viewModel.randomDrinks.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+            .subscribe(
+            {
                 randomStripAdapter.submitList(it)
-            }, {
-                //TODO
-            })
+            },
+            {
+                //TODO later
+            }
+        )
     }
 
     private fun loadPopularDrinks() {
-        viewModel.getPopularDrinks().subscribeOn(Schedulers.io())
+        viewModel.popularDrinks.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                popularStripAdapter.submitList(it)
-            }, {
-                //TODO
-            })
+            .subscribe(
+                {
+                    popularStripAdapter.submitList(it)
+                },
+                {
+                    //TODO later
+                }
+            )
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -118,6 +125,11 @@ class SearchFragment : Fragment(), OnItemClick {
         parentFragmentManager.beginTransaction()
             .replace(R.id.main_fragment_container, DrinkDetailsFragment.newInstance(drink))
             .addToBackStack("search_to_details").commit()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
     }
 }
 

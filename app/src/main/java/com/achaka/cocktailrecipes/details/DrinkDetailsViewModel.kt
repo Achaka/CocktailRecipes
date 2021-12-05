@@ -29,9 +29,4 @@ class DrinkDetailsViewModel(private val repository: DrinkRepository): ViewModel(
     fun countTotalAbv(list: List<IngredientMeasureItem>) {
 
     }
-
-    //onIngredient click get ing by name
-    fun getIngredientByName(name: String) {
-
-    }
 }

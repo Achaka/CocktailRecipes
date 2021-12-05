@@ -5,9 +5,6 @@ import com.achaka.cocktailrecipes.model.database.entities.DatabaseUserDrink
 class UserDrink(
     val id: Int,
     val name: String,
-    //couldnt figure out what does it mean
-//    val alternate: String,
-    //list
     val tags: ArrayList<String>?,
     val videoUrl: String,
     val category: Category,
@@ -15,9 +12,6 @@ class UserDrink(
     val alcoholic: Alcoholic,
     val glassType: GlassType,
     val instructions: String,
-    //not sure about this one
-//    val thumbUrl: String,
-//    val ingredientMeasureItem: IngredientMeasureItem,
     val ingredientMeasureItems: List<IngredientMeasureItem>,
     val imageUri: String,
     val isUserDrink: Boolean
@@ -52,7 +46,7 @@ fun List<IngredientMeasureItem>.splitIngredientMeasureList(): Pair<ArrayList<Str
     val measureList = ArrayList<String>()
     forEach {
         ingredientList.add(it.ingredientName)
-        measureList.add(it.measure.toString()+" "+it.unit.abbrev)
+        measureList.add(it.measure.toString()+" "+it.unit.first.abbrev)
     }
     return Pair(ingredientList, measureList)
 }

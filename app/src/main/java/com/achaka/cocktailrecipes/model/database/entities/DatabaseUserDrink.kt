@@ -54,6 +54,6 @@ fun joinLists(
     return result
 }
 
-fun determineUnit(): Units {
-    return Units.NONE
+fun determineUnit(): Pair<Units, String> {
+    return Pair(Units.NONE, "")
 }

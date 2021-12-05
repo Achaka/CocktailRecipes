@@ -1,21 +1,43 @@
 package com.achaka.cocktailrecipes.search
 
 import androidx.lifecycle.ViewModel
+import com.achaka.cocktailrecipes.model.database.entities.asDomainModel
 import com.achaka.cocktailrecipes.model.domain.Drink
+import com.achaka.cocktailrecipes.model.network.dtos.asDatabaseModel
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 
-class SearchViewModel(private val repository: DrinkRepository): ViewModel() {
+class SearchViewModel(private val repository: DrinkRepository) : ViewModel() {
 
     private val disposables = CompositeDisposable()
 
-    fun getRandomDrinks(): Single<List<Drink>> {
-        return repository.getTenRandomCocktails()
+    val randomDrinks: BehaviorSubject<List<Drink>> = BehaviorSubject.create()
+    val popularDrinks: PublishSubject<List<Drink>> = PublishSubject.create()
+
+    init {
+        getRandomDrinks()
+        getPopularDrinks()
     }
 
-    fun getPopularDrinks(): Single<List<Drink>> {
-        return repository.getPopularCocktails()
+    private fun getRandomDrinks() {
+        repository.getTenRandomCocktails()
+            .subscribeOn(Schedulers.io())
+            .subscribe(
+                { value -> randomDrinks.onNext(value.asDatabaseModel().asDomainModel()) }, {}
+            )
+
+    }
+
+    private fun getPopularDrinks() {
+        repository.getPopularCocktails()
+            .subscribeOn(Schedulers.io())
+            .subscribe(
+                { value -> popularDrinks.onNext(value.asDatabaseModel().asDomainModel()) }, {}
+            )
     }
 
     //TODO Not yet implemented

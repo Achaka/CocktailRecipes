@@ -8,6 +8,7 @@ import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
 import com.achaka.cocktailrecipes.model.network.NetworkApi
+import com.achaka.cocktailrecipes.model.network.dtos.FullDrinkResponse
 import com.achaka.cocktailrecipes.model.network.dtos.asDatabaseModel
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.*
@@ -18,15 +19,12 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
         database.drinksDao().insertDrink(drink)
     }
 
-    fun getTenRandomCocktails(): Single<List<Drink>> {
-        return NetworkApi.retrofitService.getTenRandomCocktails().map {
-            it.asDatabaseModel().asDomainModel()
-        }
+    fun getTenRandomCocktails(): Single<FullDrinkResponse> {
+        return NetworkApi.retrofitService.getTenRandomCocktails()
     }
 
-    fun getPopularCocktails(): Single<List<Drink>> {
+    fun getPopularCocktails(): Single<FullDrinkResponse> {
         return NetworkApi.retrofitService.getPopularCocktails()
-            .map { it.asDatabaseModel().asDomainModel() }
     }
 
 //    fun getDrinkById(drinkId: Int): Flow<DatabaseDrink> {

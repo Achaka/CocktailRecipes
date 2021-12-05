@@ -6,8 +6,6 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.achaka.cocktailrecipes.model.domain.*
-import com.achaka.cocktailrecipes.model.network.dtos.IngredientResponse
-import kotlinx.coroutines.Deferred
 import java.lang.StringBuilder
 
 @Entity
@@ -173,13 +171,28 @@ fun getIngredientMeasureItems(
             parseMeasureNumber(measuresList[index]),
             null,
             parseMeasureRange(measuresList[index]),
-            determineUnit(measuresList[index])
+            parseUnit(measuresList[index])
         )
         if (item.measure == null) item.measureString = measuresList[index]
         items.add(item)
     }
     Log.d("LIST MEASURES AFTER", items.toString())
     return items
+}
+
+fun parseUnit(measureString: String): Pair<Units, String> {
+    val regex = Regex("\\d")
+    val unitString: StringBuilder = StringBuilder().append("")
+    val list = measureString.split(" ")
+    list.forEach {
+        if (!it.contains(regex))
+            return Pair(determineUnit(it.trim().lowercase()), "")
+        else {
+            //concat the rest of fields to string
+            unitString.append("$it ")
+        }
+    }
+    return Pair(Units.NONE, unitString.toString())
 }
 
 fun parseMeasureNumber(measure: String): Double? {
