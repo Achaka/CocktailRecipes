@@ -46,13 +46,13 @@ val retrofit = Retrofit.Builder()
 
 interface NetworkServiceApi {
     /*
-    * In this part network calls made using Kotlin Coroutines return deferred type
+    * In this part network calls made using Kotlin Coroutines
     * */
     @Headers(HOST, API_KEY)
     @GET(searchRequest)
     suspend fun getCocktailsByName(
         @Query(value = "s") name: String
-    ): Deferred<FullDrinkResponse>
+    ): FullDrinkResponse
 
     @Headers(HOST, API_KEY)
     @GET(searchRequest)
@@ -65,7 +65,7 @@ interface NetworkServiceApi {
     @GET(filterRequest)
     suspend fun getCocktailsByIngredientName(
         @Query(value = "i") name: String
-    ): Deferred<SimpleDrinkResponse>
+    ): SimpleDrinkResponse
 
     @Headers(HOST, API_KEY)
     @GET(lookupRequest)
@@ -77,14 +77,14 @@ interface NetworkServiceApi {
     @GET(lookupRequest)
     suspend fun getIngredientDetailsById(
         @Query(value = "iid") id: Int
-    ): Deferred<IngredientResponse>
+    ): IngredientResponse
 
     //filters
     @Headers(HOST, API_KEY)
     @GET(searchRequest)
     suspend fun filterAllCocktailsByFirstLetter(
         @Query(value = "f") letter: Char
-    ): Deferred<FullDrinkResponse>
+    ): FullDrinkResponse
 
     /*
     * In this part network calls made using Kotlin Coroutines return Simple Type

@@ -34,6 +34,7 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
         arguments?.let {
             drinkItem = it.getParcelable(DRINK_ARG)
         }
+        viewModel.addToRecent((drinkItem as Drink).id)
         setHasOptionsMenu(true)
     }
 

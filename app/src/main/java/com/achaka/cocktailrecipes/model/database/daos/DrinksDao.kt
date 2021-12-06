@@ -7,8 +7,11 @@ import androidx.room.Query
 import com.achaka.cocktailrecipes.model.database.entities.Commentary
 import com.achaka.cocktailrecipes.model.database.entities.DatabaseDrink
 import com.achaka.cocktailrecipes.model.database.entities.Favourite
+import com.achaka.cocktailrecipes.model.database.entities.Recent
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface DrinksDao {
@@ -50,4 +53,15 @@ interface DrinksDao {
 
     @Query("DELETE FROM commentaries_table WHERE drinkId=:drinkId")
     fun removeCommentary(drinkId: Int)
+
+    //Recent section
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRecentItem(recent: Recent): Single<Long>
+
+    @Query("SELECT * FROM recent_table")
+    fun getRecentItems(): Observable<List<Recent>>
+
+    @Query("DELETE FROM recent_table WHERE timestamp=:timestamp")
+    fun removeRecentItem(timestamp: Long): Completable
 }

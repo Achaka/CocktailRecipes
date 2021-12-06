@@ -48,6 +48,8 @@ class SearchFragment : Fragment(), OnItemClick {
         activity?.title = getString(R.string.search_title)
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
+        binding.searchView.isIconified = false
+
         setupRandomRecyclerView()
         setupPopularRecyclerView()
         setupRecentRecyclerView()
