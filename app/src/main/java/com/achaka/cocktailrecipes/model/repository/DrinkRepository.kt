@@ -1,10 +1,7 @@
 package com.achaka.cocktailrecipes.model.repository
 
 import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
-import com.achaka.cocktailrecipes.model.database.entities.DatabaseDrink
-import com.achaka.cocktailrecipes.model.database.entities.Favourite
-import com.achaka.cocktailrecipes.model.database.entities.Recent
-import com.achaka.cocktailrecipes.model.database.entities.asDomainModel
+import com.achaka.cocktailrecipes.model.database.entities.*
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
@@ -87,5 +84,22 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
 
     fun removeRecentItem(timestamp: Long): Completable {
         return database.drinksDao().removeRecentItem(timestamp)
+    }
+
+    //commentaries section
+    fun addCommentary(commentary: Commentary) {
+        database.drinksDao().addCommentary(commentary)
+    }
+
+    fun getCommentaries(): Flow<List<Commentary>> {
+        return database.drinksDao().getCommentaries()
+    }
+
+    fun getCommentaryById(drinkId: Int): Flow<Commentary> {
+        return database.drinksDao().getCommentary(drinkId)
+    }
+
+    fun removeCommentary(drinkId: Int) {
+        database.drinksDao().removeCommentary(drinkId)
     }
 }

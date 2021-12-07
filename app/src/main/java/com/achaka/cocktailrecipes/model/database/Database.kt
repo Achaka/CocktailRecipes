@@ -13,7 +13,7 @@ import com.achaka.cocktailrecipes.model.database.entities.*
 @Database(
     entities = [DatabaseDrink::class, DatabaseIngredient::class,
         DatabaseUserDrink::class, Favourite::class, Commentary::class, Recent::class],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 @TypeConverters(StringToListConverter::class)

@@ -51,11 +51,14 @@ interface DrinksDao {
     fun removeFromFavourites(drinkId: Int)
 
     //Comments Section
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addToCommentaries(commentary: Commentary)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addCommentary(commentary: Commentary)
 
     @Query("SELECT * FROM commentaries_table")
-    fun getCommentary(): Flow<List<Commentary>>
+    fun getCommentaries(): Flow<List<Commentary>>
+
+    @Query ("SELECT * FROM commentaries_table WHERE drinkId=:drinkId")
+    fun getCommentary(drinkId: Int): Flow<Commentary>
 
     @Query("DELETE FROM commentaries_table WHERE drinkId=:drinkId")
     fun removeCommentary(drinkId: Int)

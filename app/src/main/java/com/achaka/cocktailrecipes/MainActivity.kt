@@ -42,7 +42,17 @@ class MainActivity : AppCompatActivity() {
         )
         toggle.syncState()
 
+        //inflate StartFragment
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.main_fragment_container,
+                SearchFragment.newInstance(),
+                "SEARCH_FRAGMENT"
+            ).addToBackStack("search_fragment")
+            .commit()
+
         //BottomNavigationView
+        binding.bottomNavigationView.selectedItemId = R.id.search_item
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.search_item -> {

@@ -1,9 +1,9 @@
 package com.achaka.cocktailrecipes.details
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputType
 import android.view.*
-import android.widget.Toast
-import androidx.core.app.ActivityCompat.invalidateOptionsMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,6 +13,7 @@ import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentDrinkDetailsBinding
 import com.achaka.cocktailrecipes.ingredientdetails.IngredientDetailsFragment
+import com.achaka.cocktailrecipes.model.database.entities.Commentary
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
@@ -41,6 +42,21 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
         }
         viewModel.ifInFavourites(drinkItem)
         viewModel.addToRecent((drinkItem as Drink).id)
+        viewModel.getCommentary(drinkItem)
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.commentary.onEach{
+                if (it != null) {
+                    binding.commentaryHeader.visibility = View.VISIBLE
+                    binding.commentary.visibility = View.VISIBLE
+                    binding.commentary.setText(it.commentary)
+                } else {
+                    binding.commentaryHeader.visibility = View.GONE
+                    binding.commentary.visibility = View.GONE
+                    binding.confirmCommentaryButton. visibility = View.GONE
+                }
+            }.collect()
+        }
         setHasOptionsMenu(true)
     }
 
@@ -48,7 +64,6 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding =
             FragmentDrinkDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -58,8 +73,30 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = binding.ingredientsRecycler
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        displayDrink(drinkItem)
         recyclerView.adapter = adapter
+
+        displayDrink(drinkItem)
+
+        binding.addCommentaryButton.setOnClickListener {
+            binding.commentaryHeader.visibility = View.VISIBLE
+            binding.commentary.visibility = View.VISIBLE
+            binding.commentary.isEnabled = true
+            binding.confirmCommentaryButton.visibility = View.VISIBLE
+        }
+
+        binding.confirmCommentaryButton.setOnClickListener {
+            val commentaryText = binding.commentary.text.toString()
+            if (commentaryText.isNotEmpty()) {
+                viewModel.addCommentary(Commentary((drinkItem as Drink).id, commentaryText, false))
+//            if success(make fun return smth)
+                binding.commentary.isEnabled = false
+                binding.confirmCommentaryButton.visibility = View.GONE
+            } else {
+                binding.commentaryHeader.visibility = View.GONE
+                binding.commentary.visibility = View.GONE
+                binding.confirmCommentaryButton. visibility = View.GONE
+            }
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -143,6 +180,7 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
             )
             .addToBackStack("drink_details_to_Ingredient_details").commit()
     }
+
 }
 
 interface OnIngredientClick {

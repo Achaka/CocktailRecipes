@@ -1,5 +1,6 @@
 package com.achaka.cocktailrecipes.details
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.achaka.cocktailrecipes.model.database.entities.Commentary
@@ -12,10 +13,8 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -28,6 +27,9 @@ class DrinkDetailsViewModel(private val repository: DrinkRepository) : ViewModel
 
     private val _isFavourite = MutableStateFlow<Boolean>(false)
     val isFavourite = _isFavourite.asStateFlow()
+
+    private val _commentary = MutableStateFlow<Commentary?>(null)
+    val commentary = _commentary.asStateFlow()
 
     //add to favourites
     fun addToFavourites(drinkItem: DrinkItem?) {
@@ -75,9 +77,34 @@ class DrinkDetailsViewModel(private val repository: DrinkRepository) : ViewModel
     }
 
 
-    fun addCommentary(commentary: Commentary) {
-
+    fun getCommentary(drinkItem: DrinkItem?) {
+        drinkItem as Drink?
+        scope.launch {
+            withContext(ioDispatcher) {
+                repository.getCommentaries().collect { list ->
+                    if (!list.isNullOrEmpty()) {
+                        if (list.any { it.drinkId == drinkItem?.id }) {
+                            drinkItem?.id?.let {
+                                repository.getCommentaryById(drinkId = it).collect { commentary ->
+                                    _commentary.value = commentary
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+
+    fun addCommentary(commentary: Commentary) {
+        scope.launch {
+            withContext(ioDispatcher) {
+                if (commentary.commentary.isNotEmpty())
+                    repository.addCommentary(commentary)
+            }
+        }
+    }
+
 
     //count total abv
     fun countTotalAbv(list: List<IngredientMeasureItem>) {

@@ -1,7 +1,6 @@
 package com.achaka.cocktailrecipes.search
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentSearchBinding
 import com.achaka.cocktailrecipes.details.DrinkDetailsFragment
-import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -92,14 +90,8 @@ class SearchFragment : Fragment(), OnItemClick {
         setupRecentRecyclerView()
     }
 
-    override fun onResume() {
-        super.onResume()
-        Toast.makeText(requireContext(), "resumed", Toast.LENGTH_SHORT).show()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-
     }
 
     companion object {

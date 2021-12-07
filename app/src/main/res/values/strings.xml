@@ -25,5 +25,7 @@
     <string name="description_header">Description</string>
     <string name="alcoholic">" "%s</string>
     <string name="abv">" "%s%%</string>
+    <string name="add_commentary">add commentary</string>
+    <string name="insert_commentary">Add commentary</string>
 
 </resources>

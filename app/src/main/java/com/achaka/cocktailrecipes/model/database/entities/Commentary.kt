@@ -4,9 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "commentaries_table")
-data class Commentary(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+data class Commentary (
+    @PrimaryKey
     val drinkId: Int,
     val commentary: String,
     val isUserDrink: Boolean
