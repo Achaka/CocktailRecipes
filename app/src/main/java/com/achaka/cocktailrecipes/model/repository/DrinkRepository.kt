@@ -4,6 +4,7 @@ import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
 import com.achaka.cocktailrecipes.model.database.entities.DatabaseDrink
 import com.achaka.cocktailrecipes.model.database.entities.Favourite
 import com.achaka.cocktailrecipes.model.database.entities.Recent
+import com.achaka.cocktailrecipes.model.database.entities.asDomainModel
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
@@ -29,12 +30,16 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
         return NetworkApi.retrofitService.getPopularCocktails()
     }
 
-    fun getDrinkById(drinkId: Int): Flow<DatabaseDrink> {
+    fun getDrinkById(drinkId: Int): Flow<DatabaseDrink?> {
         return database.drinksDao().getDrinkById(drinkId)
     }
 
     fun getDrinksById(drinkId: List<Int>): Flow<List<DatabaseDrink>?> {
         return database.drinksDao().getDrinksById(drinkId)
+    }
+
+    fun getDrinkByIdRx(drinkId: Int): Single<Drink> {
+        return database.drinksDao().getDrinkByIdRx(drinkId).map { it.asDomainModel() }
     }
 
     //Favourites Section

@@ -1,10 +1,12 @@
 package com.achaka.cocktailrecipes.search
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,7 +40,9 @@ class SearchFragment : Fragment(), OnItemClick {
         recentAdapter = SearchHorizontalAdapter(glide, this)
         loadRandomDrinks()
         loadPopularDrinks()
+        loadRecentDrinks()
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,12 +51,6 @@ class SearchFragment : Fragment(), OnItemClick {
         // Inflate the layout for this fragment
         activity?.title = getString(R.string.search_title)
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-
-        binding.searchView.isIconified = false
-
-        setupRandomRecyclerView()
-        setupPopularRecyclerView()
-        setupRecentRecyclerView()
 
         return binding.root
     }
@@ -85,35 +83,22 @@ class SearchFragment : Fragment(), OnItemClick {
             )
     }
 
-    private fun loadRandomDrinks() {
-        viewModel.randomDrinks.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-            {
-                randomStripAdapter.submitList(it)
-            },
-            {
-                //TODO later
-            }
-        )
-    }
-
-    private fun loadPopularDrinks() {
-        viewModel.popularDrinks.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    popularStripAdapter.submitList(it)
-                },
-                {
-                    //TODO later
-                }
-            )
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.searchView.isIconified = false
+        setupRandomRecyclerView()
+        setupPopularRecyclerView()
+        setupRecentRecyclerView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(requireContext(), "resumed", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
 
     }
 
@@ -129,9 +114,44 @@ class SearchFragment : Fragment(), OnItemClick {
             .addToBackStack("search_to_details").commit()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun loadRandomDrinks() {
+        viewModel.randomDrinksSubject.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    randomStripAdapter.submitList(it)
+                },
+                {
+                    //TODO later
+                }
+            )
+    }
 
+    private fun loadPopularDrinks() {
+        viewModel.popularDrinksSubject.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    popularStripAdapter.submitList(it)
+                },
+                {
+                    //TODO later
+                }
+            )
+
+    }
+
+    private fun loadRecentDrinks() {
+        viewModel.recentDrinksSubject.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    recentAdapter.submitList(it)
+                },
+                {
+
+                }
+            )
     }
 }
 

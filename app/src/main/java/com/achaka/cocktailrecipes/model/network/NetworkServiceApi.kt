@@ -117,6 +117,12 @@ interface NetworkServiceApi {
 * Here network data retrieved via RxJava3
 * */
 
+    @Headers(HOST, API_KEY)
+    @GET(lookupRequest)
+    fun getCocktailDetailsByIdRx(
+        @Query(value = "i") id: Int
+    ): Single<FullDrinkResponse>
+
     //custom requests
     @Headers(HOST, API_KEY)
     @GET("random.php")

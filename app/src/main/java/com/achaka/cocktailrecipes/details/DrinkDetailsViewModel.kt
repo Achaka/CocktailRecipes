@@ -18,12 +18,8 @@ class DrinkDetailsViewModel(private val repository: DrinkRepository) : ViewModel
 
     private val capacity = 3
 
-    private val compositeDisposable = CompositeDisposable()
-
     private val scope = viewModelScope
     private val ioDispatcher = Dispatchers.IO
-
-    private val recentSubject: BehaviorSubject<DrinkItem> = BehaviorSubject.create()
 
     //add to favourites
     fun addToFavourites(drinkItem: DrinkItem?) {
@@ -41,20 +37,21 @@ class DrinkDetailsViewModel(private val repository: DrinkRepository) : ViewModel
         repository.getRecentDrinks()
             .subscribeOn(Schedulers.io())
             .subscribe({ recentItems ->
-                if (recentItems.size >= capacity) {
-                    val sortedList =
-                        recentItems.sortedByDescending { recent ->
-                            recent.timestamp
-                        }
-                    val lastItemTimestamp = sortedList[capacity - 1].timestamp
-                    repository.removeRecentItem(lastItemTimestamp).subscribe()
-
+                if (!recentItems.any { it.drinkId == recent.drinkId }) {
+                    if ((recentItems.size >= capacity)) {
+                        val sortedList =
+                            recentItems.sortedByDescending { recent ->
+                                recent.timestamp
+                            }
+                        val lastItemTimestamp = sortedList[capacity - 1].timestamp
+                        repository.removeRecentItem(lastItemTimestamp).subscribe()
+                    }
+                    repository.insertRecentItem(recent).subscribe()
                 }
-                repository.insertRecentItem(recent).subscribe()
             },
                 {
                     //TODO later
-                }).dispose()
+                })
     }
 
 
