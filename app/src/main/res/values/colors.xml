@@ -15,4 +15,6 @@
     <color name="secondary">#8DD18D</color>
     <color name="secondary_light">#BFFFBE</color>
     <color name="secondary_dark">#5D9F5F</color>
+
+    <color name="crimson">#990000</color>
 </resources>

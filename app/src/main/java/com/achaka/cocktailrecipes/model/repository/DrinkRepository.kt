@@ -42,17 +42,21 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
         return database.drinksDao().getDrinkByIdRx(drinkId).map { it.asDomainModel() }
     }
 
+    fun deleteDrinkById(drinkId: Int) {
+        database.drinksDao().deleteDrinkById(drinkId)
+    }
+
     //Favourites Section
 
     suspend fun addToFavourites(drinkItem: DrinkItem) {
         //add to favourites and to the database
         if (drinkItem is Drink) {
-            val favourite = Favourite(0, drinkId = drinkItem.id, isUserDrink = false)
+            val favourite = Favourite(drinkId = drinkItem.id, isUserDrink = false)
             database.drinksDao().addToFavourites(favourite)
             fetchAndInsert(drinkItem.id)
         }
         if (drinkItem is UserDrink) {
-            val favourite = Favourite(0, drinkId = drinkItem.id, isUserDrink = true)
+            val favourite = Favourite(drinkId = drinkItem.id, isUserDrink = true)
             database.drinksDao().addToFavourites(favourite)
         }
     }
@@ -64,6 +68,10 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
 
     fun getAllFavourites(): Flow<List<Favourite>> {
         return database.drinksDao().getAllFavourites()
+    }
+
+    suspend fun removeFromFavourites(drinkId: Int) {
+        database.drinksDao().removeFromFavourites(drinkId)
     }
 
     //Recent section

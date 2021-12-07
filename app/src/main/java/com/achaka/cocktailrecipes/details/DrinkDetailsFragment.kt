@@ -3,8 +3,11 @@ package com.achaka.cocktailrecipes.details
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.invalidateOptionsMenu
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.R
@@ -14,6 +17,8 @@ import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 
 private const val DRINK_ARG = "drink"
 
@@ -34,6 +39,7 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
         arguments?.let {
             drinkItem = it.getParcelable(DRINK_ARG)
         }
+        viewModel.ifInFavourites(drinkItem)
         viewModel.addToRecent((drinkItem as Drink).id)
         setHasOptionsMenu(true)
     }
@@ -42,6 +48,7 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding =
             FragmentDrinkDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -55,6 +62,30 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
         recyclerView.adapter = adapter
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        viewModel.isFavourite.value
+        lifecycleScope.launchWhenStarted {
+            viewModel.isFavourite.onEach { isFavourite ->
+                if (isFavourite) {
+                    menu.findItem(R.id.add_to_favourites).icon.setTint(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.crimson
+                        )
+                    )
+                } else {
+                    menu.getItem(0).icon.setTint(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.white
+                        )
+                    )
+                }
+            }.collect()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.drink_details_options_menu, menu)
@@ -62,8 +93,14 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.add_to_favourites) {
-            if (drinkItem != null)
-                viewModel.addToFavourites(drinkItem)
+            if (drinkItem != null) {
+                if (!viewModel.isFavourite.value) {
+                    viewModel.addToFavourites(drinkItem)
+                } else {
+                    viewModel.removeFromFavourites(drinkItem)
+                }
+            }
+
         }
         return true
     }
@@ -100,7 +137,10 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
 
     override fun onIngredientClick(ingredientName: String) {
         parentFragmentManager.beginTransaction()
-            .replace(R.id.main_fragment_container, IngredientDetailsFragment.newInstance(ingredientName))
+            .replace(
+                R.id.main_fragment_container,
+                IngredientDetailsFragment.newInstance(ingredientName)
+            )
             .addToBackStack("drink_details_to_Ingredient_details").commit()
     }
 }

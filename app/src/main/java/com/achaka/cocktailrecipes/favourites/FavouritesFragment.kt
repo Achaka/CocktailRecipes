@@ -1,7 +1,6 @@
 package com.achaka.cocktailrecipes.favourites
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.MainRecyclerViewAdapter
 import com.achaka.cocktailrecipes.R
@@ -50,7 +48,7 @@ class FavouritesFragment : Fragment(), OnItemClick {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
 
@@ -59,10 +57,10 @@ class FavouritesFragment : Fragment(), OnItemClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
-        val layoutManager = GridLayoutManager(requireContext(), 2, LinearLayoutManager.VERTICAL, false)
+        val layoutManager =
+            GridLayoutManager(requireContext(), 2, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
     }
 

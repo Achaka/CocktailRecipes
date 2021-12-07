@@ -13,7 +13,7 @@ import com.achaka.cocktailrecipes.model.database.entities.*
 @Database(
     entities = [DatabaseDrink::class, DatabaseIngredient::class,
         DatabaseUserDrink::class, Favourite::class, Commentary::class, Recent::class],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(StringToListConverter::class)
@@ -34,8 +34,7 @@ abstract class CocktailsAppDatabase : RoomDatabase() {
                     CocktailsAppDatabase::class.java,
                     "cocktail_recipes_database"
                 ).fallbackToDestructiveMigration()
-
-                    .build()
+                 .build()
                 INSTANCE = instance
                 instance
             }

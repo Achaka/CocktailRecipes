@@ -37,8 +37,11 @@ interface DrinksDao {
     @Query("SELECT * FROM databasedrink WHERE name=:drinkName")
     fun getDrinksListByDrinkName(drinkName: String): Flow<List<DatabaseDrink>>
 
+    @Query("DELETE FROM databasedrink WHERE id=:drinkId")
+    fun deleteDrinkById(drinkId: Int)
+
     //Favourites Section
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addToFavourites(favourite: Favourite)
 
     @Query("SELECT * FROM favourites_table")
