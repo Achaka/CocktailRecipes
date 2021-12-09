@@ -4,9 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.DetailsRecyclerViewItemBinding
 import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
 import com.achaka.cocktailrecipes.model.domain.Units
+import java.lang.ClassCastException
 
 class IngredientMeasuresRecyclerViewAdapter(private val onIngredientClick: OnIngredientClick) :
     ListAdapter<IngredientMeasureItem, IngredientMeasuresRecyclerViewAdapter.IngredientMeasureItemViewHolder>(
@@ -21,8 +23,22 @@ class IngredientMeasuresRecyclerViewAdapter(private val onIngredientClick: OnIng
             binding.ingredientName.text = item.ingredientName
             if (item.measure != null) {
                 binding.measure.text = item.measure.toString()
-            } else binding.measure.text = item.measureString
-            binding.units.text = if (item.unit.first != Units.NONE) item.unit.first.abbrev else item.unit.second
+            } else if (item.range != null) {
+                try {
+                    binding.measure.text = itemView.context.getString(
+                        R.string.item_range,
+                        (item.range as Pair<Double, Double>).first,
+                        (item.range as Pair<Double, Double>).second
+                    )
+                } catch (cce: ClassCastException) {
+                    binding.measure.text = ""
+                }
+            } else {
+                binding.measure.text = item.measureString
+            }
+            if (item.range != null || item.measure != null)
+                binding.units.text =
+                    if (item.unit.first != Units.NONE) item.unit.first.abbrev else item.unit.second
         }
     }
 

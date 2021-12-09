@@ -162,8 +162,8 @@ fun getIngredientMeasureItems(
     while (measuresList.size < ingredientsList.size) {
         measuresList.add("")
     }
-    Log.d("LIST INGREDIENT BEFORE", ingredientsList.toString())
-    Log.d("LIST MEASURES BEFORE", measuresList.toString())
+//    Log.d("LIST INGREDIENTS BEFORE", ingredientsList.toString())
+//    Log.d("LIST MEASURES BEFORE", measuresList.toString())
     val items = ArrayList<IngredientMeasureItem>()
     ingredientsList.forEachIndexed { index, ingredientName ->
         val item = IngredientMeasureItem(
@@ -173,10 +173,12 @@ fun getIngredientMeasureItems(
             parseMeasureRange(measuresList[index]),
             parseUnit(measuresList[index])
         )
-        if (item.measure == null) item.measureString = measuresList[index]
+        if (item.measure == null && item.range == null) {
+            item.measureString = measuresList[index]
+        }
         items.add(item)
     }
-    Log.d("LIST MEASURES AFTER", items.toString())
+//    Log.d("LIST MEASURES AFTER", items.toString())
     return items
 }
 
@@ -184,15 +186,16 @@ fun parseUnit(measureString: String): Pair<Units, String> {
     val regex = Regex("\\d")
     val unitString: StringBuilder = StringBuilder().append("")
     val list = measureString.split(" ")
+    var unit = Units.NONE
     list.forEach {
-        if (!it.contains(regex))
-            return Pair(determineUnit(it.trim().lowercase()), "")
-        else {
-            //concat the rest of fields to string
-            unitString.append("$it ")
+        if (!it.contains(regex) && it.isNotEmpty()) {
+            unit = determineUnit(it)
+            if (unit == Units.NONE) {
+                unitString.append("$it ")
+            }
         }
     }
-    return Pair(Units.NONE, unitString.toString())
+    return Pair(unit, unitString.trim().toString())
 }
 
 fun parseMeasureNumber(measure: String): Double? {

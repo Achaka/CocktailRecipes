@@ -27,5 +27,6 @@
     <string name="abv">" "%s%%</string>
     <string name="add_commentary">add commentary</string>
     <string name="insert_commentary">Add commentary</string>
+    <string name="item_range">%.0f-%.0f</string>
 
 </resources>

@@ -31,7 +31,6 @@ class IngredientDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             ingredientName = it.getString(INGREDIENT_NAME_ARG)
-            ingredientName?.let { it1 -> Log.d("aasdas", it1) }
         }
         ingredientName?.let { viewModel.getIngredientByName(it) }
     }
@@ -50,7 +49,6 @@ class IngredientDetailsFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.ingredient.onEach {
                 if (it != null) {
-                    Log.d("aaa", it.description)
                     binding.nameHeader.text = it.name
                     binding.alcoholic.text = getString(R.string.alcoholic, it.alcoholic.type)
                     binding.abv.text = getString(R.string.abv, it.ABV)
