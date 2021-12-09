@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.achaka.cocktailrecipes.model.repository.IngredientsRepository
 import java.lang.IllegalArgumentException
 
+@Suppress("UNCHECKED_CAST")
 class IngredientDetailsViewModelFactory(private val ingredientsRepository: IngredientsRepository) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

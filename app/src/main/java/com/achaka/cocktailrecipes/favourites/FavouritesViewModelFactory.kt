@@ -6,6 +6,7 @@ import com.achaka.cocktailrecipes.model.repository.DrinkRepository
 import com.achaka.cocktailrecipes.model.repository.UserDrinkRepository
 import java.lang.IllegalArgumentException
 
+@Suppress("UNCHECKED_CAST")
 class FavouritesViewModelFactory(
     private val drinkRepository: DrinkRepository,
     private val userDrinkRepository: UserDrinkRepository

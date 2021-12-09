@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository
 import java.lang.IllegalArgumentException
 
+@Suppress("UNCHECKED_CAST")
 class SearchViewModelFactory(private val repository: DrinkRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
