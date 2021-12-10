@@ -15,6 +15,6 @@ class DetailsDiffUtil: DiffUtil.ItemCallback<IngredientMeasureItem>() {
         oldItem: IngredientMeasureItem,
         newItem: IngredientMeasureItem
     ): Boolean {
-        return oldItem.ingredientName == newItem.ingredientName
+        return (oldItem.ingredientName == newItem.ingredientName) && (oldItem.measure == oldItem.measure)
     }
 }
