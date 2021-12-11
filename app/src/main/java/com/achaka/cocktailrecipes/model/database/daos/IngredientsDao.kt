@@ -18,5 +18,5 @@ interface IngredientsDao {
     fun getIngredientById(ingredientId: Int): Flow<DatabaseIngredient>
 
     @Query("SELECT * FROM databaseingredient WHERE name=:ingredientName")
-    fun getIngredientByName(ingredientName: String): Flow<DatabaseIngredient>
+    fun getIngredientByName(ingredientName: String): Flow<DatabaseIngredient>?
 }
