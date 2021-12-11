@@ -1,5 +1,6 @@
 package com.achaka.cocktailrecipes.ingredientdetails
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.achaka.cocktailrecipes.model.database.entities.asDomainModel
@@ -26,17 +27,26 @@ class IngredientDetailsViewModel(private val ingredientsRepository: IngredientsR
     fun getIngredientByName(ingredientName: String) {
         viewModelScope.launch {
             withContext(ioDispatcher) {
-                ingredientsRepository.getIngredientByName(ingredientName).collect {
-                    if (it == null) {
-                        withContext(ioDispatcher) {
-                            val ingredient =
-                                NetworkApi.retrofitService.getIngredientByName(ingredientName).response[0].asDatabaseModel()
-                            ingredientsRepository.insertIngredient(ingredient)
-                            _ingredient.value = ingredient.asDomainModel()
-                        }
-                    } else _ingredient.value = it
-                }
+                val result = ingredientsRepository.getIngredientByName(ingredientName)
+                Log.d("RESULT", result.toString())
             }
         }
     }
+
+//    fun getIngredientByName(ingredientName: String) {
+//        viewModelScope.launch {
+//            withContext(ioDispatcher) {
+//                ingredientsRepository.getIngredientByName(ingredientName).collect {
+//                    if (it == null) {
+//                        withContext(ioDispatcher) {
+//                            val ingredient =
+//                                NetworkApi.retrofitService.getIngredientByName(ingredientName).response[0].asDatabaseModel()
+//                            ingredientsRepository.insertIngredient(ingredient)
+//                            _ingredient.value = ingredient.asDomainModel()
+//                        }
+//                    } else _ingredient.value = it
+//                }
+//            }
+//        }
+//    }
 }
