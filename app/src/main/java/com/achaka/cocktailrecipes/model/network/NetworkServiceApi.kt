@@ -1,10 +1,11 @@
 package com.achaka.cocktailrecipes.model.network
 
 import com.achaka.cocktailrecipes.model.network.dtos.*
+import com.achaka.cocktailrecipes.model.network.networkresponseadapter.NetworkResponse
+import com.achaka.cocktailrecipes.model.network.networkresponseadapter.NetworkResponseAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.reactivex.rxjava3.core.Single
-import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -39,6 +40,7 @@ val client = OkHttpClient().newBuilder()
 
 val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
+    .addCallAdapterFactory(NetworkResponseAdapterFactory())
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
     .client(client)
@@ -58,7 +60,7 @@ interface NetworkServiceApi {
     @GET(searchRequest)
     suspend fun getIngredientByName(
         @Query(value = "i") name: String
-    ): IngredientResponse
+    ): NetworkResponse<IngredientResponse, String>
 
     //response here - picture, name, id
     @Headers(HOST, API_KEY)
@@ -111,7 +113,7 @@ interface NetworkServiceApi {
     @GET(filterRequest)
     suspend fun filterByGlass(
         @Query(value = "g") glassType: String
-    ): Result<SimpleDrinkResponse>
+    ): SimpleDrinkResponse
 
 /*
 * Here network data retrieved via RxJava3
