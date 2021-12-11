@@ -29,5 +29,6 @@
     <string name="insert_commentary">Add commentary</string>
     <string name="item_range">%.0f-%.0f</string>
     <string name="default_counter_value">1</string>
+    <string name="favourites_fragment_title">Favourites</string>
 
 </resources>

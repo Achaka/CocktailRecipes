@@ -67,6 +67,9 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        activity?.title = (drinkItem as Drink).name
+
         _binding =
             FragmentDrinkDetailsBinding.inflate(inflater, container, false)
         return binding.root

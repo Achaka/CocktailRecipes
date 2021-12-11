@@ -34,6 +34,9 @@ class FavouritesFragment : Fragment(), OnItemClick {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        activity?.title = getString(R.string.favourites_fragment_title)
+
         val glide = Glide.with(this)
         adapter = MainRecyclerViewAdapter(glide, this)
 
