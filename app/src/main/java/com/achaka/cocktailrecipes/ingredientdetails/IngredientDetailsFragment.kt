@@ -6,11 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.R
+import com.achaka.cocktailrecipes.State
 import com.achaka.cocktailrecipes.databinding.FragmentIngredientDetailsBinding
+import com.achaka.cocktailrecipes.model.domain.Ingredient
+import com.achaka.cocktailrecipes.model.network.dtos.IngredientResponse
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
@@ -46,16 +50,39 @@ class IngredientDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         lifecycleScope.launchWhenStarted {
-            viewModel.ingredient.onEach {
-                if (it != null) {
-                    binding.nameHeader.text = it.name
-                    binding.alcoholic.text = getString(R.string.alcoholic, it.alcoholic.type)
-                    binding.abv.text = getString(R.string.abv, it.ABV)
-                    binding.description.text = it.description
+            viewModel.state.onEach { state ->
+                Log.d("Fragment state", state.toString())
+                when (state) {
+                    is State.Success<*> -> {
+                        hideProgress()
+                        Log.d("Fragment success state", "fragment success")
+                        val ingredient = state.data as Ingredient
+                        binding.nameHeader.text = ingredient.name
+                        binding.alcoholic.text = getString(R.string.alcoholic, ingredient.alcoholic.type)
+                        binding.abv.text = getString(R.string.abv, ingredient.ABV)
+                        binding.description.text = ingredient.description
+                    }
+                    is State.Error -> {
+                        hideProgress()
+                        Toast.makeText(requireContext(), state.exceptionMessage, Toast.LENGTH_SHORT).show()
+                        Log.d("Fragment error state", "fragment error")
+                    }
+                    is State.Loading -> {
+                        showProgress()
+                    }
                 }
             }.collect()
         }
+    }
+
+    private fun showProgress() {
+        binding.progressIndicator.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        binding.progressIndicator.visibility = View.GONE
     }
 
     companion object {
