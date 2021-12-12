@@ -3,6 +3,7 @@ package com.achaka.cocktailrecipes.ingredientdetails
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.achaka.cocktailrecipes.State
 import com.achaka.cocktailrecipes.model.database.entities.asDomainModel
 import com.achaka.cocktailrecipes.model.domain.Alcoholic
 import com.achaka.cocktailrecipes.model.domain.Ingredient
@@ -22,13 +23,37 @@ class IngredientDetailsViewModel(private val ingredientsRepository: IngredientsR
         MutableStateFlow<Ingredient?>(Ingredient(0, "", "", "", Alcoholic.NON_ALCOHOLIC, ""))
     val ingredient = _ingredient.asStateFlow()
 
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage = _errorMessage.asStateFlow()
+
+    private val _state = MutableStateFlow<State<Ingredient>>(State.Loading)
+    val state = _state.asStateFlow()
+
     private val ioDispatcher = Dispatchers.IO
 
     fun getIngredientByName(ingredientName: String) {
         viewModelScope.launch {
             withContext(ioDispatcher) {
-                val result = ingredientsRepository.getIngredientByName(ingredientName)
-                Log.d("RESULT", result.toString())
+                ingredientsRepository.getIngredientByName(ingredientName).collect {
+                    when(it) {
+                        is State.Success -> {
+//                            _ingredient.value = it.data
+                            _state.value = it
+                            Log.d("ingredient", "success")
+                        }
+                        is State.Error -> {
+                            _state.value = it
+                            Log.d("EXCEPTION viewmodel", it.exceptionMessage)
+                        }
+                        is State.Loading ->  {
+
+                        }
+                    }
+                }
+
+//                val result = ingredientsRepository.getIngredientByName(ingredientName)
+//                Log.d("RESULT", result.toString())
             }
         }
     }
