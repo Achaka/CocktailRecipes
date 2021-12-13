@@ -19,11 +19,6 @@ import kotlinx.coroutines.withContext
 class IngredientDetailsViewModel(private val ingredientsRepository: IngredientsRepository) :
     ViewModel() {
 
-    private val _ingredient =
-        MutableStateFlow<Ingredient?>(Ingredient(0, "", "", "", Alcoholic.NON_ALCOHOLIC, ""))
-    val ingredient = _ingredient.asStateFlow()
-
-
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage = _errorMessage.asStateFlow()
 
@@ -36,9 +31,8 @@ class IngredientDetailsViewModel(private val ingredientsRepository: IngredientsR
         viewModelScope.launch {
             withContext(ioDispatcher) {
                 ingredientsRepository.getIngredientByName(ingredientName).collect {
-                    when(it) {
+                    when (it) {
                         is State.Success -> {
-//                            _ingredient.value = it.data
                             _state.value = it
                             Log.d("ingredient", "success")
                         }
@@ -46,32 +40,12 @@ class IngredientDetailsViewModel(private val ingredientsRepository: IngredientsR
                             _state.value = it
                             Log.d("EXCEPTION viewmodel", it.exceptionMessage)
                         }
-                        is State.Loading ->  {
-
+                        is State.Loading -> {
+                            //do nothing
                         }
                     }
                 }
-
-//                val result = ingredientsRepository.getIngredientByName(ingredientName)
-//                Log.d("RESULT", result.toString())
             }
         }
     }
-
-//    fun getIngredientByName(ingredientName: String) {
-//        viewModelScope.launch {
-//            withContext(ioDispatcher) {
-//                ingredientsRepository.getIngredientByName(ingredientName).collect {
-//                    if (it == null) {
-//                        withContext(ioDispatcher) {
-//                            val ingredient =
-//                                NetworkApi.retrofitService.getIngredientByName(ingredientName).response[0].asDatabaseModel()
-//                            ingredientsRepository.insertIngredient(ingredient)
-//                            _ingredient.value = ingredient.asDomainModel()
-//                        }
-//                    } else _ingredient.value = it
-//                }
-//            }
-//        }
-//    }
 }

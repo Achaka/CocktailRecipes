@@ -20,7 +20,7 @@ interface DrinksDao {
     fun insertDrink(drink: DatabaseDrink)
 
     @Query("SELECT * FROM databasedrink WHERE id=:drinkId")
-    fun getDrinkById(drinkId: Int): Flow<DatabaseDrink>
+    fun getDrinkById(drinkId: Int): DatabaseDrink
 
     @Query("SELECT * FROM databasedrink WHERE id=:drinkId")
     fun getDrinkByIdRx(drinkId: Int): Single<DatabaseDrink>
@@ -45,7 +45,10 @@ interface DrinksDao {
     fun addToFavourites(favourite: Favourite)
 
     @Query("SELECT * FROM favourites_table")
-    fun getAllFavourites(): Flow<List<Favourite>>
+    fun getFavouriteIds(): List<Favourite>
+
+    @Query("SELECT * FROM favourites_table")
+    fun getFavouriteIdsFlow(): Flow<List<Favourite>>
 
     @Query("DELETE FROM favourites_table WHERE drinkId=:drinkId")
     fun removeFromFavourites(drinkId: Int)

@@ -3,8 +3,10 @@ package com.achaka.cocktailrecipes.favourites
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.achaka.cocktailrecipes.State
 import com.achaka.cocktailrecipes.model.database.entities.Favourite
 import com.achaka.cocktailrecipes.model.database.entities.asDomainModel
+import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.network.NetworkApi
 import com.achaka.cocktailrecipes.model.network.dtos.asDatabaseModel
@@ -23,30 +25,31 @@ class FavouritesViewModel(
     private var _favouriteDrinks = MutableStateFlow<List<DrinkItem>>(emptyList())
     val favouriteDrinks: StateFlow<List<DrinkItem>> = _favouriteDrinks.asStateFlow()
 
-//    private var _favouriteUserDrinks = MutableStateFlow<List<DrinkItem>>(emptyList())
-//    val favouriteUserDrinks: StateFlow<List<DrinkItem>> = _favouriteUserDrinks.asStateFlow()
+    private val _state = MutableStateFlow<State<Drink>?>(null)
+    val state = _state.asStateFlow()
 
     init {
         getFavourites()
-//        getUserFavourites()
     }
 
     fun getFavourites() {
         viewModelScope.launch {
-            drinkRepository.getAllFavourites().collect { favouriteList ->
-                drinkRepository.getDrinksById(
-                    favouriteList.filter { !it.isUserDrink }
-                        .map { favourite -> favourite.drinkId }
-                ).collect {
-                    if (it.isNullOrEmpty()) {
-                        favouriteList.forEach {
-                            withContext(ioDispatcher) {
-                                val networkResponse =
-                                    NetworkApi.retrofitService.getCocktailDetailsById(it.drinkId).response[0].asDatabaseModel()
-                                drinkRepository.insertDrink(networkResponse)
-                            }
+            withContext(ioDispatcher) {
+                val favDrinks = mutableListOf<Drink>()
+                drinkRepository.getFavourites().collect {
+                    when (it) {
+                        is State.Loading -> {
+                            _state.value = State.Loading
                         }
-                    } else _favouriteDrinks.value = it.map { drink -> drink.asDomainModel() }
+                        is State.Success -> {
+                            _state.value = State.Success(it.data)
+                            favDrinks.add(it.data)
+                            _favouriteDrinks.value = favDrinks
+                        }
+                        is State.Error -> {
+                            Log.d("vm error", "vm error")
+                        }
+                    }
                 }
             }
         }

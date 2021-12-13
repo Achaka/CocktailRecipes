@@ -45,15 +45,14 @@ class FavouritesFragment : Fragment(), OnItemClick {
                 adapter.submitList(it)
             }.collect()
         }
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
+        viewModel.getFavourites()
 
         return binding.root
     }
