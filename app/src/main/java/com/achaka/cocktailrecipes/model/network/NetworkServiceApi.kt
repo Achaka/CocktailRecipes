@@ -73,7 +73,7 @@ interface NetworkServiceApi {
     @GET(lookupRequest)
     suspend fun getCocktailDetailsById(
         @Query(value = "i") id: Int
-    ): FullDrinkResponse
+    ): NetworkResponse<FullDrinkResponse, String>
 
     @Headers(HOST, API_KEY)
     @GET(lookupRequest)

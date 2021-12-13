@@ -55,10 +55,10 @@ class IngredientDetailsFragment : Fragment() {
             viewModel.state.onEach { state ->
                 Log.d("Fragment state", state.toString())
                 when (state) {
-                    is State.Success<*> -> {
+                    is State.Success<Ingredient> -> {
                         hideProgress()
                         Log.d("Fragment success state", "fragment success")
-                        val ingredient = state.data as Ingredient
+                        val ingredient = state.data
                         binding.nameHeader.text = ingredient.name
                         binding.alcoholic.text = getString(R.string.alcoholic, ingredient.alcoholic.type)
                         binding.abv.text = getString(R.string.abv, ingredient.ABV)

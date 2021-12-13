@@ -1,19 +1,13 @@
 package com.achaka.cocktailrecipes.details
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.achaka.cocktailrecipes.model.database.entities.Commentary
-import com.achaka.cocktailrecipes.model.database.entities.Recent
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -41,12 +35,12 @@ class DrinkDetailsViewModel(private val repository: DrinkRepository) : ViewModel
             }
         }
     }
-
+//
     fun ifInFavourites(drinkItem: DrinkItem?) {
         scope.launch {
             val ids = mutableListOf<Int>()
             withContext(ioDispatcher) {
-                repository.getAllFavourites().collect { favouriteList ->
+                repository.getFavouriteIdsFlow().collect { favouriteList ->
                     ids.addAll(favouriteList.map { it.drinkId })
                     _isFavourite.value = ids.contains((drinkItem as Drink).id)
                 }
@@ -54,27 +48,6 @@ class DrinkDetailsViewModel(private val repository: DrinkRepository) : ViewModel
         }
     }
 
-    fun addToRecent(drinkId: Int) {
-        val recent = Recent(drinkId, System.currentTimeMillis())
-        repository.getRecentDrinks()
-            .subscribeOn(Schedulers.io())
-            .subscribe({ recentItems ->
-                if (!recentItems.any { it.drinkId == recent.drinkId }) {
-                    if ((recentItems.size >= capacity)) {
-                        val sortedList =
-                            recentItems.sortedByDescending { recent ->
-                                recent.timestamp
-                            }
-                        val lastItemTimestamp = sortedList[capacity - 1].timestamp
-                        repository.removeRecentItem(lastItemTimestamp).subscribe()
-                    }
-                    repository.insertRecentItem(recent).subscribe()
-                }
-            },
-                {
-                    //TODO later
-                })
-    }
 
 
     fun getCommentary(drinkItem: DrinkItem?) {

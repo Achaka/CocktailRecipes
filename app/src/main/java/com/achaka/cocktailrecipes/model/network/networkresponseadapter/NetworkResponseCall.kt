@@ -32,7 +32,7 @@ class NetworkResponseCall<S : Any, E : Any>(
                         // Response is successful but the body is null
                         callback.onResponse(
                             this@NetworkResponseCall,
-                            Response.success(NetworkResponse.UnknownError(null))
+                            Response.success(NetworkResponse.UnknownError("Unknown Error"))
                         )
                     }
                 } else {
@@ -53,7 +53,7 @@ class NetworkResponseCall<S : Any, E : Any>(
                     } else {
                         callback.onResponse(
                             this@NetworkResponseCall,
-                            Response.success(NetworkResponse.UnknownError(null))
+                            Response.success(NetworkResponse.UnknownError("Unknown Error"))
                         )
                     }
                 }
@@ -61,8 +61,8 @@ class NetworkResponseCall<S : Any, E : Any>(
 
             override fun onFailure(call: Call<S>, throwable: Throwable) {
                 val networkResponse = when (throwable) {
-                    is IOException -> NetworkResponse.NetworkError(throwable)
-                    else -> NetworkResponse.UnknownError(throwable)
+                    is IOException -> NetworkResponse.NetworkError("Network Exception")
+                    else -> NetworkResponse.UnknownError("Unknown Error")
                 }
                 callback.onResponse(this@NetworkResponseCall, Response.success(networkResponse))
             }

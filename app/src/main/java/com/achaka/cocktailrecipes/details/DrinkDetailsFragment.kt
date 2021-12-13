@@ -45,7 +45,6 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
             drinkItem = it.getParcelable(DRINK_ARG)
         }
         viewModel.ifInFavourites(drinkItem)
-        viewModel.addToRecent((drinkItem as Drink).id)
         viewModel.getCommentary(drinkItem)
 
         initialMeasuresList = (drinkItem as Drink).ingredientMeasureItems
@@ -115,7 +114,7 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
 
         binding.minusButton.setOnClickListener {
             if (currentValue >= 2)
-            currentValue--
+                currentValue--
             binding.measuresCounter.text = currentValue.toString()
             updateAdapter(currentValue)
         }
@@ -200,20 +199,19 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
 
         println(measuresList[0] === initialMeasuresList[0])
 
-        measuresList.map {
-            item ->
-                val measure = item.measure
-                if (measure != null) {
-                    item.measure = measure * multiplier
-                }
-                val range = item.range
-                if (range!=null) {
-                    item.range = Pair(range.first*multiplier, range.second*multiplier)
-                }
+        measuresList.map { item ->
+            val measure = item.measure
+            if (measure != null) {
+                item.measure = measure * multiplier
+            }
+            val range = item.range
+            if (range != null) {
+                item.range = Pair(range.first * multiplier, range.second * multiplier)
+            }
         }
         adapter.submitList(measuresList)
         println(measuresList[0] === initialMeasuresList[0])
-       }
+    }
 
     companion object {
         @JvmStatic
