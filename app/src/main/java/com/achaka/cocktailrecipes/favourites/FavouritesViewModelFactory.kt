@@ -9,11 +9,10 @@ import java.lang.IllegalArgumentException
 @Suppress("UNCHECKED_CAST")
 class FavouritesViewModelFactory(
     private val drinkRepository: DrinkRepository,
-    private val userDrinkRepository: UserDrinkRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(FavouritesViewModel::class.java)) {
-            return FavouritesViewModel(drinkRepository, userDrinkRepository) as T
+            return FavouritesViewModel(drinkRepository) as T
         }
         else {
             throw IllegalArgumentException()
