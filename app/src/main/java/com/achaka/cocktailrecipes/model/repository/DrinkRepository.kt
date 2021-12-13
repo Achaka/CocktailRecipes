@@ -16,19 +16,21 @@ import kotlinx.coroutines.flow.*
 
 class DrinkRepository(private val database: CocktailsAppDatabase) {
 
-    fun insertDrink(drink: DatabaseDrink) {
+    private fun insertDrink(drink: DatabaseDrink) {
         database.drinksDao().insertDrink(drink)
     }
 
-    fun getTenRandomCocktails(): Single<FullDrinkResponse> {
+    fun getTenRandomCocktails(): Single<List<Drink>> {
         return NetworkApi.retrofitService.getTenRandomCocktails()
+            .map { it.asDatabaseModel().asDomainModel() }
     }
 
-    fun getPopularCocktails(): Single<FullDrinkResponse> {
+    fun getPopularCocktails(): Single<List<Drink>> {
         return NetworkApi.retrofitService.getPopularCocktails()
+            .map { it.asDatabaseModel().asDomainModel() }
     }
 
-    fun getDrinkById(drinkId: Int): DatabaseDrink? {
+    private fun getDrinkById(drinkId: Int): DatabaseDrink? {
         return database.drinksDao().getDrinkById(drinkId)
     }
 
@@ -127,7 +129,7 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
         }
     }
 
-    fun getFavouriteIds(): List<Favourite> {
+    private fun getFavouriteIds(): List<Favourite> {
         return database.drinksDao().getFavouriteIds()
     }
 
@@ -135,7 +137,7 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
         return database.drinksDao().getFavouriteIdsFlow()
     }
 
-    suspend fun removeFromFavourites(drinkId: Int) {
+    fun removeFromFavourites(drinkId: Int) {
         database.drinksDao().removeFromFavourites(drinkId)
     }
 

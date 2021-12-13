@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.*
 
 class FavouritesViewModel(
     private val drinkRepository: DrinkRepository,
-    private val userDrinkRepository: UserDrinkRepository
 ) : ViewModel() {
 
     private val ioDispatcher = Dispatchers.IO
@@ -42,29 +41,16 @@ class FavouritesViewModel(
                             _state.value = State.Loading
                         }
                         is State.Success -> {
-                            _state.value = State.Success(it.data)
+                            _state.value = it
                             favDrinks.add(it.data)
                             _favouriteDrinks.value = favDrinks
                         }
                         is State.Error -> {
-                            Log.d("vm error", "vm error")
+                            _state.value = it
                         }
                     }
                 }
             }
         }
     }
-
-//    fun getUserFavourites() {
-//        viewModelScope.launch {
-//            drinkRepository.getAllFavourites().collect { favouriteList ->
-//                userDrinkRepository.getUserDrinksById(
-//                    favouriteList.filter { it.isUserDrink }
-//                        .map { favourite -> favourite.drinkId }).collect {
-//                    _favouriteUserDrinks.value = it.map { drink -> drink.asDomainModel() }
-//
-//                }
-//            }
-//        }
-//    }
 }

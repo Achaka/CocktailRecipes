@@ -29,7 +29,7 @@ class FavouritesFragment : Fragment(), OnItemClick {
 
     private val viewModel: FavouritesViewModel by viewModels {
         val cocktailsApp = activity?.application as CocktailsApp
-        FavouritesViewModelFactory(cocktailsApp.drinkRepository, cocktailsApp.userDrinkRepository)
+        FavouritesViewModelFactory(cocktailsApp.drinkRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
