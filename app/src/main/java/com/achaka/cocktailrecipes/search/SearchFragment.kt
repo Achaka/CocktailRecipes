@@ -1,18 +1,21 @@
 package com.achaka.cocktailrecipes.search
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.CocktailsApp
+import com.achaka.cocktailrecipes.MainRecyclerViewAdapter
 import com.achaka.cocktailrecipes.R
+import com.achaka.cocktailrecipes.State
 import com.achaka.cocktailrecipes.databinding.FragmentSearchBinding
+import com.achaka.cocktailrecipes.databinding.FragmentSearchChipsBinding
 import com.achaka.cocktailrecipes.details.DrinkDetailsFragment
+import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -25,17 +28,22 @@ class SearchFragment : Fragment(), OnItemClick {
     private lateinit var randomStripAdapter: SearchHorizontalAdapter
     private lateinit var popularStripAdapter: SearchHorizontalAdapter
     private lateinit var recentAdapter: SearchHorizontalAdapter
-    private lateinit var searchAdapter: SearchHorizontalAdapter
+    private lateinit var searchAdapter: MainRecyclerViewAdapter
     private val viewModel: SearchViewModel by viewModels {
-        SearchViewModelFactory((activity?.application as CocktailsApp).drinkRepository)
+        SearchViewModelFactory(
+            (activity?.application as CocktailsApp).drinkRepository,
+            (activity?.application as CocktailsApp).searchRepository
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         val glide = Glide.with(this)
         randomStripAdapter = SearchHorizontalAdapter(glide, this)
         popularStripAdapter = SearchHorizontalAdapter(glide, this)
         recentAdapter = SearchHorizontalAdapter(glide, this)
+        searchAdapter = MainRecyclerViewAdapter(glide, this)
         loadRandomDrinks()
         loadPopularDrinks()
         loadRecentDrinks()
@@ -51,6 +59,23 @@ class SearchFragment : Fragment(), OnItemClick {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         return binding.root
+    }
+
+
+    private fun setupSearchRecyclerView() {
+        if (searchAdapter.currentList.isEmpty()) {
+            binding.searchResultsHeader.visibility = View.GONE
+        }
+        val searchRecyclerView = binding.searchCocktailsRecyclerView
+        searchRecyclerView.layoutManager =
+            GridLayoutManager(
+                requireContext(),
+                2,
+                GridLayoutManager.VERTICAL,
+                false
+            )
+        searchRecyclerView.adapter = searchAdapter
+        searchRecyclerView.isNestedScrollingEnabled = false
     }
 
     private fun setupRandomRecyclerView() {
@@ -84,10 +109,10 @@ class SearchFragment : Fragment(), OnItemClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.searchView.isIconified = false
         setupRandomRecyclerView()
         setupPopularRecyclerView()
         setupRecentRecyclerView()
+        setupSearchRecyclerView()
     }
 
     override fun onDestroy() {
@@ -145,6 +170,56 @@ class SearchFragment : Fragment(), OnItemClick {
                 }
             )
     }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.search_menu, menu)
+
+        val searchView = menu.findItem(R.id.request_search).actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    viewModel.searchDrinkByName(query)
+                    val result = viewModel.state.value
+                    when (result) {
+                        is State.Loading -> {
+
+                        }
+                        is State.Error -> {
+                            Toast.makeText(
+                                requireContext(),
+                                result.exceptionMessage,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        is State.Success -> {
+                            binding.searchResultsHeader.visibility = View.VISIBLE
+                            binding.searchCocktailsRecyclerView.visibility = View.VISIBLE
+                            searchAdapter.submitList(result.data)
+                            childFragmentManager.beginTransaction().hide(SearchChipsFragment())
+                                .commit()
+                        }
+                    }
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.search_fragment_container, SearchChipsFragment.newInstance())
+                    .commit()
+                return true
+            }
+        })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return true
+    }
+
 }
 
 interface OnItemClick {

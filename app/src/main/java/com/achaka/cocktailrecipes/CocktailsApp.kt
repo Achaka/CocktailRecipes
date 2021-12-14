@@ -5,6 +5,7 @@ import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
 import com.achaka.cocktailrecipes.model.repository.UserDrinkRepository
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository
 import com.achaka.cocktailrecipes.model.repository.IngredientsRepository
+import com.achaka.cocktailrecipes.model.repository.SearchRepository
 
 class CocktailsApp: Application() {
 
@@ -22,5 +23,9 @@ class CocktailsApp: Application() {
 
     val ingredientsRepository: IngredientsRepository by lazy {
         IngredientsRepository(database)
+    }
+
+    val searchRepository: SearchRepository by lazy {
+        SearchRepository(database)
     }
 }
