@@ -34,7 +34,7 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
         return database.drinksDao().getDrinkById(drinkId)
     }
 
-    fun getDrinksById(drinkId: List<Int>): Flow<List<DatabaseDrink>?> {
+    fun getDrinksById(drinkId: List<Int>): List<DatabaseDrink>? {
         return database.drinksDao().getDrinksById(drinkId)
     }
 
@@ -66,7 +66,7 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
     }
 
 
-    suspend fun getFavourites(): Flow<State<Drink>> = flow {
+    suspend fun getFavourites(): Flow<State<List<Drink>>> = flow {
 
         emit(State.Loading)
 
@@ -75,11 +75,11 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
         if (ids.isNullOrEmpty()) {
             emit(State.Error("No favourites yet!"))
         } else {
-            ids.forEach { drinkId ->
+            ids.map { drinkId ->
                 val drinkById = getDrinkById(drinkId)
                 if (drinkById != null) {
-                    //ok
-                    emit(State.Success(drinkById.asDomainModel()))
+                    //concurrent modification exception
+//                    emit(State.Success(drinkById.asDomainModel()))
                 } else {
                     val networkResult = fetch(drinkId)
                     when (networkResult) {
@@ -87,7 +87,7 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
                             insertDrink(networkResult.body.response[0].asDatabaseModel())
                             val databaseDrink = getDrinkById(drinkId)
                             if (databaseDrink != null) {
-                                emit(State.Success(databaseDrink.asDomainModel()))
+                                //
                             } else {
                                 emit(State.Error("Could not load $drinkId"))
                             }
@@ -103,6 +103,11 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
                         }
                     }
                 }
+            }
+            val favouriteIds = getFavouriteIds().map { it.drinkId }
+            val favouriteDrinks = getDrinksById(favouriteIds)
+            if (favouriteDrinks != null) {
+                emit(State.Success(favouriteDrinks.map { it.asDomainModel() }))
             }
         }
     }

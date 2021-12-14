@@ -26,7 +26,7 @@ interface DrinksDao {
     fun getDrinkByIdRx(drinkId: Int): Single<DatabaseDrink>
 
     @Query("SELECT * FROM databasedrink WHERE id IN (:drinkIds)")
-    fun getDrinksById(drinkIds: List<Int>): Flow<List<DatabaseDrink>>
+    fun getDrinksById(drinkIds: List<Int>): List<DatabaseDrink>
 
     @Query("SELECT * FROM databasedrink WHERE name LIKE :drinkName")
     fun getDrinksByName(drinkName: String): Flow<List<DatabaseDrink>>

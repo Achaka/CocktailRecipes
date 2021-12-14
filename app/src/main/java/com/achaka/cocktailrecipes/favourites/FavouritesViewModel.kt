@@ -24,7 +24,7 @@ class FavouritesViewModel(
     private var _favouriteDrinks = MutableStateFlow<List<DrinkItem>>(emptyList())
     val favouriteDrinks: StateFlow<List<DrinkItem>> = _favouriteDrinks.asStateFlow()
 
-    private val _state = MutableStateFlow<State<Drink>?>(null)
+    private val _state = MutableStateFlow<State<List<Drink>>?>(null)
     val state = _state.asStateFlow()
 
     init {
@@ -42,7 +42,7 @@ class FavouritesViewModel(
                         }
                         is State.Success -> {
                             _state.value = it
-                            favDrinks.add(it.data)
+                            favDrinks.addAll(it.data)
                             _favouriteDrinks.value = favDrinks
                         }
                         is State.Error -> {
