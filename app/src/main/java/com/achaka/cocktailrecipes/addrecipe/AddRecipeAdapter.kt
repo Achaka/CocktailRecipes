@@ -7,9 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.SpinnerAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.AddIngredientRecyclerViewItemBinding
+import com.achaka.cocktailrecipes.model.database.entities.determineUnit
 import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
 import com.achaka.cocktailrecipes.model.domain.Units
 
@@ -18,11 +22,22 @@ class AddRecipeAdapter :
         AddRecipeDiffUtil()
     ) {
 
+    private lateinit var spinnerAdapter: ArrayAdapter<CharSequence>
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): IngredientMeasureItemViewHolder {
-        val binding = AddIngredientRecyclerViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = AddIngredientRecyclerViewItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+
+        val unitsArray = Units.values().map { it.abbrev }
+
+        spinnerAdapter = ArrayAdapter(parent.context, android.R.layout.simple_spinner_dropdown_item)
+        spinnerAdapter.addAll(unitsArray)
 
         return IngredientMeasureItemViewHolder(binding = binding)
     }
@@ -33,8 +48,9 @@ class AddRecipeAdapter :
 
     inner class IngredientMeasureItemViewHolder(private val binding: AddIngredientRecyclerViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: IngredientMeasureItem) {
-            binding.addIngredientEditText.text.append(item.ingredientName)
+
+        init {
+
             binding.addIngredientEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
@@ -43,9 +59,10 @@ class AddRecipeAdapter :
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
-                    item.ingredientName = p0.toString()
+                    currentList[bindingAdapterPosition].ingredientName = p0.toString()
                 }
             })
+
             binding.addMeasureEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
@@ -54,19 +71,25 @@ class AddRecipeAdapter :
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
-                    item.measure = p0.toString().toDouble()
+                    currentList[bindingAdapterPosition].measure = p0.toString().toDouble()
                 }
             })
+
             binding.spinner.onItemSelectedListener = object : OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    item.unit = Pair(Units.CL, "")
+                     currentList[bindingAdapterPosition].unit = Pair(determineUnit(spinnerAdapter.getItem(p2).toString()), "")
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-                    item.unit = Pair(Units.NONE, "")
+                    currentList[bindingAdapterPosition].unit = Pair(Units.NONE, "")
                 }
-
             }
+
+            binding.spinner.adapter = spinnerAdapter
+        }
+
+        fun bind(item: IngredientMeasureItem) {
+            binding.addIngredientEditText.text.append(item.ingredientName)
             if (item.measure != null) {
                 binding.addMeasureEditText.text.append(item.measure.toString())
             } else binding.addMeasureEditText.text.append("")

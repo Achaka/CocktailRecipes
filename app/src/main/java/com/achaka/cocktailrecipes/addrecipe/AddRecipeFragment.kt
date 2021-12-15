@@ -42,11 +42,7 @@ class AddRecipeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.addMeasureFab.setOnClickListener {
-            val currentList = adapter.currentList
-            val newList = mutableListOf<IngredientMeasureItem>()
-            newList.addAll(currentList)
-            newList.add(getDefaultIngredientItem())
-            adapter.submitList(newList)
+            addAdapterItem()
         }
 
         binding.photo.setOnClickListener {
@@ -60,6 +56,13 @@ class AddRecipeFragment : Fragment() {
         _binding = null
     }
 
+    private fun addAdapterItem() {
+        val currentList = adapter.currentList
+        val newList = mutableListOf<IngredientMeasureItem>()
+        newList.addAll(currentList)
+        newList.add(getDefaultIngredientItem())
+        adapter.submitList(newList)
+    }
 
     private fun setupRecyclerView() {
         val recyclerView = binding.addRecipeRecyclerView

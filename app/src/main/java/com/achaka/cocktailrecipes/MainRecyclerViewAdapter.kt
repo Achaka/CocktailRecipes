@@ -11,13 +11,23 @@ import com.achaka.cocktailrecipes.model.domain.UserDrink
 import com.achaka.cocktailrecipes.search.OnItemClick
 import com.bumptech.glide.RequestManager
 
-class MainRecyclerViewAdapter (private val glide: RequestManager, private val onItemClick: OnItemClick) :
+class MainRecyclerViewAdapter(
+    private val glide: RequestManager,
+    private val onItemClick: OnItemClick
+) :
     ListAdapter<DrinkItem, MainRecyclerViewAdapter.MainRecyclerViewHolder>(
         (MainRecyclerViewDiffUtil())
     ) {
 
-    inner class MainRecyclerViewHolder( private val binding: MainRecyclerViewItemBinding) :
+    inner class MainRecyclerViewHolder(private val binding: MainRecyclerViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.drinkCard.setOnClickListener {
+                onItemClick.openDetails(drink = currentList[bindingAdapterPosition])
+            }
+        }
+
         fun bind(drink: DrinkItem) {
             when (drink) {
                 is Drink -> {
@@ -25,15 +35,9 @@ class MainRecyclerViewAdapter (private val glide: RequestManager, private val on
                         .centerCrop()
                         .into(binding.cardImage)
                     binding.cardName.text = drink.name
-                    binding.drinkCard.setOnClickListener{
-                        onItemClick.openDetails(drink)
-                    }
                 }
                 is UserDrink -> {
                     binding.cardName.text = drink.name
-                    binding.drinkCard.setOnClickListener{
-                        onItemClick.openDetails(drink)
-                    }
                 }
             }
         }

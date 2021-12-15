@@ -12,9 +12,5 @@ enum class Units(val abbrev: String) {
     TABLESPOON("tblsp"),
     CL("cL"),
     SHOT("shot"),
-    JUICE("Juice of"),
-    SPLASH("splash"),
-    PINCH("pinch"),
-    CUBE("cube"),
     NONE("")
 }
