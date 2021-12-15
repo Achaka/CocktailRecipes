@@ -81,8 +81,7 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
                     //ok
                     emit(State.Success(drinkById.asDomainModel()))
                 } else {
-                    val networkResult = fetch(drinkId)
-                    when (networkResult) {
+                    when (val networkResult = fetch(drinkId)) {
                         is NetworkResponse.Success -> {
                             insertDrink(networkResult.body.response[0].asDatabaseModel())
                             val databaseDrink = getDrinkById(drinkId)
@@ -109,8 +108,7 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
 
 
     private suspend fun fetch(drinkId: Int): NetworkResponse<FullDrinkResponse, String> {
-        val drinkResponse = NetworkApi.retrofitService.getCocktailDetailsById(drinkId)
-        when (drinkResponse) {
+        when (val drinkResponse = NetworkApi.retrofitService.getCocktailDetailsById(drinkId)) {
             is NetworkResponse.Success -> {
                 return drinkResponse
             }

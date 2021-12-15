@@ -3,9 +3,7 @@ package com.achaka.cocktailrecipes.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.achaka.cocktailrecipes.State
-import com.achaka.cocktailrecipes.model.database.entities.asDomainModel
 import com.achaka.cocktailrecipes.model.domain.Drink
-import com.achaka.cocktailrecipes.model.network.dtos.asDatabaseModel
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository
 import com.achaka.cocktailrecipes.model.repository.SearchRepository
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -14,15 +12,16 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
-class SearchViewModel(private val repository: DrinkRepository, private val searchRepository: SearchRepository) : ViewModel() {
+class SearchViewModel(
+    private val repository: DrinkRepository,
+    private val searchRepository: SearchRepository
+) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -32,6 +31,10 @@ class SearchViewModel(private val repository: DrinkRepository, private val searc
 
     private val _state = MutableStateFlow<State<List<Drink>>?>(null)
     val state = _state.asStateFlow()
+
+    private val _queryParams =
+        MutableStateFlow<QueryParams>(QueryParams(SearchType.DRINK_BY_DRINK_NAME, ""))
+    val queryParams = _queryParams.asStateFlow()
 
     init {
         getRandomDrinks()
@@ -76,17 +79,32 @@ class SearchViewModel(private val repository: DrinkRepository, private val searc
 
     }
 
-    private fun searchDrinkByIngredient() {
-
+    fun searchDrinkByIngredientName(query: String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                searchRepository.searchDrinkByIngredientName(query).collect {
+                    if (it is State.Success) {
+                        _state.value = it
+                    }
+                }
+            }
+        }
     }
 
-//    fun getRecentDrinks() {
-//
-//    }
+    fun searchDrink(query: String, queryParams: QueryParams) {
+        when (queryParams.searchType) {
+            SearchType.DRINK_BY_DRINK_NAME -> {
+                searchDrinkByName(query)
+            }
+            SearchType.DRINK_BY_INGREDIENT_NAME -> {
+                searchDrinkByIngredientName(query)
+            }
+        }
+    }
 
-//    private fun getRecentDrinks() {
-//        //simply insert into db and fetch
-//    }
+    fun setQueryParams(queryParams: QueryParams) {
+        _queryParams.value = queryParams
+    }
 
     override fun onCleared() {
         super.onCleared()

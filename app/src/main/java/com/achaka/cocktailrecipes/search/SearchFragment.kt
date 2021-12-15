@@ -1,11 +1,14 @@
 package com.achaka.cocktailrecipes.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.CocktailsApp
@@ -20,16 +23,19 @@ import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 
 class SearchFragment : Fragment(), OnItemClick {
 
+    private var queryParams = QueryParams(SearchType.DRINK_BY_DRINK_NAME)
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var randomStripAdapter: SearchHorizontalAdapter
     private lateinit var popularStripAdapter: SearchHorizontalAdapter
     private lateinit var recentAdapter: SearchHorizontalAdapter
     private lateinit var searchAdapter: MainRecyclerViewAdapter
-    private val viewModel: SearchViewModel by viewModels {
+    private val viewModel: SearchViewModel by activityViewModels {
         SearchViewModelFactory(
             (activity?.application as CocktailsApp).drinkRepository,
             (activity?.application as CocktailsApp).searchRepository
@@ -47,6 +53,15 @@ class SearchFragment : Fragment(), OnItemClick {
         loadRandomDrinks()
         loadPopularDrinks()
         loadRecentDrinks()
+        getQueryParams()
+    }
+
+    private fun getQueryParams() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.queryParams.onEach {
+                queryParams = it
+            }.collect()
+        }
     }
 
 
@@ -54,7 +69,6 @@ class SearchFragment : Fragment(), OnItemClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         activity?.title = getString(R.string.search_title)
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
@@ -94,24 +108,24 @@ class SearchFragment : Fragment(), OnItemClick {
         popularRecyclerView.layoutManager = layoutManager
     }
 
-    private fun setupRecentRecyclerView() {
-        val recentRecyclerView = binding.recentRecycler
-        recentRecyclerView.adapter = recentAdapter
-        recentRecyclerView.layoutManager =
-            GridLayoutManager(
-                requireContext(),
-                2,
-                GridLayoutManager.VERTICAL,
-                false
-            )
-    }
+//    private fun setupRecentRecyclerView() {
+//        val recentRecyclerView = binding.recentRecycler
+//        recentRecyclerView.adapter = recentAdapter
+//        recentRecyclerView.layoutManager =
+//            GridLayoutManager(
+//                requireContext(),
+//                2,
+//                GridLayoutManager.VERTICAL,
+//                false
+//            )
+//    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRandomRecyclerView()
         setupPopularRecyclerView()
-        setupRecentRecyclerView()
+//        setupRecentRecyclerView()
         setupSearchRecyclerView()
     }
 
@@ -181,26 +195,34 @@ class SearchFragment : Fragment(), OnItemClick {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
-                    viewModel.searchDrinkByName(query)
-                    val result = viewModel.state.value
-                    when (result) {
-                        is State.Loading -> {
+                    getQueryParams()
+                    viewModel.searchDrink(query, queryParams)
+                    lifecycleScope.launchWhenStarted {
+                        viewModel.state.onEach { state ->
+                            when (state) {
+                                is State.Loading -> {
 
-                        }
-                        is State.Error -> {
-                            Toast.makeText(
-                                requireContext(),
-                                result.exceptionMessage,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        is State.Success -> {
-                            binding.searchResultsHeader.visibility = View.VISIBLE
-                            binding.searchCocktailsRecyclerView.visibility = View.VISIBLE
-                            searchAdapter.submitList(result.data)
-                            childFragmentManager.beginTransaction().hide(SearchChipsFragment())
-                                .commit()
-                        }
+                                }
+                                is State.Error -> {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        state.exceptionMessage,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                is State.Success -> {
+                                    binding.searchResultsHeader.visibility = View.VISIBLE
+                                    binding.searchCocktailsRecyclerView.visibility = View.VISIBLE
+                                    searchAdapter.submitList(state.data)
+                                    childFragmentManager.beginTransaction()
+                                        .hide(SearchChipsFragment())
+                                        .commit()
+                                }
+                                else -> {
+                                    //do nothing
+                                }
+                            }
+                        }.collect()
                     }
                 }
                 return true

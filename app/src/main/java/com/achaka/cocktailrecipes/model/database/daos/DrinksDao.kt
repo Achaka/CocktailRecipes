@@ -20,7 +20,7 @@ interface DrinksDao {
     fun insertDrink(drink: DatabaseDrink)
 
     @Query("SELECT * FROM databasedrink WHERE id=:drinkId")
-    fun getDrinkById(drinkId: Int): DatabaseDrink
+    fun getDrinkById(drinkId: Int): DatabaseDrink?
 
     @Query("SELECT * FROM databasedrink WHERE id=:drinkId")
     fun getDrinkByIdRx(drinkId: Int): Single<DatabaseDrink>
