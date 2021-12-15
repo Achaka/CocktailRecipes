@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +32,7 @@ class SearchFragment : Fragment(), OnItemClick {
     private lateinit var popularStripAdapter: SearchHorizontalAdapter
     private lateinit var recentAdapter: SearchHorizontalAdapter
     private lateinit var searchAdapter: MainRecyclerViewAdapter
-    private val viewModel: SearchViewModel by activityViewModels {
+    val viewModel: SearchViewModel by viewModels {
         SearchViewModelFactory(
             (activity?.application as CocktailsApp).drinkRepository,
             (activity?.application as CocktailsApp).searchRepository
@@ -59,7 +60,6 @@ class SearchFragment : Fragment(), OnItemClick {
             }.collect()
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -101,8 +101,7 @@ class SearchFragment : Fragment(), OnItemClick {
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-            SearchFragment()
+        fun newInstance() = SearchFragment()
     }
 
 

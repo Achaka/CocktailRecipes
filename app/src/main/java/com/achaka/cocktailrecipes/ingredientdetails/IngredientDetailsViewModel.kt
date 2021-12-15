@@ -43,6 +43,9 @@ class IngredientDetailsViewModel(private val ingredientsRepository: IngredientsR
                         is State.Loading -> {
                             //do nothing
                         }
+                        else -> {
+                            //do nothing
+                        }
                     }
                 }
             }
