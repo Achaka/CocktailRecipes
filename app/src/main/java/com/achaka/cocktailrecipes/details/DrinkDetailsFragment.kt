@@ -1,9 +1,6 @@
 package com.achaka.cocktailrecipes.details
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputType
-import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -48,17 +45,7 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
         viewModel.getCommentary(drinkItem)
 
         initialMeasuresList = (drinkItem as Drink).ingredientMeasureItems
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.commentary.onEach {
-                if (it != null) {
-                    binding.commentary.setText(it.commentary)
-                    showCommentary()
-                } else {
-                    hideCommentary()
-                }
-            }.collect()
-        }
+        loadCommentary()
         setHasOptionsMenu(true)
     }
 
@@ -76,20 +63,16 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recyclerView = binding.ingredientsRecycler
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
-        recyclerView.itemAnimator = null
 
+        setupIngredientsRecyclerView()
         displayDrink(drinkItem)
+        setupCounter()
 
         binding.addCommentaryButton.setOnClickListener {
             showCommentary()
             binding.commentary.isEnabled = true
             binding.confirmCommentaryButton.visibility = View.VISIBLE
         }
-
-        setupCounter()
 
         binding.confirmCommentaryButton.setOnClickListener {
             val commentaryText = binding.commentary.text.toString()
@@ -101,6 +84,19 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
                 hideCommentary()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
+    }
+
+    private fun setupIngredientsRecyclerView() {
+        val recyclerView = binding.ingredientsRecycler
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
+        recyclerView.itemAnimator = null
     }
 
     private fun setupCounter() {
@@ -125,7 +121,7 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        viewModel.isFavourite.value
+
         lifecycleScope.launchWhenStarted {
             viewModel.isFavourite.onEach { isFavourite ->
                 if (isFavourite) {
@@ -214,6 +210,19 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
         }
         adapter.submitList(measuresList)
         println(measuresList[0] === initialMeasuresList[0])
+    }
+
+    private fun loadCommentary() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.commentary.onEach {
+                if (it != null) {
+                    binding.commentary.setText(it.commentary)
+                    showCommentary()
+                } else {
+                    hideCommentary()
+                }
+            }.collect()
+        }
     }
 
     companion object {

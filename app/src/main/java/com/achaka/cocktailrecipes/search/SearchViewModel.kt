@@ -39,7 +39,6 @@ class SearchViewModel(
     init {
         getRandomDrinks()
         getPopularDrinks()
-//        getRecentDrinks()
     }
 
     private fun getRandomDrinks() {

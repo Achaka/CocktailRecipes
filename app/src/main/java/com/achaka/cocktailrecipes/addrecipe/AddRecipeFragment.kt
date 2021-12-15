@@ -10,16 +10,6 @@ import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentAddRecipeBinding
 import com.achaka.cocktailrecipes.model.domain.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AddRecipeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AddRecipeFragment : Fragment() {
 
     private var _binding: FragmentAddRecipeBinding? = null
@@ -30,8 +20,10 @@ class AddRecipeFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         setHasOptionsMenu(true)
+        adapter.submitList(
+            mutableListOf(getDefaultIngredientItem())
+        )
         super.onCreate(savedInstanceState)
     }
 
@@ -42,12 +34,7 @@ class AddRecipeFragment : Fragment() {
         activity?.title = getString(R.string.add_recipe_title)
         _binding = FragmentAddRecipeBinding.inflate(inflater, container, false)
 
-        val recyclerView = binding.addRecipeRecyclerView
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        adapter.submitList(mutableListOf(IngredientMeasureItem("",null, null, null, Pair(Units.NONE, ""))))
-
+        setupRecyclerView()
         return binding.root
     }
 
@@ -58,7 +45,7 @@ class AddRecipeFragment : Fragment() {
             val currentList = adapter.currentList
             val newList = mutableListOf<IngredientMeasureItem>()
             newList.addAll(currentList)
-            newList.add(IngredientMeasureItem("",null, null, null, Pair(Units.NONE, "")))
+            newList.add(getDefaultIngredientItem())
             adapter.submitList(newList)
         }
 
@@ -69,11 +56,27 @@ class AddRecipeFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+
         _binding = null
     }
 
 
-    //MENU
+    private fun setupRecyclerView() {
+        val recyclerView = binding.addRecipeRecyclerView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun getDefaultIngredientItem(): IngredientMeasureItem {
+        return IngredientMeasureItem(
+            "",
+            null,
+            null,
+            null,
+            Pair(Units.NONE, "")
+        )
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.add_recipe_fragment_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -104,21 +107,7 @@ class AddRecipeFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddRecipeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance() =
-            AddRecipeFragment().apply {
-                arguments = Bundle().apply {
-//
-                }
-            }
+        fun newInstance() = AddRecipeFragment()
     }
 }

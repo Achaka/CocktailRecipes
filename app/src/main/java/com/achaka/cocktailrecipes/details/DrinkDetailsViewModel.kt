@@ -25,7 +25,6 @@ class DrinkDetailsViewModel(private val repository: DrinkRepository) : ViewModel
     private val _commentary = MutableStateFlow<Commentary?>(null)
     val commentary = _commentary.asStateFlow()
 
-    //add to favourites
     fun addToFavourites(drinkItem: DrinkItem?) {
         scope.launch {
             if (drinkItem != null) {
@@ -78,11 +77,6 @@ class DrinkDetailsViewModel(private val repository: DrinkRepository) : ViewModel
         }
     }
 
-
-    //count total abv
-    fun countTotalAbv(list: List<IngredientMeasureItem>) {
-
-    }
 
     fun removeFromFavourites(drinkItem: DrinkItem?) {
         scope.launch {

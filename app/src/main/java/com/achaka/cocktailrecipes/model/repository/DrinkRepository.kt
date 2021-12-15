@@ -78,8 +78,6 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
             ids.map { drinkId ->
                 val drinkById = getDrinkById(drinkId)
                 if (drinkById != null) {
-                    //concurrent modification exception
-//                    emit(State.Success(drinkById.asDomainModel()))
                 } else {
                     when (val networkResult = fetch(drinkId)) {
                         is NetworkResponse.Success -> {

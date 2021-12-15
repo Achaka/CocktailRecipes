@@ -1,13 +1,11 @@
 package com.achaka.cocktailrecipes.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,9 +14,7 @@ import com.achaka.cocktailrecipes.MainRecyclerViewAdapter
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.State
 import com.achaka.cocktailrecipes.databinding.FragmentSearchBinding
-import com.achaka.cocktailrecipes.databinding.FragmentSearchChipsBinding
 import com.achaka.cocktailrecipes.details.DrinkDetailsFragment
-import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -76,6 +72,40 @@ class SearchFragment : Fragment(), OnItemClick {
     }
 
 
+//    private fun setupRecentRecyclerView() {
+//        val recentRecyclerView = binding.recentRecycler
+//        recentRecyclerView.adapter = recentAdapter
+//        recentRecyclerView.layoutManager =
+//            GridLayoutManager(
+//                requireContext(),
+//                2,
+//                GridLayoutManager.VERTICAL,
+//                false
+//            )
+//    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRandomRecyclerView()
+        setupPopularRecyclerView()
+//        setupRecentRecyclerView()
+        setupSearchRecyclerView()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+            SearchFragment()
+    }
+
+
     private fun setupSearchRecyclerView() {
         if (searchAdapter.currentList.isEmpty()) {
             binding.searchResultsHeader.visibility = View.GONE
@@ -108,37 +138,6 @@ class SearchFragment : Fragment(), OnItemClick {
         popularRecyclerView.layoutManager = layoutManager
     }
 
-//    private fun setupRecentRecyclerView() {
-//        val recentRecyclerView = binding.recentRecycler
-//        recentRecyclerView.adapter = recentAdapter
-//        recentRecyclerView.layoutManager =
-//            GridLayoutManager(
-//                requireContext(),
-//                2,
-//                GridLayoutManager.VERTICAL,
-//                false
-//            )
-//    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupRandomRecyclerView()
-        setupPopularRecyclerView()
-//        setupRecentRecyclerView()
-        setupSearchRecyclerView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            SearchFragment()
-    }
-
     override fun openDetails(drink: DrinkItem) {
         parentFragmentManager.beginTransaction()
             .replace(R.id.main_fragment_container, DrinkDetailsFragment.newInstance(drink))
@@ -153,7 +152,7 @@ class SearchFragment : Fragment(), OnItemClick {
                     randomStripAdapter.submitList(it)
                 },
                 {
-                    //TODO later
+                    Toast.makeText(requireContext(), "Unknown Error ${it.message}", Toast.LENGTH_SHORT).show()
                 }
             )
     }
@@ -166,7 +165,7 @@ class SearchFragment : Fragment(), OnItemClick {
                     popularStripAdapter.submitList(it)
                 },
                 {
-                    //TODO later
+                    Toast.makeText(requireContext(), "Unknown Error ${it.message}", Toast.LENGTH_SHORT).show()
                 }
             )
 

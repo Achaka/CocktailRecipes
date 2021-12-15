@@ -50,24 +50,17 @@ class IngredientDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         lifecycleScope.launchWhenStarted {
             viewModel.state.onEach { state ->
-                Log.d("Fragment state", state.toString())
                 when (state) {
                     is State.Success<Ingredient> -> {
                         hideProgress()
-                        Log.d("Fragment success state", "fragment success")
-                        val ingredient = state.data
-                        binding.nameHeader.text = ingredient.name
-                        binding.alcoholic.text = getString(R.string.alcoholic, ingredient.alcoholic.type)
-                        binding.abv.text = getString(R.string.abv, ingredient.ABV)
-                        binding.description.text = ingredient.description
+                        showIngredientInfo(state.data)
                     }
                     is State.Error -> {
                         hideProgress()
-                        Toast.makeText(requireContext(), state.exceptionMessage, Toast.LENGTH_SHORT).show()
-                        Log.d("Fragment error state", "fragment error")
+                        Toast.makeText(requireContext(), state.exceptionMessage, Toast.LENGTH_SHORT)
+                            .show()
                     }
                     is State.Loading -> {
                         showProgress()
@@ -77,12 +70,25 @@ class IngredientDetailsFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
+    }
+
     private fun showProgress() {
         binding.progressIndicator.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
         binding.progressIndicator.visibility = View.GONE
+    }
+
+    private fun showIngredientInfo(ingredient: Ingredient) {
+        binding.nameHeader.text = ingredient.name
+        binding.alcoholic.text = getString(R.string.alcoholic, ingredient.alcoholic.type)
+        binding.abv.text = getString(R.string.abv, ingredient.ABV)
+        binding.description.text = ingredient.description
     }
 
     companion object {

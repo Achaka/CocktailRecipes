@@ -34,17 +34,11 @@ class FavouritesFragment : Fragment(), OnItemClick {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         activity?.title = getString(R.string.favourites_fragment_title)
-
         val glide = Glide.with(this)
         adapter = MainRecyclerViewAdapter(glide, this)
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.favouriteDrinks.onEach {
-                adapter.submitList(it)
-            }.collect()
-        }
+        getFavouriteDrinks()
     }
 
     override fun onCreateView(
@@ -59,6 +53,16 @@ class FavouritesFragment : Fragment(), OnItemClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
+    }
+
+    private fun setupRecyclerView() {
         val recyclerView = binding.recyclerView
         recyclerView.adapter = adapter
         val layoutManager =
@@ -66,11 +70,17 @@ class FavouritesFragment : Fragment(), OnItemClick {
         recyclerView.layoutManager = layoutManager
     }
 
+    private fun getFavouriteDrinks() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.favouriteDrinks.onEach {
+                adapter.submitList(it)
+            }.collect()
+        }
+    }
+
     companion object {
         @JvmStatic
-        fun newInstance() =
-            FavouritesFragment().apply {
-            }
+        fun newInstance() = FavouritesFragment()
     }
 
     override fun openDetails(drink: DrinkItem) {

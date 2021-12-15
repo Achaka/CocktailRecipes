@@ -21,10 +21,6 @@ class SearchChipsFragment : Fragment() {
         )
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,7 +41,12 @@ class SearchChipsFragment : Fragment() {
             if (checked)
                 viewModel.setQueryParams(QueryParams(SearchType.DRINK_BY_INGREDIENT_NAME))
         }
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _binding = null
     }
 
     companion object {
