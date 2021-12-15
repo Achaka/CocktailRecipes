@@ -29,9 +29,13 @@
     <string name="insert_commentary">Add commentary</string>
     <string name="item_range">%.0f-%.0f</string>
     <string name="default_counter_value">1</string>
-    <string name="favourites_fragment_title">Favourites</string>
     <string name="search">Search</string>
     <string name="search_hint">Search</string>
+    <string name="random_header">Random</string>
+    <string name="popular_header">Popular</string>
+    <string name="search_header">Search</string>
+    <string name="search_by_drink_name_chip">By drink Name</string>
+    <string name="search_by_ingredient_name_chip">By ingredient name</string>
     <string name="favourites_fragment_title">Favourites</string>
 
 </resources>

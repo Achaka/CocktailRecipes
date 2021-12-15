@@ -67,7 +67,7 @@ interface NetworkServiceApi {
     @GET(filterRequest)
     suspend fun getCocktailsByIngredientName(
         @Query(value = "i") name: String
-    ): SimpleDrinkResponse
+    ): NetworkResponse<SimpleDrinkResponse, String>
 
     @Headers(HOST, API_KEY)
     @GET(lookupRequest)
