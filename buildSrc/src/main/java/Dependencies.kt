@@ -31,12 +31,6 @@ object Dependencies {
         const val okhttpBom = "com.squareup.okhttp3:okhttp-bom:$version"
     }
 
-    object Dagger2 {
-        private const val version = "2.40.1"
-
-        const val dagger = "com.google.dagger:dagger:$version"
-        const val daggerKapt = "com.google.dagger:dagger-compiler:$version"
-    }
 
     object RxJava3 {
         private const val version = "3.0.0"

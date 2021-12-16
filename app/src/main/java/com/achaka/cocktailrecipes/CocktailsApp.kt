@@ -6,7 +6,9 @@ import com.achaka.cocktailrecipes.model.repository.UserDrinkRepository
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository
 import com.achaka.cocktailrecipes.model.repository.IngredientsRepository
 import com.achaka.cocktailrecipes.model.repository.SearchRepository
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class CocktailsApp: Application() {
 
     val database: CocktailsAppDatabase by lazy {

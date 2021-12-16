@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -30,6 +31,10 @@ android {
         viewBinding = true
     }
 
+    kapt {
+        correctErrorTypes = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -49,7 +54,8 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt(Dependencies.Room.kaptRoom)
 
-
+    implementation("com.google.dagger:hilt-android:2.38.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
 
     implementation(Dependencies.Coroutines.coroutines)
 
@@ -67,9 +73,6 @@ dependencies {
 
     implementation(Dependencies.Moshi.moshi)
     implementation(Dependencies.Moshi.moshiKotlin)
-
-    implementation(Dependencies.Dagger2.daggerKapt)
-    implementation(Dependencies.Dagger2.dagger)
 
     implementation(Dependencies.Android.coreKtx)
     implementation(Dependencies.Android.appCompat)
