@@ -32,14 +32,10 @@ class IngredientDetailsViewModel @Inject constructor(private val ingredientsRepo
                     when (it) {
                         is State.Success -> {
                             _state.value = it
-                            Log.d("ingredient", "success")
                         }
                         is State.Error -> {
                             _state.value = it
                             Log.d("EXCEPTION viewmodel", it.exceptionMessage)
-                        }
-                        is State.Loading -> {
-                            //do nothing
                         }
                         else -> {
                             //do nothing
