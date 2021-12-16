@@ -1,6 +1,6 @@
 package com.achaka.cocktailrecipes.model.repository
 
-import com.achaka.cocktailrecipes.State
+import com.achaka.cocktailrecipes.ui.util.State
 import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
 import com.achaka.cocktailrecipes.model.database.entities.DatabaseIngredient
 import com.achaka.cocktailrecipes.model.database.entities.asDomainModel

@@ -9,9 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.achaka.cocktailrecipes.MainRecyclerViewAdapter
+import com.achaka.cocktailrecipes.ui.util.adapter.MainRecyclerViewAdapter
 import com.achaka.cocktailrecipes.R
-import com.achaka.cocktailrecipes.State
+import com.achaka.cocktailrecipes.ui.util.State
 import com.achaka.cocktailrecipes.databinding.FragmentSearchBinding
 import com.achaka.cocktailrecipes.ui.details.DrinkDetailsFragment
 import com.achaka.cocktailrecipes.model.domain.DrinkItem

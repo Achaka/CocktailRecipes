@@ -1,7 +1,7 @@
 package com.achaka.cocktailrecipes.model.repository
 
 import android.util.Log
-import com.achaka.cocktailrecipes.State
+import com.achaka.cocktailrecipes.ui.util.State
 import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
 import com.achaka.cocktailrecipes.model.database.entities.*
 import com.achaka.cocktailrecipes.model.domain.Drink

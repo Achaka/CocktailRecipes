@@ -3,7 +3,7 @@ package com.achaka.cocktailrecipes.ui.ingredientdetails
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.achaka.cocktailrecipes.State
+import com.achaka.cocktailrecipes.ui.util.State
 import com.achaka.cocktailrecipes.model.domain.Ingredient
 import com.achaka.cocktailrecipes.model.repository.IngredientsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,4 +1,4 @@
-package com.achaka.cocktailrecipes
+package com.achaka.cocktailrecipes.ui.util.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

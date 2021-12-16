@@ -2,7 +2,7 @@ package com.achaka.cocktailrecipes.ui.favourites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.achaka.cocktailrecipes.State
+import com.achaka.cocktailrecipes.ui.util.State
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository

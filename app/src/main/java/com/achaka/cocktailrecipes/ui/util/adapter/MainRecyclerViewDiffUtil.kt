@@ -1,4 +1,4 @@
-package com.achaka.cocktailrecipes
+package com.achaka.cocktailrecipes.ui.util.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.achaka.cocktailrecipes.model.domain.Drink

@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.R
-import com.achaka.cocktailrecipes.State
+import com.achaka.cocktailrecipes.ui.util.State
 import com.achaka.cocktailrecipes.databinding.FragmentIngredientDetailsBinding
 import com.achaka.cocktailrecipes.model.domain.Ingredient
 import dagger.hilt.android.AndroidEntryPoint
