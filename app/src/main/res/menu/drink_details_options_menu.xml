@@ -5,5 +5,11 @@
         android:id="@+id/add_to_favourites"
         android:icon="@drawable/ic_baseline_favorite_24"
         android:title="@string/add_to_favourites"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/move_to_shopping_list"
+        android:title="@string/to_shopping_list"
+        app:showAsAction="never"
+        />
 </menu>

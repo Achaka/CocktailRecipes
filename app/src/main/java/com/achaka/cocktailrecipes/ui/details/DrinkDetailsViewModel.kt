@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.achaka.cocktailrecipes.model.database.entities.Commentary
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
+import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +28,9 @@ class DrinkDetailsViewModel @Inject constructor(private val repository: DrinkRep
 
     private val _commentary = MutableStateFlow<Commentary?>(null)
     val commentary = _commentary.asStateFlow()
+
+    private val _shoppingList = MutableStateFlow<List<IngredientMeasureItem>>(emptyList())
+    val shoppingList = _shoppingList.asStateFlow()
 
     fun addToFavourites(drinkItem: DrinkItem?) {
         scope.launch {
@@ -90,5 +94,9 @@ class DrinkDetailsViewModel @Inject constructor(private val repository: DrinkRep
             }
             ifInFavourites(drinkItem)
         }
+    }
+
+    fun moveToShoppingList(list: List<IngredientMeasureItem>) {
+        _shoppingList.value = list
     }
 }

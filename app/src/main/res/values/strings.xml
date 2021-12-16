@@ -37,5 +37,9 @@
     <string name="search_by_drink_name_chip">By drink Name</string>
     <string name="search_by_ingredient_name_chip">By ingredient name</string>
     <string name="favourites_fragment_title">Favourites</string>
+    <string name="to_shopping_list">To shopping list</string>
+    <string name="shopping_list_activity_name">Shopping List</string>
+    <string name="shopping_list_item">Item</string>
+    <string name="shopping_list_amount">Amount</string>
 
 </resources>

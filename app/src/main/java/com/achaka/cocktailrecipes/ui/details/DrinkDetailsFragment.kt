@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
+import com.achaka.cocktailrecipes.ui.shoppinglist.ShoppingListFragment
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -33,7 +35,7 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
 
     private var initialMeasuresList = listOf<IngredientMeasureItem>()
 
-    private val viewModel: DrinkDetailsViewModel by viewModels()
+    private val viewModel: DrinkDetailsViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,16 +150,34 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.add_to_favourites) {
-            if (drinkItem != null) {
-                if (!viewModel.isFavourite.value) {
-                    viewModel.addToFavourites(drinkItem)
-                } else {
-                    viewModel.removeFromFavourites(drinkItem)
+        when (item.itemId) {
+            R.id.add_to_favourites -> {
+                if (drinkItem != null) {
+                    if (!viewModel.isFavourite.value) {
+                        viewModel.addToFavourites(drinkItem)
+                    } else {
+                        viewModel.removeFromFavourites(drinkItem)
+                    }
+                }
+            }
+            R.id.move_to_shopping_list -> {
+                if (drinkItem != null) {
+                    viewModel.moveToShoppingList(adapter.currentList)
+                    openShoppingListFragment()
                 }
             }
         }
         return true
+    }
+
+    private fun openShoppingListFragment() {
+        parentFragmentManager.beginTransaction()
+            .replace(
+                R.id.main_fragment_container,
+                ShoppingListFragment.newInstance(),
+                "SHOPPING_LIST"
+            ).addToBackStack("details_to_shopping_list")
+            .commit()
     }
 
     private fun displayDrink(drink: DrinkItem?) {
