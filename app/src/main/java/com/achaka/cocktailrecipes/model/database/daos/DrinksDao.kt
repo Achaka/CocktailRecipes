@@ -60,7 +60,7 @@ interface DrinksDao {
     @Query("SELECT * FROM commentaries_table")
     fun getCommentaries(): Flow<List<Commentary>>
 
-    @Query ("SELECT * FROM commentaries_table WHERE drinkId=:drinkId")
+    @Query("SELECT * FROM commentaries_table WHERE drinkId=:drinkId")
     fun getCommentary(drinkId: Int): Flow<Commentary>
 
     @Query("DELETE FROM commentaries_table WHERE drinkId=:drinkId")

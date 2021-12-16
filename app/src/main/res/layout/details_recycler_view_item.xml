@@ -4,30 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    tools:context=".details.DrinkDetailsFragment">
+    tools:context=".ui.details.DrinkDetailsFragment">
 
     <TextView
         android:id="@+id/ingredient_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="4"
-        android:gravity="start|center_vertical"
-        />
+        android:gravity="start|center_vertical" />
 
     <TextView
         android:id="@+id/measure"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="4"
-        android:gravity="end|center_vertical"
-        />
+        android:gravity="end|center_vertical" />
 
     <TextView
         android:id="@+id/units"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:paddingStart="4dp"
-        android:gravity="start|center_vertical" />
+        android:gravity="start|center_vertical"
+        android:paddingStart="4dp" />
 
 </LinearLayout>

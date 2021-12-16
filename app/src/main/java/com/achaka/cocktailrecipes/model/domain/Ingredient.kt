@@ -7,5 +7,4 @@ class Ingredient(
     val type: String,
     val alcoholic: Alcoholic,
     val ABV: String
-) {
-}
+)

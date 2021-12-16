@@ -5,7 +5,7 @@ import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
 
-class MainRecyclerViewDiffUtil: DiffUtil.ItemCallback<DrinkItem>() {
+class MainRecyclerViewDiffUtil : DiffUtil.ItemCallback<DrinkItem>() {
     override fun areItemsTheSame(oldItem: DrinkItem, newItem: DrinkItem): Boolean {
         return oldItem == newItem
     }
@@ -18,7 +18,7 @@ class MainRecyclerViewDiffUtil: DiffUtil.ItemCallback<DrinkItem>() {
         var oldIsUser: Boolean = false
         var newIsUser: Boolean = false
 
-        when(oldItem) {
+        when (oldItem) {
             is Drink -> {
                 oldId = oldItem.id
                 oldIsUser = false
@@ -29,7 +29,7 @@ class MainRecyclerViewDiffUtil: DiffUtil.ItemCallback<DrinkItem>() {
             }
         }
 
-        when(newItem) {
+        when (newItem) {
             is Drink -> {
                 newID = newItem.id
                 newIsUser = false
@@ -41,5 +41,5 @@ class MainRecyclerViewDiffUtil: DiffUtil.ItemCallback<DrinkItem>() {
         }
 
         return (oldId == newID) && (oldIsUser == newIsUser)
-     }
+    }
 }

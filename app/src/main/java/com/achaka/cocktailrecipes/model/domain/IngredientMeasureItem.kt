@@ -6,6 +6,6 @@ data class IngredientMeasureItem(
     var measureString: String?,
     var range: Pair<Double, Double>?,
     var unit: Pair<Units, String>
-        )
+)
 
 

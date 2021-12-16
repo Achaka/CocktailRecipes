@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".details.DrinkDetailsFragment">
+    tools:context=".ui.details.DrinkDetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -77,11 +77,11 @@
             android:layout_marginBottom="8dp"
             android:alpha="0.6"
             android:backgroundTint="@color/black"
+            android:contentDescription="@string/add_commentary"
             android:src="@drawable/ic_baseline_add_comment_24"
             app:borderWidth="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/image"
-            app:layout_constraintStart_toStartOf="@+id/image"
-            android:contentDescription="@string/add_commentary" />
+            app:layout_constraintStart_toStartOf="@+id/image" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ingredients_recycler"
@@ -123,10 +123,9 @@
             android:text="@string/commentary_header"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/instructions"
             android:visibility="invisible"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/instructions" />
 
         <EditText
             android:id="@+id/commentary"
@@ -146,9 +145,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:paddingBottom="16dp"
             android:text="@string/insert_commentary"
             android:visibility="invisible"
-            android:paddingBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/commentary" />

@@ -15,7 +15,7 @@ class UserDrink(
     val ingredientMeasureItems: List<IngredientMeasureItem>,
     val imageUri: String,
     val isUserDrink: Boolean
-): DrinkItem()
+) : DrinkItem()
 
 fun UserDrink.asDatabaseModel(): DatabaseUserDrink {
     return DatabaseUserDrink(
@@ -23,7 +23,7 @@ fun UserDrink.asDatabaseModel(): DatabaseUserDrink {
         name = name,
         tags = tags ?: ArrayList(),
         videoUrl = videoUrl,
-        category = category.category ,
+        category = category.category,
         IBA = IBA,
         alcoholic = alcoholic.type,
         glassType = glassType.type,
@@ -46,7 +46,7 @@ fun List<IngredientMeasureItem>.splitIngredientMeasureList(): Pair<ArrayList<Str
     val measureList = ArrayList<String>()
     forEach {
         ingredientList.add(it.ingredientName)
-        measureList.add(it.measure.toString()+" "+it.unit.first.abbrev)
+        measureList.add(it.measure.toString() + " " + it.unit.first.abbrev)
     }
     return Pair(ingredientList, measureList)
 }

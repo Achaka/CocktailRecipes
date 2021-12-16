@@ -30,7 +30,6 @@ data class Drink(
         parcel.readParcelable<GlassType>(ClassLoader.getSystemClassLoader()) ?: GlassType.HIGHBALL,
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-//        stringToPairs(parcel.readString())
         listOf(),
         parcel.readByte() == (1).toByte()
     )
@@ -46,7 +45,6 @@ data class Drink(
         parcel.writeParcelable(glassType, Parcelable.PARCELABLE_WRITE_RETURN_VALUE)
         parcel.writeString(instructions)
         parcel.writeString(thumbUrl)
-//        parcel.writeString(pairsToStrings(ingredientMeasurePairs))
         parcel.writeString("")
         parcel.writeByte((1).toByte())
 
@@ -64,10 +62,5 @@ data class Drink(
         override fun newArray(size: Int): Array<Drink?> {
             return arrayOfNulls(size)
         }
-    }
-
-
-    fun countTotalABV() {
-
     }
 }

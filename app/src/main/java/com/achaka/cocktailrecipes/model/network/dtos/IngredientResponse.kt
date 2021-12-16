@@ -8,7 +8,7 @@ data class IngredientResponse(
     val response: List<FullIngredientDetails>
 )
 
-data class FullIngredientDetails (
+data class FullIngredientDetails(
     @Json(name = "idIngredient")
     val id: Int,
     @Json(name = "strIngredient")

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".details.DrinkDetailsFragment">
+    tools:context=".ui.details.DrinkDetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -35,9 +35,9 @@
 
         <TextView
             android:id="@+id/alcoholic"
-            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/alcoholic_header"
             app:layout_constraintStart_toEndOf="@id/alcoholic_header" />
 
@@ -53,9 +53,9 @@
 
         <TextView
             android:id="@+id/abv"
-            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/ABV_header"
             app:layout_constraintTop_toTopOf="@+id/ABV_header" />
 

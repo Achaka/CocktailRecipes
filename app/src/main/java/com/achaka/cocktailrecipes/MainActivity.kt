@@ -2,14 +2,12 @@ package com.achaka.cocktailrecipes
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.ActionBarDrawerToggle
-import com.achaka.cocktailrecipes.addrecipe.AddRecipeFragment
+import com.achaka.cocktailrecipes.ui.addrecipe.AddRecipeFragment
 import com.achaka.cocktailrecipes.databinding.ActivityMainBinding
-import com.achaka.cocktailrecipes.favourites.FavouritesFragment
-import com.achaka.cocktailrecipes.ingredientdetails.IngredientDetailsFragment
-import com.achaka.cocktailrecipes.search.SearchFragment
+import com.achaka.cocktailrecipes.ui.favourites.FavouritesFragment
+import com.achaka.cocktailrecipes.ui.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
     private val TAG = MainActivity::class.simpleName

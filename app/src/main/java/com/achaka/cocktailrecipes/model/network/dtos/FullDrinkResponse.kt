@@ -173,7 +173,6 @@ fun FullDrinkDetails.asDatabaseModel(): DatabaseDrink {
 }
 
 
-
 fun FullDrinkResponse.asDatabaseModel(): List<DatabaseDrink> {
     return this.response.map {
         it.asDatabaseModel()

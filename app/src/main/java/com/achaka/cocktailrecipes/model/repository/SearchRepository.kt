@@ -33,7 +33,8 @@ class SearchRepository(private val database: CocktailsAppDatabase) {
     }
 
     suspend fun searchDrinkByIngredientName(query: String): Flow<State<List<Drink>>> = flow {
-        when (val networkResponse = NetworkApi.retrofitService.getCocktailsByIngredientName(query)) {
+        when (val networkResponse =
+            NetworkApi.retrofitService.getCocktailsByIngredientName(query)) {
             is NetworkResponse.Success -> {
                 val resultIds = networkResponse.body.response.map { it.id }
                 if (resultIds.isNotEmpty()) {

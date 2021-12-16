@@ -19,16 +19,15 @@
                 android:id="@+id/card_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_gravity="center"
-                />
+                android:layout_gravity="center" />
 
             <TextView
                 android:id="@+id/card_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:paddingStart="4dp"
                 android:maxLines="1"
+                android:paddingStart="4dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -36,10 +35,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
                 android:maxLines="1"
-                />
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

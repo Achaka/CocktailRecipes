@@ -8,7 +8,7 @@ import com.achaka.cocktailrecipes.databinding.MainRecyclerViewItemBinding
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
-import com.achaka.cocktailrecipes.search.OnItemClick
+import com.achaka.cocktailrecipes.ui.search.OnItemClick
 import com.bumptech.glide.RequestManager
 
 class MainRecyclerViewAdapter(
