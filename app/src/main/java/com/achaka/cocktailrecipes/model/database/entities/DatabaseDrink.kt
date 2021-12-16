@@ -1,10 +1,7 @@
 package com.achaka.cocktailrecipes.model.database.entities
 
 import android.util.Log
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.achaka.cocktailrecipes.model.domain.*
 import java.lang.StringBuilder
 

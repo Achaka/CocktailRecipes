@@ -17,9 +17,11 @@ import com.achaka.cocktailrecipes.ui.details.DrinkDetailsFragment
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.ui.search.OnItemClick
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class FavouritesFragment : Fragment(), OnItemClick {
 
     private var _binding: FragmentFavouritesBinding? = null
@@ -27,10 +29,7 @@ class FavouritesFragment : Fragment(), OnItemClick {
 
     private lateinit var adapter: MainRecyclerViewAdapter
 
-    private val viewModel: FavouritesViewModel by viewModels {
-        val cocktailsApp = activity?.application as CocktailsApp
-        FavouritesViewModelFactory(cocktailsApp.drinkRepository)
-    }
+    private val viewModel: FavouritesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

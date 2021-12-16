@@ -6,10 +6,13 @@ import com.achaka.cocktailrecipes.State
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class FavouritesViewModel(
+@HiltViewModel
+class FavouritesViewModel @Inject constructor(
     private val drinkRepository: DrinkRepository,
 ) : ViewModel() {
 

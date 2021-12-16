@@ -4,17 +4,18 @@ import com.achaka.cocktailrecipes.State
 import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
 import com.achaka.cocktailrecipes.model.database.entities.asDomainModel
 import com.achaka.cocktailrecipes.model.domain.Drink
-import com.achaka.cocktailrecipes.model.network.NetworkApi
+import com.achaka.cocktailrecipes.model.network.NetworkServiceApi
 import com.achaka.cocktailrecipes.model.network.dtos.asDatabaseModel
 import com.achaka.cocktailrecipes.model.network.networkresponseadapter.NetworkResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 
-class SearchRepository(private val database: CocktailsAppDatabase) {
+class SearchRepository @Inject constructor(private val database: CocktailsAppDatabase, private val networkApi: NetworkServiceApi) {
 
     suspend fun searchDrinkByName(query: String): Flow<State<List<Drink>>> = flow {
-        when (val networkResponse = NetworkApi.retrofitService.getCocktailsByName(query)) {
+        when (val networkResponse = networkApi.getCocktailsByName(query)) {
             is NetworkResponse.Success -> {
                 emit(State.Success(networkResponse.body.response.map {
                     it.asDatabaseModel().asDomainModel()
@@ -34,7 +35,7 @@ class SearchRepository(private val database: CocktailsAppDatabase) {
 
     suspend fun searchDrinkByIngredientName(query: String): Flow<State<List<Drink>>> = flow {
         when (val networkResponse =
-            NetworkApi.retrofitService.getCocktailsByIngredientName(query)) {
+            networkApi.getCocktailsByIngredientName(query)) {
             is NetworkResponse.Success -> {
                 val resultIds = networkResponse.body.response.map { it.id }
                 if (resultIds.isNotEmpty()) {
@@ -45,7 +46,7 @@ class SearchRepository(private val database: CocktailsAppDatabase) {
                             drinksList.add(dbDrink.asDomainModel())
                         } else {
                             val drinkFromNetworkResponse =
-                                NetworkApi.retrofitService.getCocktailDetailsById(drinkId)
+                                networkApi.getCocktailDetailsById(drinkId)
                             when (drinkFromNetworkResponse) {
                                 is NetworkResponse.Success -> {
                                     drinksList.add(

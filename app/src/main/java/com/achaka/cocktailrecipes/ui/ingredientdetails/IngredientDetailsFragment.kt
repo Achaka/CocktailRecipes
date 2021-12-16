@@ -13,11 +13,13 @@ import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.State
 import com.achaka.cocktailrecipes.databinding.FragmentIngredientDetailsBinding
 import com.achaka.cocktailrecipes.model.domain.Ingredient
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
 private const val INGREDIENT_NAME_ARG = "ingredientName"
 
+@AndroidEntryPoint
 class IngredientDetailsFragment : Fragment() {
 
     private var ingredientName: String? = null
@@ -25,9 +27,7 @@ class IngredientDetailsFragment : Fragment() {
     private var _binding: FragmentIngredientDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: IngredientDetailsViewModel by viewModels {
-        IngredientDetailsViewModelFactory((activity?.application as CocktailsApp).ingredientsRepository)
-    }
+    private val viewModel: IngredientDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

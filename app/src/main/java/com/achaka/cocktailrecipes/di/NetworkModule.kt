@@ -53,5 +53,5 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideNetworkServiceApi(): NetworkServiceApi =
-        provideRetrofit().create(NetworkServiceApi::class.java)
+        retrofit.create(NetworkServiceApi::class.java)
 }

@@ -9,15 +9,16 @@ import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentAddRecipeBinding
 import com.achaka.cocktailrecipes.model.domain.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddRecipeFragment : Fragment() {
 
     private var _binding: FragmentAddRecipeBinding? = null
     private val binding get() = _binding!!
     private val adapter = AddRecipeAdapter()
-    private val viewModel: AddRecipeViewModel by viewModels {
-        AddRecipeViewModelFactory((activity?.application as CocktailsApp).userDrinkRepository)
-    }
+
+    private val viewModel: AddRecipeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)

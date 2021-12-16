@@ -6,12 +6,15 @@ import androidx.lifecycle.viewModelScope
 import com.achaka.cocktailrecipes.State
 import com.achaka.cocktailrecipes.model.domain.Ingredient
 import com.achaka.cocktailrecipes.model.repository.IngredientsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class IngredientDetailsViewModel(private val ingredientsRepository: IngredientsRepository) :
+@HiltViewModel
+class IngredientDetailsViewModel @Inject constructor(private val ingredientsRepository: IngredientsRepository) :
     ViewModel() {
 
     private val _errorMessage = MutableStateFlow<String?>(null)

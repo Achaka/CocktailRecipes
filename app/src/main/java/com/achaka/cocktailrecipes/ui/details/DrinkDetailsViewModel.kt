@@ -6,12 +6,16 @@ import com.achaka.cocktailrecipes.model.database.entities.Commentary
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class DrinkDetailsViewModel(private val repository: DrinkRepository) : ViewModel() {
+@HiltViewModel
+class DrinkDetailsViewModel @Inject constructor(private val repository: DrinkRepository) :
+    ViewModel() {
 
     private val capacity = 3
 
@@ -33,7 +37,8 @@ class DrinkDetailsViewModel(private val repository: DrinkRepository) : ViewModel
             }
         }
     }
-//
+
+    //
     fun ifInFavourites(drinkItem: DrinkItem?) {
         scope.launch {
             val ids = mutableListOf<Int>()
@@ -45,7 +50,6 @@ class DrinkDetailsViewModel(private val repository: DrinkRepository) : ViewModel
             }
         }
     }
-
 
 
     fun getCommentary(drinkItem: DrinkItem?) {

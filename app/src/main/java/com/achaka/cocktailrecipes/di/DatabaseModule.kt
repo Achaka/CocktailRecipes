@@ -3,6 +3,7 @@ package com.achaka.cocktailrecipes.di
 import android.app.Application
 import androidx.room.Room
 import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
+import com.achaka.cocktailrecipes.model.database.entities.StringToListConverter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,5 +22,5 @@ object DatabaseModule {
             CocktailsAppDatabase::class.java,
             "cocktail_recipes_database"
         ).fallbackToDestructiveMigration()
-            .build()
+         .build()
 }

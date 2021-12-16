@@ -17,11 +17,13 @@ import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
 private const val DRINK_ARG = "drink"
 
+@AndroidEntryPoint
 class DrinkDetailsFragment : Fragment(), OnIngredientClick {
 
     private var drinkItem: DrinkItem? = null
@@ -32,9 +34,7 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
 
     private var initialMeasuresList = listOf<IngredientMeasureItem>()
 
-    private val viewModel: DrinkDetailsViewModel by viewModels {
-        DetailsViewModelFactory((activity?.application as CocktailsApp).drinkRepository)
-    }
+    private val viewModel: DrinkDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -7,26 +7,30 @@ import com.achaka.cocktailrecipes.model.database.entities.*
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.UserDrink
-import com.achaka.cocktailrecipes.model.network.NetworkApi
+import com.achaka.cocktailrecipes.model.network.NetworkServiceApi
 import com.achaka.cocktailrecipes.model.network.dtos.FullDrinkResponse
 import com.achaka.cocktailrecipes.model.network.dtos.asDatabaseModel
 import com.achaka.cocktailrecipes.model.network.networkresponseadapter.NetworkResponse
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class DrinkRepository(private val database: CocktailsAppDatabase) {
+class DrinkRepository @Inject constructor(
+    private val database: CocktailsAppDatabase,
+    private val networkApi: NetworkServiceApi
+) {
 
     private fun insertDrink(drink: DatabaseDrink) {
         database.drinksDao().insertDrink(drink)
     }
 
     fun getTenRandomCocktails(): Single<List<Drink>> {
-        return NetworkApi.retrofitService.getTenRandomCocktails()
+        return networkApi.getTenRandomCocktails()
             .map { it.asDatabaseModel().asDomainModel() }
     }
 
     fun getPopularCocktails(): Single<List<Drink>> {
-        return NetworkApi.retrofitService.getPopularCocktails()
+        return networkApi.getPopularCocktails()
             .map { it.asDatabaseModel().asDomainModel() }
     }
 
@@ -34,7 +38,7 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
         return database.drinksDao().getDrinkById(drinkId)
     }
 
-    fun getDrinksById(drinkId: List<Int>): List<DatabaseDrink>? {
+    private fun getDrinksById(drinkId: List<Int>): List<DatabaseDrink>? {
         return database.drinksDao().getDrinksById(drinkId)
     }
 
@@ -111,7 +115,7 @@ class DrinkRepository(private val database: CocktailsAppDatabase) {
 
 
     private suspend fun fetch(drinkId: Int): NetworkResponse<FullDrinkResponse, String> {
-        when (val drinkResponse = NetworkApi.retrofitService.getCocktailDetailsById(drinkId)) {
+        when (val drinkResponse = networkApi.getCocktailDetailsById(drinkId)) {
             is NetworkResponse.Success -> {
                 return drinkResponse
             }

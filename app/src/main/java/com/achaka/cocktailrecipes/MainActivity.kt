@@ -8,7 +8,9 @@ import com.achaka.cocktailrecipes.ui.addrecipe.AddRecipeFragment
 import com.achaka.cocktailrecipes.databinding.ActivityMainBinding
 import com.achaka.cocktailrecipes.ui.favourites.FavouritesFragment
 import com.achaka.cocktailrecipes.ui.search.SearchFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val TAG = MainActivity::class.simpleName
 

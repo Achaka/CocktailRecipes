@@ -6,6 +6,7 @@ import com.achaka.cocktailrecipes.State
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.repository.DrinkRepository
 import com.achaka.cocktailrecipes.model.repository.SearchRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
@@ -17,8 +18,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import javax.inject.Inject
 
-class SearchViewModel(
+@HiltViewModel
+class SearchViewModel @Inject constructor(
     private val repository: DrinkRepository,
     private val searchRepository: SearchRepository
 ) : ViewModel() {
@@ -33,7 +36,7 @@ class SearchViewModel(
     val state = _state.asStateFlow()
 
     private val _queryParams =
-        MutableStateFlow<QueryParams>(QueryParams(SearchType.DRINK_BY_DRINK_NAME, ""))
+        MutableStateFlow(QueryParams(SearchType.DRINK_BY_DRINK_NAME, ""))
     val queryParams = _queryParams.asStateFlow()
 
     init {

@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.achaka.cocktailrecipes.CocktailsApp
 import com.achaka.cocktailrecipes.MainRecyclerViewAdapter
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.State
@@ -17,11 +16,13 @@ import com.achaka.cocktailrecipes.databinding.FragmentSearchBinding
 import com.achaka.cocktailrecipes.ui.details.DrinkDetailsFragment
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class SearchFragment : Fragment(), OnItemClick {
 
     private var queryParams = QueryParams(SearchType.DRINK_BY_DRINK_NAME)
@@ -31,12 +32,8 @@ class SearchFragment : Fragment(), OnItemClick {
     private lateinit var popularStripAdapter: SearchHorizontalAdapter
     private lateinit var recentAdapter: SearchHorizontalAdapter
     private lateinit var searchAdapter: MainRecyclerViewAdapter
-    val viewModel: SearchViewModel by viewModels {
-        SearchViewModelFactory(
-            (activity?.application as CocktailsApp).drinkRepository,
-            (activity?.application as CocktailsApp).searchRepository
-        )
-    }
+
+    val viewModel: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
