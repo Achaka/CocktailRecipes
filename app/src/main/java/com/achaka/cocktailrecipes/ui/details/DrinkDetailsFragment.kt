@@ -5,7 +5,6 @@ import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.R
@@ -15,7 +14,6 @@ import com.achaka.cocktailrecipes.model.database.entities.Commentary
 import com.achaka.cocktailrecipes.model.domain.Drink
 import com.achaka.cocktailrecipes.model.domain.DrinkItem
 import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
-import com.achaka.cocktailrecipes.model.domain.UserDrink
 import com.achaka.cocktailrecipes.ui.shoppinglist.ShoppingListFragment
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -187,12 +185,11 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
             Glide.with(this).load(drink.thumbUrl).into(binding.image)
             adapter.submitList(drink.ingredientMeasureItems)
         }
-        if (drink is UserDrink) {
-            binding.nameHeader.text = drink.name
-            binding.instructions.text = drink.instructions
-//            Glide.with(this).load(drink?.thumbUrl).into(binding.image)
-            adapter.submitList(drink.ingredientMeasureItems)
-        }
+//        if (drink is UserDrink) {
+//            binding.nameHeader.text = drink.name
+//            binding.instructions.text = drink.instructions
+//            adapter.submitList(drink.ingredientMeasureItems)
+//        }
     }
 
     private fun addCommentary(commentaryText: String) {
