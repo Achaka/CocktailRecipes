@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.forEach
 import com.achaka.cocktailrecipes.ui.addrecipe.AddRecipeFragment
 import com.achaka.cocktailrecipes.databinding.ActivityMainBinding
 import com.achaka.cocktailrecipes.ui.favourites.FavouritesFragment
@@ -12,7 +13,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val TAG = MainActivity::class.simpleName
 
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(LayoutInflater.from(this))
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         //Drawer
         val drawerLayout = binding.drawerLayout
-        val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(
+        val toggle = ActionBarDrawerToggle(
             this,
             drawerLayout,
             toolbar,
@@ -47,9 +47,8 @@ class MainActivity : AppCompatActivity() {
             .replace(
                 R.id.main_fragment_container,
                 SearchFragment.newInstance(),
-                "SEARCH_FRAGMENT"
-            ).addToBackStack("search_fragment")
-            .commit()
+                "SEARCH_FRAGMENT_START"
+            ).commit()
 
         //BottomNavigationView
         binding.bottomNavigationView.selectedItemId = R.id.search_item
@@ -66,21 +65,29 @@ class MainActivity : AppCompatActivity() {
                     return@setOnItemSelectedListener true
                 }
                 R.id.favourites_item -> {
+                    binding.bottomNavigationView.menu.forEach { menuItem ->
+                        menuItem.isEnabled = true
+                    }
                     supportFragmentManager.beginTransaction().replace(
                         R.id.main_fragment_container,
                         FavouritesFragment.newInstance(),
                         "FAVOURITES_FRAGMENT"
                     ).addToBackStack("favourites_fragment")
                         .commit()
+                    it.isEnabled = false
                     return@setOnItemSelectedListener true
                 }
                 R.id.shopping_list_item -> {
-//                    supportFragmentManager.beginTransaction().replace(
-//
-//                    ).commit()
+                    binding.bottomNavigationView.menu.forEach { menuItem ->
+                        menuItem.isEnabled = true
+                    }
+                    it.isEnabled = false
                     return@setOnItemSelectedListener true
                 }
                 R.id.add_recipe_item -> {
+                    binding.bottomNavigationView.menu.forEach { menuItem ->
+                        menuItem.isEnabled = true
+                    }
                     supportFragmentManager.beginTransaction()
                         .replace(
                             R.id.main_fragment_container,
@@ -89,6 +96,7 @@ class MainActivity : AppCompatActivity() {
                         )
                         .addToBackStack("add_recipe_fragment")
                         .commit()
+                    it.isEnabled = false
                     return@setOnItemSelectedListener true
                 }
             }
