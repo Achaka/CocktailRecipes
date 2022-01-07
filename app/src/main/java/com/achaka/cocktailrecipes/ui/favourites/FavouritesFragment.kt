@@ -13,7 +13,7 @@ import com.achaka.cocktailrecipes.ui.util.adapter.MainRecyclerViewAdapter
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentFavouritesBinding
 import com.achaka.cocktailrecipes.ui.details.DrinkDetailsFragment
-import com.achaka.cocktailrecipes.model.domain.DrinkItem
+import com.achaka.cocktailrecipes.domain.model.DrinkItem
 import com.achaka.cocktailrecipes.ui.search.OnItemClick
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint

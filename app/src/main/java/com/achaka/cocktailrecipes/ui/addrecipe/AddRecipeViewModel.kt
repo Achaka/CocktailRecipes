@@ -2,9 +2,9 @@ package com.achaka.cocktailrecipes.ui.addrecipe
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.achaka.cocktailrecipes.model.domain.UserDrink
-import com.achaka.cocktailrecipes.model.domain.asDatabaseModel
-import com.achaka.cocktailrecipes.model.repository.UserDrinkRepository
+import com.achaka.cocktailrecipes.domain.model.UserDrink
+import com.achaka.cocktailrecipes.domain.model.asDatabaseModel
+import com.achaka.cocktailrecipes.data.repository.UserDrinkRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

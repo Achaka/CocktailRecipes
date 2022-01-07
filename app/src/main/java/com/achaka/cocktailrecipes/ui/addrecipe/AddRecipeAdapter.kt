@@ -11,9 +11,9 @@ import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.achaka.cocktailrecipes.databinding.AddIngredientRecyclerViewItemBinding
-import com.achaka.cocktailrecipes.model.database.entities.determineUnit
-import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
-import com.achaka.cocktailrecipes.model.domain.Units
+import com.achaka.cocktailrecipes.data.database.entities.determineUnit
+import com.achaka.cocktailrecipes.domain.model.IngredientMeasureItem
+import com.achaka.cocktailrecipes.domain.model.Units
 
 class AddRecipeAdapter :
     ListAdapter<IngredientMeasureItem, AddRecipeAdapter.IngredientMeasureItemViewHolder>(

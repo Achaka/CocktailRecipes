@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentDrinkDetailsBinding
 import com.achaka.cocktailrecipes.ui.ingredientdetails.IngredientDetailsFragment
-import com.achaka.cocktailrecipes.model.database.entities.Commentary
-import com.achaka.cocktailrecipes.model.domain.Drink
-import com.achaka.cocktailrecipes.model.domain.DrinkItem
-import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
+import com.achaka.cocktailrecipes.data.database.entities.Commentary
+import com.achaka.cocktailrecipes.domain.model.Drink
+import com.achaka.cocktailrecipes.domain.model.DrinkItem
+import com.achaka.cocktailrecipes.domain.model.IngredientMeasureItem
 import com.achaka.cocktailrecipes.ui.shoppinglist.ShoppingListFragment
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint

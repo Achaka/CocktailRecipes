@@ -14,7 +14,7 @@ import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.ui.util.State
 import com.achaka.cocktailrecipes.databinding.FragmentSearchBinding
 import com.achaka.cocktailrecipes.ui.details.DrinkDetailsFragment
-import com.achaka.cocktailrecipes.model.domain.DrinkItem
+import com.achaka.cocktailrecipes.domain.model.DrinkItem
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

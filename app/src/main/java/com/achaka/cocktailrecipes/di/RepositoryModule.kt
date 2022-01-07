@@ -1,11 +1,11 @@
 package com.achaka.cocktailrecipes.di
 
-import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
-import com.achaka.cocktailrecipes.model.network.NetworkServiceApi
-import com.achaka.cocktailrecipes.model.repository.DrinkRepository
-import com.achaka.cocktailrecipes.model.repository.IngredientsRepository
-import com.achaka.cocktailrecipes.model.repository.SearchRepository
-import com.achaka.cocktailrecipes.model.repository.UserDrinkRepository
+import com.achaka.cocktailrecipes.data.database.CocktailsAppDatabase
+import com.achaka.cocktailrecipes.data.network.NetworkServiceApi
+import com.achaka.cocktailrecipes.data.repository.DrinkRepositoryImpl
+import com.achaka.cocktailrecipes.data.repository.IngredientsRepository
+import com.achaka.cocktailrecipes.data.repository.SearchRepository
+import com.achaka.cocktailrecipes.data.repository.UserDrinkRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,8 +30,8 @@ object RepositoryModule {
     fun provideDrinkRepository(
         database: CocktailsAppDatabase,
         networkApi: NetworkServiceApi
-    ): DrinkRepository =
-        DrinkRepository(database, networkApi)
+    ): DrinkRepositoryImpl =
+        DrinkRepositoryImpl(database, networkApi)
 
     @Provides
     @Singleton

@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentAddRecipeBinding
-import com.achaka.cocktailrecipes.model.domain.*
+import com.achaka.cocktailrecipes.domain.model.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

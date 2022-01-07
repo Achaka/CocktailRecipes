@@ -1,9 +1,9 @@
 package com.achaka.cocktailrecipes.ui.util.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.achaka.cocktailrecipes.model.domain.Drink
-import com.achaka.cocktailrecipes.model.domain.DrinkItem
-import com.achaka.cocktailrecipes.model.domain.UserDrink
+import com.achaka.cocktailrecipes.domain.model.Drink
+import com.achaka.cocktailrecipes.domain.model.DrinkItem
+import com.achaka.cocktailrecipes.domain.model.UserDrink
 
 class MainRecyclerViewDiffUtil : DiffUtil.ItemCallback<DrinkItem>() {
     override fun areItemsTheSame(oldItem: DrinkItem, newItem: DrinkItem): Boolean {

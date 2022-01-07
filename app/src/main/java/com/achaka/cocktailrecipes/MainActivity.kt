@@ -2,6 +2,7 @@ package com.achaka.cocktailrecipes
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.forEach
@@ -55,6 +56,9 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.search_item -> {
+                    binding.bottomNavigationView.menu.forEach { menuItem ->
+                        menuItem.isEnabled = true
+                    }
                     supportFragmentManager.beginTransaction()
                         .replace(
                             R.id.main_fragment_container,

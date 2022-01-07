@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.achaka.cocktailrecipes.databinding.ShoppingListRecyclerViewItemBinding
-import com.achaka.cocktailrecipes.model.database.entities.ShoppingListItem
+import com.achaka.cocktailrecipes.data.database.entities.ShoppingListItem
 
 class ShoppingListRecyclerViewAdapter() :
     ListAdapter<ShoppingListItem, ShoppingListRecyclerViewAdapter.ItemViewHolder>(

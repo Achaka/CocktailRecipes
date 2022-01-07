@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.DetailsRecyclerViewItemBinding
-import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
-import com.achaka.cocktailrecipes.model.domain.Units
+import com.achaka.cocktailrecipes.domain.model.IngredientMeasureItem
+import com.achaka.cocktailrecipes.domain.model.Units
 import java.lang.ClassCastException
 
 class IngredientMeasuresRecyclerViewAdapter(private val onIngredientClick: OnIngredientClick) :

@@ -2,11 +2,11 @@ package com.achaka.cocktailrecipes.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.achaka.cocktailrecipes.model.database.entities.Commentary
-import com.achaka.cocktailrecipes.model.domain.Drink
-import com.achaka.cocktailrecipes.model.domain.DrinkItem
-import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
-import com.achaka.cocktailrecipes.model.repository.DrinkRepository
+import com.achaka.cocktailrecipes.data.database.entities.Commentary
+import com.achaka.cocktailrecipes.domain.model.Drink
+import com.achaka.cocktailrecipes.domain.model.DrinkItem
+import com.achaka.cocktailrecipes.domain.model.IngredientMeasureItem
+import com.achaka.cocktailrecipes.data.repository.DrinkRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class DrinkDetailsViewModel @Inject constructor(private val repository: DrinkRepository) :
+class DrinkDetailsViewModel @Inject constructor(private val repository: DrinkRepositoryImpl) :
     ViewModel() {
 
     private val capacity = 3

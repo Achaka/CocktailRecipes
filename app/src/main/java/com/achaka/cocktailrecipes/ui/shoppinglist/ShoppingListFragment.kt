@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.databinding.FragmentShoppingListBinding
-import com.achaka.cocktailrecipes.model.domain.asShoppingListItem
+import com.achaka.cocktailrecipes.domain.model.asShoppingListItem
 import com.achaka.cocktailrecipes.ui.details.DrinkDetailsViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach

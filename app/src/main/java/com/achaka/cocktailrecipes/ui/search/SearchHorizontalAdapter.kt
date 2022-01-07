@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.achaka.cocktailrecipes.databinding.MainRecyclerViewItemBinding
-import com.achaka.cocktailrecipes.model.domain.Drink
-import com.achaka.cocktailrecipes.model.domain.DrinkItem
-import com.achaka.cocktailrecipes.model.domain.UserDrink
+import com.achaka.cocktailrecipes.domain.model.Drink
+import com.achaka.cocktailrecipes.domain.model.DrinkItem
+import com.achaka.cocktailrecipes.domain.model.UserDrink
 import com.bumptech.glide.RequestManager
 
 class SearchHorizontalAdapter(

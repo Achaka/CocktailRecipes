@@ -3,9 +3,9 @@ package com.achaka.cocktailrecipes.ui.favourites
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.achaka.cocktailrecipes.ui.util.State
-import com.achaka.cocktailrecipes.model.domain.Drink
-import com.achaka.cocktailrecipes.model.domain.DrinkItem
-import com.achaka.cocktailrecipes.model.repository.DrinkRepository
+import com.achaka.cocktailrecipes.domain.model.Drink
+import com.achaka.cocktailrecipes.domain.model.DrinkItem
+import com.achaka.cocktailrecipes.data.repository.DrinkRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavouritesViewModel @Inject constructor(
-    private val drinkRepository: DrinkRepository,
+    private val drinkRepository: DrinkRepositoryImpl,
 ) : ViewModel() {
 
     private val ioDispatcher = Dispatchers.IO

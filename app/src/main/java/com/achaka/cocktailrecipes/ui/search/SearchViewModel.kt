@@ -3,9 +3,9 @@ package com.achaka.cocktailrecipes.ui.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.achaka.cocktailrecipes.ui.util.State
-import com.achaka.cocktailrecipes.model.domain.Drink
-import com.achaka.cocktailrecipes.model.repository.DrinkRepository
-import com.achaka.cocktailrecipes.model.repository.SearchRepository
+import com.achaka.cocktailrecipes.domain.model.Drink
+import com.achaka.cocktailrecipes.data.repository.DrinkRepositoryImpl
+import com.achaka.cocktailrecipes.data.repository.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repository: DrinkRepository,
+    private val repository: DrinkRepositoryImpl,
     private val searchRepository: SearchRepository
 ) : ViewModel() {
 

@@ -2,8 +2,7 @@ package com.achaka.cocktailrecipes.di
 
 import android.app.Application
 import androidx.room.Room
-import com.achaka.cocktailrecipes.model.database.CocktailsAppDatabase
-import com.achaka.cocktailrecipes.model.database.entities.StringToListConverter
+import com.achaka.cocktailrecipes.data.database.CocktailsAppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

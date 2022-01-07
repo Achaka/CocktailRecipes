@@ -1,7 +1,7 @@
 package com.achaka.cocktailrecipes.ui.shoppinglist
 
 import androidx.recyclerview.widget.DiffUtil
-import com.achaka.cocktailrecipes.model.database.entities.ShoppingListItem
+import com.achaka.cocktailrecipes.data.database.entities.ShoppingListItem
 
 class ShoppingListDiffUtil: DiffUtil.ItemCallback<ShoppingListItem>() {
     override fun areItemsTheSame(

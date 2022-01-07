@@ -1,7 +1,7 @@
 package com.achaka.cocktailrecipes.ui.addrecipe
 
 import androidx.recyclerview.widget.DiffUtil
-import com.achaka.cocktailrecipes.model.domain.IngredientMeasureItem
+import com.achaka.cocktailrecipes.domain.model.IngredientMeasureItem
 
 class AddRecipeDiffUtil() : DiffUtil.ItemCallback<IngredientMeasureItem>() {
     override fun areItemsTheSame(

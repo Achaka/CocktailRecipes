@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.achaka.cocktailrecipes.ui.util.State
-import com.achaka.cocktailrecipes.model.domain.Ingredient
-import com.achaka.cocktailrecipes.model.repository.IngredientsRepository
+import com.achaka.cocktailrecipes.domain.model.Ingredient
+import com.achaka.cocktailrecipes.data.repository.IngredientsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*

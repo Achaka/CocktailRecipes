@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.achaka.cocktailrecipes.R
 import com.achaka.cocktailrecipes.ui.util.State
 import com.achaka.cocktailrecipes.databinding.FragmentIngredientDetailsBinding
-import com.achaka.cocktailrecipes.model.domain.Ingredient
+import com.achaka.cocktailrecipes.domain.model.Ingredient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach

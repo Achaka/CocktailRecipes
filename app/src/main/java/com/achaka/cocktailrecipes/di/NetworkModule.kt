@@ -1,8 +1,8 @@
 package com.achaka.cocktailrecipes.di
 
-import com.achaka.cocktailrecipes.model.network.NetworkServiceApi
-import com.achaka.cocktailrecipes.model.network.networkresponseadapter.NetworkResponseAdapterFactory
-import com.achaka.cocktailrecipes.model.network.retrofit
+import com.achaka.cocktailrecipes.data.network.NetworkServiceApi
+import com.achaka.cocktailrecipes.data.network.networkresponseadapter.NetworkResponseAdapterFactory
+import com.achaka.cocktailrecipes.data.network.retrofit
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
