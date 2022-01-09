@@ -21,11 +21,6 @@ class DrinkRepositoryImpl @Inject constructor(
     private val networkApi: NetworkServiceApi
 ) : DrinkRepository {
 
-    fun getTenRandomCocktails(): Single<List<Drink>> {
-        return networkApi.getTenRandomCocktails()
-            .map { it.asDatabaseModel().asDomainModel() }
-    }
-
     fun getPopularCocktails(): Single<List<Drink>> {
         return networkApi.getPopularCocktails()
             .map { it.asDatabaseModel().asDomainModel() }

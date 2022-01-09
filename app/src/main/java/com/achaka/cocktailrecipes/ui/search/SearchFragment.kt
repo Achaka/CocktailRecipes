@@ -139,19 +139,6 @@ class SearchFragment : Fragment(), OnItemClick {
             .addToBackStack("search_to_details").commit()
     }
 
-    private fun loadRandomDrinks() {
-        viewModel.randomDrinksSubject.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    randomStripAdapter.submitList(it)
-                },
-                {
-                    Toast.makeText(requireContext(), "Unknown Error ${it.message}", Toast.LENGTH_SHORT).show()
-                }
-            )
-    }
-
     private fun loadPopularDrinks() {
         viewModel.popularDrinksSubject.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -160,11 +147,33 @@ class SearchFragment : Fragment(), OnItemClick {
                     popularStripAdapter.submitList(it)
                 },
                 {
-                    Toast.makeText(requireContext(), "Unknown Error ${it.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Unknown Error ${it.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             )
-
     }
+
+    private fun loadRandomDrinks() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.randomDrinksState.onEach {
+                when (it) {
+                    is State.Loading -> {
+                        //show progress
+                    }
+                    is State.Error -> {
+                        // ?
+                    }
+                    is State.Success -> {
+                        randomStripAdapter.submitList(it.data)
+                    }
+                }
+            }.collect()
+        }
+    }
+
 
     private fun loadRecentDrinks() {
         viewModel.recentDrinksSubject.subscribeOn(Schedulers.io())

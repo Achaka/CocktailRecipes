@@ -6,6 +6,7 @@ import com.achaka.cocktailrecipes.ui.util.State
 import com.achaka.cocktailrecipes.domain.model.Drink
 import com.achaka.cocktailrecipes.data.repository.DrinkRepositoryImpl
 import com.achaka.cocktailrecipes.data.repository.SearchRepository
+import com.achaka.cocktailrecipes.domain.repository.RandomRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -23,12 +24,15 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repository: DrinkRepositoryImpl,
-    private val searchRepository: SearchRepository
+    private val searchRepository: SearchRepository,
+    private val randomRepository: RandomRepository
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
-    val randomDrinksSubject: BehaviorSubject<List<Drink>> = BehaviorSubject.create()
+    private val _randomDrinksState = MutableStateFlow<State<List<Drink>>?>(null)
+    val randomDrinksState = _randomDrinksState.asStateFlow()
+
     val popularDrinksSubject: PublishSubject<List<Drink>> = PublishSubject.create()
     val recentDrinksSubject: BehaviorSubject<List<Drink>> = BehaviorSubject.create()
 
@@ -45,16 +49,15 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun getRandomDrinks() {
-        val disposable = repository.getTenRandomCocktails()
-            .subscribeOn(Schedulers.io())
-            .subscribe(
-                {
-                    randomDrinksSubject.onNext(it)
-                }, {
-                    randomDrinksSubject.onError(IOException())
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                randomRepository.getRandomDrinks().collect {
+                    if (it is State.Success) {
+                        _randomDrinksState.value = it
+                    }
                 }
-            )
-        compositeDisposable.add(disposable)
+            }
+        }
     }
 
     private fun getPopularDrinks() {

@@ -132,7 +132,7 @@ interface NetworkServiceApi {
 
     @Headers(HOST, API_KEY)
     @GET("randomselection.php")
-    fun getTenRandomCocktails(): Single<FullDrinkResponse>
+    suspend fun getTenRandomCocktails(): NetworkResponse<FullDrinkResponse, String>
 
     @Headers(HOST, API_KEY)
     @GET("popular.php")
