@@ -17,8 +17,6 @@ import com.achaka.cocktailrecipes.ui.details.DrinkDetailsFragment
 import com.achaka.cocktailrecipes.domain.model.DrinkItem
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
@@ -29,7 +27,7 @@ class SearchFragment : Fragment(), OnItemClick {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var randomStripAdapter: SearchHorizontalAdapter
-    private lateinit var popularStripAdapter: SearchHorizontalAdapter
+    private lateinit var recentsStripAdapter: SearchHorizontalAdapter
     private lateinit var recentAdapter: SearchHorizontalAdapter
     private lateinit var searchAdapter: MainRecyclerViewAdapter
 
@@ -40,11 +38,10 @@ class SearchFragment : Fragment(), OnItemClick {
         setHasOptionsMenu(true)
         val glide = Glide.with(this)
         randomStripAdapter = SearchHorizontalAdapter(glide, this)
-        popularStripAdapter = SearchHorizontalAdapter(glide, this)
+        recentsStripAdapter = SearchHorizontalAdapter(glide, this)
         recentAdapter = SearchHorizontalAdapter(glide, this)
         searchAdapter = MainRecyclerViewAdapter(glide, this)
         loadRandomDrinks()
-        loadPopularDrinks()
         loadRecentDrinks()
         getQueryParams()
     }
@@ -127,7 +124,7 @@ class SearchFragment : Fragment(), OnItemClick {
 
     private fun setupPopularRecyclerView() {
         val popularRecyclerView = binding.horizontalPopularRecycler
-        popularRecyclerView.adapter = popularStripAdapter
+        popularRecyclerView.adapter = recentsStripAdapter
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         popularRecyclerView.layoutManager = layoutManager
@@ -137,23 +134,6 @@ class SearchFragment : Fragment(), OnItemClick {
         parentFragmentManager.beginTransaction()
             .replace(R.id.main_fragment_container, DrinkDetailsFragment.newInstance(drink))
             .addToBackStack("search_to_details").commit()
-    }
-
-    private fun loadPopularDrinks() {
-        viewModel.popularDrinksSubject.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    popularStripAdapter.submitList(it)
-                },
-                {
-                    Toast.makeText(
-                        requireContext(),
-                        "Unknown Error ${it.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            )
     }
 
     private fun loadRandomDrinks() {
@@ -174,18 +154,12 @@ class SearchFragment : Fragment(), OnItemClick {
         }
     }
 
-
     private fun loadRecentDrinks() {
-        viewModel.recentDrinksSubject.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    recentAdapter.submitList(it)
-                },
-                {
-
-                }
-            )
+        lifecycleScope.launchWhenStarted {
+            viewModel.recentDrinksState.onEach {
+                recentsStripAdapter.submitList(it)
+            }.collect()
+        }
     }
 
 

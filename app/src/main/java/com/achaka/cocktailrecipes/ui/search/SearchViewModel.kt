@@ -1,23 +1,24 @@
 package com.achaka.cocktailrecipes.ui.search
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.achaka.cocktailrecipes.data.database.entities.Recent
+import com.achaka.cocktailrecipes.data.database.entities.asDomainModel
 import com.achaka.cocktailrecipes.ui.util.State
 import com.achaka.cocktailrecipes.domain.model.Drink
 import com.achaka.cocktailrecipes.data.repository.DrinkRepositoryImpl
 import com.achaka.cocktailrecipes.data.repository.SearchRepository
 import com.achaka.cocktailrecipes.domain.repository.RandomRepository
+import com.achaka.cocktailrecipes.domain.repository.RecentsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.IOException
 import javax.inject.Inject
 
@@ -25,7 +26,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val repository: DrinkRepositoryImpl,
     private val searchRepository: SearchRepository,
-    private val randomRepository: RandomRepository
+    private val randomRepository: RandomRepository,
+    private val recentsRepository: RecentsRepository
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
@@ -33,11 +35,13 @@ class SearchViewModel @Inject constructor(
     private val _randomDrinksState = MutableStateFlow<State<List<Drink>>?>(null)
     val randomDrinksState = _randomDrinksState.asStateFlow()
 
-    val popularDrinksSubject: PublishSubject<List<Drink>> = PublishSubject.create()
-    val recentDrinksSubject: BehaviorSubject<List<Drink>> = BehaviorSubject.create()
+    private val _recentDrinksState = MutableStateFlow<List<Drink>?>(null)
+    val recentDrinksState = _recentDrinksState.asStateFlow()
 
     private val _state = MutableStateFlow<State<List<Drink>>?>(null)
     val state = _state.asStateFlow()
+
+    val popularDrinksSubject: PublishSubject<List<Drink>> = PublishSubject.create()
 
     private val _queryParams =
         MutableStateFlow(QueryParams(SearchType.DRINK_BY_DRINK_NAME, ""))
@@ -45,6 +49,7 @@ class SearchViewModel @Inject constructor(
 
     init {
         getRandomDrinks()
+        getRecentDrinks()
         getPopularDrinks()
     }
 
@@ -53,12 +58,33 @@ class SearchViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 randomRepository.getRandomDrinks().collect {
                     if (it is State.Success) {
+                        Log.d("RANDOM", it.data.toString())
                         _randomDrinksState.value = it
                     }
                 }
             }
         }
     }
+
+    private fun getRecentDrinks() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                recentsRepository.getAllRecents().collect { recentList ->
+                    val ids = recentList.map { it.drinkId }
+                    val drinks = repository.getDrinksById(ids)?.map { it.asDomainModel() }
+                    _recentDrinksState.value = drinks
+                }
+            }
+        }
+    }
+
+//    private fun getDrinksById(ids: List<Int>): List<Drink> {
+//        viewModelScope.launch {
+//            withContext(Dispatchers.IO) {
+//
+//            }
+//        }
+//    }
 
     private fun getPopularDrinks() {
         val disposable = repository.getPopularCocktails()
@@ -73,7 +99,7 @@ class SearchViewModel @Inject constructor(
         compositeDisposable.add(disposable)
     }
 
-    fun searchDrinkByName(query: String) {
+    private fun searchDrinkByName(query: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 searchRepository.searchDrinkByName(query).collect {
@@ -84,7 +110,7 @@ class SearchViewModel @Inject constructor(
 
     }
 
-    fun searchDrinkByIngredientName(query: String) {
+    private fun searchDrinkByIngredientName(query: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 searchRepository.searchDrinkByIngredientName(query).collect {

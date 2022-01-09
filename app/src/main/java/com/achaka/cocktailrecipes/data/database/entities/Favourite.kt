@@ -8,4 +8,4 @@ data class Favourite (
     @PrimaryKey
     val drinkId: Int,
     val isUserDrink: Boolean
-        )
+    )

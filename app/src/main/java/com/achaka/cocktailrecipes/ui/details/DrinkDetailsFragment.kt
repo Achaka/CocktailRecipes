@@ -42,6 +42,7 @@ class DrinkDetailsFragment : Fragment(), OnIngredientClick {
         }
         viewModel.ifInFavourites(drinkItem)
         viewModel.getCommentary(drinkItem)
+        viewModel.addToRecents(drinkItem as Drink)
 
         initialMeasuresList = (drinkItem as Drink).ingredientMeasureItems
         loadCommentary()

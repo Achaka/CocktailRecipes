@@ -4,6 +4,7 @@ import com.achaka.cocktailrecipes.data.database.CocktailsAppDatabase
 import com.achaka.cocktailrecipes.data.network.NetworkServiceApi
 import com.achaka.cocktailrecipes.data.repository.*
 import com.achaka.cocktailrecipes.domain.repository.RandomRepository
+import com.achaka.cocktailrecipes.domain.repository.RecentsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,5 +50,11 @@ object RepositoryModule {
     @Singleton
     fun providesRandomRepository(
         networkApi: NetworkServiceApi
-    ): RandomRepository = RandomRepositoryImpl(networkApi )
+    ): RandomRepository = RandomRepositoryImpl(networkApi)
+
+    @Provides
+    @Singleton
+    fun providesRecentsRepository(
+        database: CocktailsAppDatabase
+    ): RecentsRepository = RecentsRepositoryImpl(database)
 }

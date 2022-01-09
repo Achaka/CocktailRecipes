@@ -1,18 +1,25 @@
 package com.achaka.cocktailrecipes.data.repository
 
+import com.achaka.cocktailrecipes.data.database.CocktailsAppDatabase
+import com.achaka.cocktailrecipes.data.database.entities.Recent
 import com.achaka.cocktailrecipes.domain.model.Drink
 import com.achaka.cocktailrecipes.domain.repository.RecentsRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
-class RecentsRepositoryImpl: RecentsRepository {
-    override fun addToRecents(drink: Drink) {
-        TODO("Not yet implemented")
+class RecentsRepositoryImpl constructor(
+    private val database: CocktailsAppDatabase
+): RecentsRepository {
+
+    override fun addToRecents(recent: Recent) {
+        database.recentsDao().addToRecents(recent)
     }
 
-    override fun getRecents() {
-        TODO("Not yet implemented")
+    override fun getAllRecents(): Flow<List<Recent>> {
+        return database.recentsDao().getAllRecents()
     }
 
     override fun removeFromRecents() {
-        TODO("Not yet implemented")
+
     }
 }

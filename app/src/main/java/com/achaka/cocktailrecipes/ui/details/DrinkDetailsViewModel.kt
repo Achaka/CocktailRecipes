@@ -3,10 +3,12 @@ package com.achaka.cocktailrecipes.ui.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.achaka.cocktailrecipes.data.database.entities.Commentary
+import com.achaka.cocktailrecipes.data.database.entities.Recent
 import com.achaka.cocktailrecipes.domain.model.Drink
 import com.achaka.cocktailrecipes.domain.model.DrinkItem
 import com.achaka.cocktailrecipes.domain.model.IngredientMeasureItem
 import com.achaka.cocktailrecipes.data.repository.DrinkRepositoryImpl
+import com.achaka.cocktailrecipes.domain.repository.RecentsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -15,7 +17,10 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class DrinkDetailsViewModel @Inject constructor(private val repository: DrinkRepositoryImpl) :
+class DrinkDetailsViewModel @Inject constructor(
+    private val repository: DrinkRepositoryImpl,
+    private val recentsRepository: RecentsRepository
+) :
     ViewModel() {
 
     private val capacity = 3
@@ -31,6 +36,15 @@ class DrinkDetailsViewModel @Inject constructor(private val repository: DrinkRep
 
     private val _shoppingList = MutableStateFlow<List<IngredientMeasureItem>>(emptyList())
     val shoppingList = _shoppingList.asStateFlow()
+
+    fun addToRecents(drink: Drink) {
+        val recent = Recent(drink.id, System.currentTimeMillis())
+        scope.launch {
+            withContext(Dispatchers.IO) {
+                recentsRepository.addToRecents(recent)
+            }
+        }
+    }
 
     fun addToFavourites(drinkItem: DrinkItem?) {
         scope.launch {
